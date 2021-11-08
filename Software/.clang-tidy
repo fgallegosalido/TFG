@@ -1,0 +1,9 @@
+---
+Checks: '
+    *,-google-*,-llvm*,-fuchsia-*,
+    -*-avoid-c-arrays,
+    -*-magic-numbers,
+    -modernize-pass-by-value
+'
+HeaderFilterRegex: '.*'
+...

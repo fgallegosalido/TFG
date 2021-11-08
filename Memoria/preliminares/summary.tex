@@ -1,0 +1,51 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+%
+%*******************************************************
+% Summary
+%*******************************************************
+
+\selectlanguage{english}
+\chapter{Summary}
+
+Prime numbers are of special importance when it comes to Mathematics in general and, in specific, the branch of Number Theory. Their applications go from purely theoretic results to practical uses like criptography, which is the base of the security on the Internet.\\
+
+Primality testing has been extensively studied throughout history and specially during the second half of the $20^{th}$ and $21^{st}$ centuries with the formalitation of complexity theory by \textit{Alan Turing}.\\
+
+There has been many attempts to come up with efficient techniques to prove the primality of a number. The definition of primality provides by itself a primility test: check if some number below $\sqrt{n}$ divides $n$. This test has complexity $O(\sqrt{n})$, which is far from ideal. We want a test that runs in logarithmic time. A great attempt for that is the \textit{Little Fermat's Theorem}, which states that if $n$ is prime, then $a^n \equiv a \mod(n)$ for every $a \in \Z$. With that, we can check some values of $a$ and see if the congruence holds. If it doesn't hold for some value, then $n$ is definitely composite. Otherwise it is probably prime. This almost gives us an efficient test which runs in $\Omega(\log(n))$.\\
+
+Unfortunately, there exists some numbers for which the congruence holds for every value of $a$. They are called \textit{Charmichael Numbers}. Therefore, this test is not valid, but we can make it work with a generalization of the \textit{Little Fermat's Theorem}.\\
+
+Let $n > 1$ and $a \in \Z$. Then $n$ is prime if, and only if,
+
+\begin{equation}
+(X + a)^n \equiv X^n + a \mod(n)
+\end{equation}
+
+where $X$ is an indeterminate variable.\\
+
+This property leads us to a general, deterministic and inconditional primality test: try the congruence for some $a$ and check if it holds. The problem with this approach is that it gives us a test with complexity $\Omega(n)$ due to the fact that we need to evaluate $n$ coefficients in the left hand side of the congruence.\\
+
+We can speed up the process if we reduce the amount of coefficients to evaluate by restricting the congruence to the ring $\Z_n[X]/(X^r - 1)$, where $r$ is sufficiently small. This way, the congruence above is transformed into the next one below
+
+\begin{equation}
+(X + a)^n \equiv X^n + a \mod(n, X^r - 1)
+\end{equation}
+
+This congruence still holds if $n$ is prime for every $a \in \Z$ and every $r$. However, it also holds for some values of $a$ and $r$ when $n$ is composite. This property can be restored if we appropriately choose $r$ and test it for some values of $a$. We are going to prove that $r$ and $a$ are $O(\log{O(1)}(n))$, which leads us to a deterministic polynomial algorithm.\\
+
+The algorithm is of great interest when it comes to the theory, as it is the first polynomial, deterministic, general and uncondicional primality test. This opens the door to the development of better algorithms that also run in polynomial time.\\
+
+However, this algorithm falls behind some other tests that are currently used. For example, the \textit{Miller-Rabin} test is of probabilistic nature, but its runtime is superior, which makes it more eligible when it comes to test for primality in branches like cryptography, where we need to test really big numbers (normally bigger than $1024$ bits) really fast.\\
+
+Even other primality tests that are deterministic and non-polynomial, like the ones based in elliptic curves, perform better than the \textbf{AKS} in most useful cases.\\
+
+An empirical study and comparison with other probabilistic tests is going to let us jump to that conclusion.\\
+
+The algorithm is easy to implement, but some care must be taken when dealing with polynomial multiplication. A good algorithm for polynomial multiplication is necessary so that the test is not completely useless. We will see that a bad algorithm for polynomial multiplication can lead to an efficiency of $O^\sim(\log{31/2}(n))$ instead of $O^\sim(\log^{21/2}(n))$. This is going to make the test struggle for inputs bigger than $16$ bits.\\
+
+The implementation uses C++ as the main programming language for its raw speed and control over the memory. for multiprecision, \textbf{GMP} is the library that we are going to use to implement the algorithm, as it has been extensively tested and is one of the most used libraries. Ii is written in C, and it has a C++ API, which makes the integration easier.
+
+% Al finalizar el resumen en inglés, volvemos a seleccionar el idioma español para el documento
+\selectlanguage{spanish} 
+\endinput

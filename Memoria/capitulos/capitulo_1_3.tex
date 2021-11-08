@@ -1,0 +1,492 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+\chapter{Test AKS. El Algoritmo y su Validez}
+
+Esta parte vamos a dedicarla por completo al algoritmo \textbf{AKS}.\\
+
+Primero daremos una introducción a la historia del algoritmo, indicando cómo se llegó a su descubrimiento.\\
+
+Después presentaremos el algoritmo en pseudocódigo, especificando claramente cada uno de sus pasos.\\
+
+Luego pasaremos a comprobar que el algoritmo es correcto. Esto es, demostrar que dicho algoritmo solo determina que su entrada se trata de un número primo si, y solo si, dicha entrada representa un número primo.\\
+
+Finalmente presentaremos mejoras que se han realizado al algoritmo desde su publicación.
+
+\section{Historia del Algoritmo}
+
+Como ya vimos en el capítulo anterior, de entre los distintos tests de primalidad, el Pequeño Teorema de Fermat es la base de muchos de los utilizados hoy en día. De hecho, el propio teorema casi nos daba un test eficiente, pero que desafortunadamente falla siempre en un conjunto de número, denominados de \textit{Charmichael}.\\
+
+Para poder intentar conseguir un test que sea determinista, será necesario encontrar una propiedad que nos proporcione mayores garantías sobre los números primos. Es por ello que presentamos la siguiente identidad, la cual es una generalización del Pequeño Teorema de Fermat.
+
+\begin{proposicion}\label{lema_identidad_de_congruencias}
+	Sean $a \in \Z$ y $n \in \N \setminus \{0\}$ con $n > 1$ tales que $(a, n) = 1$. Sean además $(X + a)^n, X^n + a \in \Z[X]$. Entonces $n$ es primo si, y solo si, se cumple
+	
+	\begin{equation}\label{identidad_original}
+	(X + a)^n \equiv X^n + a \mod(n)
+	\end{equation}
+\end{proposicion}
+
+\begin{proof}
+	Por el teorema del binomio, sabemos que para $0 < i < n$, el coeficiente $X^i$ del polinomio $(X + a)^n - (X^n + a)$ es $\binom{n}{i}a^{n-i}$.
+	
+	\begin{itemize}
+		\item Supongamos que $n$ es primo. Sabemos que $(X + a)^n \equiv X^n + a^n \mod(n)$, y como $n$ es primo, tenemos que $(X + a)^n \equiv X^n + a \mod(n)$ por el Pequeño Teorema de Fermat.
+		
+		\item Supongamos que $(X + a)^n \equiv X^n + a \mod(n)$ y que $n$ es compuesto. Dado que $n$ es compuesto, sea $q$ un factor primo de $n$ y sea $k$ tal que $q^k | n$ y $q^{k+1} \nmid n$. Entonces tenemos que $q^k \nmid \binom{n}{q}$ dado que $q \nmid m$ con $n - q < m < n$, lo que implica que en el numerador, solo $n$ contiene factores $q$ (en específico $k$ de ellos). Como en el denominador hay al menos un factor $q$, tenemos que el resultado de dicho binomio es divisible, como mucho, por $q^{k-1}$.\\
+		
+		Además tenemos que $(a^{n-q}, q^k)$ por las hipótesis, luego nos queda que $n \nmid a^{n-q}$ ni $n \nmid \binom{n}{q}$, luego el coeficiente de $X^q$ no puede ser divisible por $n$, luego no es nulo en $\Z_n$. Esto contradice que $(X + a)^n - (X^n + a)$ sea nulo.
+	\end{itemize}
+\end{proof}
+
+Dicha identidad así presentada nos proporciona un test de primalidad determinista: dado un $n > 1$, comprobamos si la congruencia se cumple. El problema de este test es que es muy ineficiente, pues nos obliga a evaluar, en el peor de los casos, $n$ coeficientes del polinomio $(X + a)^n$, luego tendría eficiencia $\Omega(n)$.\\
+
+Una idea para reducir la cantidad de coeficientes a evaluar está en evaluar ambas partes de la congruencia módulo un polinomio del tipo $X^r - 1$ para un $r$ que haya sido convenientemente elegido. Esto nos ayuda a que la cantidad de coeficientes que tenemos que determinar sea mucho menor. En esencia, queremos reducir \eqref{identidad_original} a la siguiente congruencia.
+
+\begin{equation}\label{identidad_con_polinomio}
+(X + a)^n \equiv X^n + a \mod(n, X^r - 1)
+\end{equation}
+
+Dicho de otro modo, lo que queremos comprobar es que \eqref{identidad_original} se satisface en el anillo $\Z_n[X]/(X^r-1)$ en vez de en $\Z_n[X]$.\\
+
+Es evidente por \autoref{lema_identidad_de_congruencias} que si $n$ es primo, entonces \eqref{identidad_con_polinomio} se sigue cumpliendo en $\Z_n[X]/(X^r-1)$. Sin embargo no ocurre igual al revés. Existen números compuestos $n$ para los que la congruencia \eqref{identidad_con_polinomio} se cumple para algunos valores de $a$.\\
+
+Para resolver este problema, probaremos que eligiendo un $r$ de manera conveniente de manera que si \eqref{identidad_con_polinomio} se satisface para varios valores de $a$, tenemos entonces que $n$ es una potencia de un número primo.\\
+
+Además probaremos que tanto $r$ como $a$ tiene un tamaño polinómico en el $\log(n)$, lo cual nos permitirá probar en la segunda parte del trabajo que el algoritmo es, de hecho, polinómico.
+
+\section{El Algoritmo}
+
+En esta sección vamos a presentar el algoritmo \textbf{AKS}.
+
+\begin{algorithm}[H]
+	\caption{Algoritmo \textbf{AKS}}\label{aks_algorithm}
+	\begin{algorithmic}[1]
+		\Procedure{IsPrimeAKS}{$n$}\Comment{Comprobar que $n > 1$ es un número primo}
+			\If{$n = a^b$ para algún $a \in \N$ y $b > 1$}\Comment{Paso 1}
+				\State \Return{COMPUESTO}
+			\EndIf
+			\State
+			\State Encontrar el menor $r$ tal que $ord_r(n) > \log^2(n)$.\Comment{Paso 2}
+			\State
+			\If{$1 < (a, n) < n$ para algún $a \leq r$}\Comment{Paso 3}
+				\State \Return{COMPUESTO}
+			\EndIf
+			\State
+			\If{$n \leq r$}\Comment{Paso 4}
+				\State \Return{PRIMO}
+			\EndIf
+			\State
+			\For{$a = 1$ hasta $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$}\Comment{Paso 5}
+				\If{$(X + a)^n \not\equiv X^n + a \mod(n, X^r - 1)$}
+					\State \Return{COMPUESTO}
+				\EndIf
+			\EndFor
+			\State
+			\State \Return{PRIMO}\Comment{Paso 6}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+Con el algoritmo ya presentado, vamos a enunciar el siguiente teorema.
+
+\begin{teorema}\label{validez_algoritmo_aks}
+	El algoritmo \textbf{AKS} propuesto devuelve PRIMO si, y solo si, $n$ es primo.
+\end{teorema}
+
+En la siguiente sección nos dedicaremos a probar dicho teorema, lo cual probaría que el algoritmo determina correctamente y de manera determinista si un número es primo.
+
+\section{Validez del Algoritmo AKS}
+
+Vamos a empezar probando una de las implicaciones del teorema.
+
+\begin{lema}\label{devuelve_PRIMO_si_n_primo}
+	Si $n$ es un número primo, entonces el algoritmo devuelve PRIMO
+\end{lema}
+
+\begin{proof}
+	Puesto que $n$ es primo, el primer paso es imposible que devuelva COMPUESTO, pues implicaría que $n = a^b$ con $a \in \Z$ y $b > 1$.\\
+	
+	Del mismo modo, como $n$ es primo, el tercer paso es imposible que devuelve COMPUESTO porque implicaría que existe un $a \in \Z$ tal que $1 < (a, n) < n$, lo cual es imposible.\\
+	
+	Finalmente, el quinto paso tampoco puede devolver COMPUESTO por \autoref{lema_identidad_de_congruencias}.\\
+	
+	Por lo tanto, el algoritmo solo termina en el cuarto paso o en el sexto, devolviendo así PRIMO.
+\end{proof}
+
+Para comprobar la otra implicación del teorema, debemos comprobar qué ocurre cuando el algoritmo termina en el sexto paso, pues si el algoritmo termina en el cuarto paso, $n$ debe ser primo. Esto es debido a que, en caso contrario, el paso $3$ habría encontrado un divisor no trivial de $n$.\\
+
+Es por ello que en el resto de esta sección nos centraremos en el segundo y el quinto paso, que son los dos principales para demostrar la validez.\\
+
+Lo primero que vamos a hacer ahora es dar una cota para $r$. Para ello necesitamos los siguientes dos lemas previos.
+
+\begin{lema}\label{desigualdad_LCM}
+	Sea $m \geq 1$ y definimos $LCM(m)$ como el mínimo común múltiplo de $1,...,m$. Entonces se cumple para todo $m \geq 7$
+	
+	\begin{equation}
+		LCM(m) \geq 2^m
+	\end{equation}
+\end{lema}
+
+\begin{proof}
+	Definamos $I_{k,m}$ para $1 \leq k \leq m$ enteros tal que
+	
+	\begin{equation}
+	I_{k,m} = \int_{0}^{1}x^{k-1}(1-x)^{m-k}\mathop{dx}
+	\end{equation}
+	
+	Donde se tiene que, para ver que está bien definida, lo siguiente:
+	
+	\begin{align}
+	I_{1,1} &= \int_{0}^{1}\mathop{dx} = \left[x\right]_0^1 = 1\\
+	I_{1,m} &= \int_{0}^{1}(1-x)^{m-1}\mathop{dx} = \left[-\frac{(1-x)^m}{m}\right]_0^1 = \frac{1}{m}\\
+	I_{m,m} &= \int_{0}^{1}x^{m-1}\mathop{dx} = \left[\frac{x^m}{m}\right]_0^1 = \frac{1}{m}
+	\end{align}
+	
+	Tenemos entonces la siguiente cadena de igualdades:
+	
+	\begin{align}
+	I_{k,m} &= \int_{0}^{1}x^{k-1}(1-x)^{m-k}\mathop{dx} =\\
+	&= \int_{0}^{1}\sum_{i=0}^{m-k}\binom{m-k}{i}(-1)^ix^{k+i-1}\mathop{dx} =\\
+	&= \left[\sum_{i=0}^{m-k}\binom{m-k}{i}(-1)^i\frac{x^{k+i}}{k+i}\right]_0^1 =\\
+	&= \sum_{i=0}^{m-k}\binom{m-k}{i}\frac{(-1)^i}{k+i}
+	\end{align}
+	
+	Como $k+i \mid LCM(m)$ para todo $0 \leq i \leq m-k$, podemos entonces asegurar que $LCM(m)I_{k,m} \in \Z$ para todo $1 \leq k \leq m$. Por otro lado tenemos lo siguiente si usamos integración por partes:
+	
+	\begin{align}
+	I_{k,m} &= \int_{0}^{1}x^{k-1}(1-x)^{m-k}\mathop{dx}\\
+	&= \left[-\frac{x^{k-1}(1-x)^{m-k+1}}{m-k+1}\right]_0^1 + \frac{k-1}{m-k+1}\int_{0}^{1}x^{k-2}(1-x)^{m-k+1}\\
+	&= \left[\frac{x^{k-1}(1-x)^{m-k+1}}{m-k+1}\right]_0^1 + \frac{k-1}{m-k+1}I_{k-1,m}\\
+	&= \frac{k-1}{m-(k-1)}I_{k-1,m} = \frac{(k-1)(k-2)}{(m-(k-1))(m-(k-2))}I_{k-2,m} =...\\
+	&= I_{1,m}\prod_{i=1}^{k-1}\frac{i}{m-i} = \frac{1}{k\displaystyle\binom{m}{k}}
+	\end{align}
+	
+	Tenemos entonces que $k\binom{m}{k} \mid LCM(m)$ por ser $\frac{1}{k\binom{m}{k}} \leq 1$ para todo $1 \leq k \leq m$. Por lo tanto tenemos lo siguiente para $k \geq 1$:
+	
+	\begin{align}
+	k\binom{2k}{k} &\mid LCM(2k)\\
+	(2k+1)\binom{2k}{k} = (k+1)\binom{2k+1}{k+1} &\mid LCM(2k+1)
+	\end{align}
+	
+	Como además tenemos que $LCM(2k) \mid LCM(2k+1)$ y que $k \nmid (2k+1)$, podemos asegurar que $k(2k+1)\displaystyle\binom{2k}{k} \mid LCM(2k+1)$. Por lo tanto nos queda para $k \geq 4$:
+	
+	\[ LCM(2k+1) \geq k(2k+1)\binom{2k}{k} \geq k4^k \geq 2^{2k+2} \geq 2^{2k+1} \]
+	
+	La segunda igualdad se deduce usando que $\displaystyle\binom{2k}{k+i} = \binom{2k}{k-i} \leq \binom{2k}{k}$ para todo $0 \leq i \leq k$ y usando el Teorema del Binomio de Newton de la siguiente forma:
+	
+	\[ 4^k = (1+1)^{2k} = \sum_{i=0}^{2k}\binom{2k}{i} \leq \sum_{i=0}^{2k}\binom{2k}{k} = \binom{2k}{k}(2k+1) \]
+	
+	Por otro lado, es evidente que $LCM(2k+2) \geq LCM(2k+1) \geq 2^{2k+2}$ para todo $k \geq 4$. Esto nos deja con que $LCM(m) \geq 2^m$ para todo $m \geq 9$. Los casos $m = 8$ y $m = 7$ se comprueban a mano, obteniendo así la afirmación que queríamos.
+\end{proof}
+
+\begin{lema}\label{desigualdad_log4_log2}
+	$\lfloor \log(\lceil \log^5(k) \rceil) \rfloor + \frac{1}{2}\left( \log^4(k) - \log^2(k) \right) \leq \log^4(k)$ para todo $k \geq 2$.
+\end{lema}
+
+\begin{proof}
+	Primero vamos a transformar la desigualdad en otra más fuerte, que será la que probaremos:
+	
+	\begin{align}
+	& \lfloor \log(\lceil \log^5(k) \rceil) \rfloor + \frac{1}{2}\left( \log^4(k) - \log^2(k) \right) \leq \log^4(k) \\
+	\Longleftrightarrow & \lfloor \log(\lceil \log^5(k) \rceil) \rfloor - \frac{1}{2}\left( \log^4(k) + \log^2(k) \right) \leq 0 \\
+	\Longleftrightarrow & 2\lfloor \log(\lceil \log^5(k) \rceil) \rfloor \leq \log^4(k) + \log^2(k) \\
+	\Longleftrightarrow & 2(\log(\log^5(k)) + 1) \leq \log^4(k) + \log^2(k)
+	\end{align}
+	
+	En la última implicación hemos usado la siguiente cadena de desigualdades asumiendo que $k \geq 2$:
+	
+	\[ \lfloor \log(\lceil \log^5(k) \rceil) \rfloor \leq \log(1 + \log^5(k)) = \log(\log^5(n)) + \log(1 + \frac{1}{\log^5(n)}) \leq \log(\log^5(n)) + 1 \]
+	
+	Dicha desigualdad se cumple para $k = 2$ y $k = 3$. Para comprobar que también se cumple para $k > 3$, vamos a calcular las derivadas de ambas partes, así que sea $f(x) = 2(\log(\log^5(x)) + 1)$ y sea $g(x) = \log^4(x) + \log^2(x)$. Entonces:
+	
+	\begin{align}
+		f'(x) &= \frac{10}{x\ln(2)\ln(x)}\\
+		g'(x) &= \frac{2\ln(x)\left(2\ln^2(x) - \ln^2(2)\right)}{x\ln^4(2)}
+	\end{align}
+	
+	Por lo tanto tenemos que queremos probar lo siguiente para todo $x \geq 3$:
+	
+	\begin{align}
+	& \frac{10}{x\ln(2)\ln(x)} = \frac{10\ln^3(2)\frac{1}{\ln(x)}}{x\ln^4(2)} \leq \frac{2\ln(x)\left(2\ln^2(x) - \ln^2(2)\right)}{x\ln^4(2)}\\
+	\Longleftrightarrow & 10\ln^3(2)\frac{1}{\ln(x)} \leq 2\ln(x)\left(2\ln^2(x) - \ln^2(2)\right)
+	\end{align}
+	
+	Podemos comprobar que la parte izquierda es decreciente y la derecha creciente, y como $f'(3) \leq g'(3)$, podemos asegurar que $f(k) \leq g(k)$ para todo $k > 3$, y como ya comprobamos que la desigualdad principal se cumple para $k = 2$ y $k = 3$, tenemos que la desigualdad se cumple para todo $k \geq 2$, como queríamos.
+\end{proof}
+
+Teniendo estos dos lemas, podemos pasar a enunciar el lema que nos dará una cota superior para $r$.
+
+\begin{lema}\label{cota_superior_r_log5}
+	Existe $r \leq \max\{3, \lceil \log^5(n) \rceil \}$ tal que $ord_r(n) > \log^2(n)$.
+\end{lema}
+
+\begin{proof}
+	Para empezar, si $n = 2$, tenemos que $r = 3$ cumple las condiciones del lema, luego supongamos $n > 2$. Sea $B = \lceil \log^5(n) \rceil > 10$ y escogemos $r$ de manera que sea el menor entero que no divida al siguiente producto:
+		
+	\begin{equation}\label{valor_para_acotar_r}
+	n^{\lfloor \log(B) \rfloor}\prod_{i=1}^{\lfloor \log^2(n) \rfloor}(n^i - 1)
+	\end{equation}
+	
+	Tenemos entonces la siguiente cadena de desigualdades:
+	
+	\[ r \leq n^{\lfloor \log(B) \rfloor}\prod_{i=1}^{\lfloor \log^2(n) \rfloor}(n^i - 1) < n^{\lfloor \log(B) \rfloor + \frac{1}{2}(\log^4(n) - \log^2(n))} \leq n^{\log^4(n)} = 2^{\log^5(n)} \leq 2^B \leq LCM(B) \]
+	
+	En la tercera desigualdad hemos usado \autoref{desigualdad_log4_log2}, y en la ultima hemos usado \autoref{desigualdad_LCM}. Esto implica que $r \leq B$.\\
+	
+	Teniendo esto, hagamos ahora una pequeña observación. Si $m^k \leq B$ con $m \geq 2$ y $k \geq 0$, tenemos que el mayor valor posible de $k$ sería $\lfloor \log(B) \rfloor$ (el caso en el que $m = 2$).\\
+	
+	Habiendo hecho esta observación, entonces tenemos que $(r, n)$ no puede ser divisible por todos los factores primos de $r$. En caso de que sí, sea $r = p_1^{e_1}p_2^{e_2}\dotsm p_s^{e_s}$ con $p_i$ primo y $0 \leq e_i \leq \lfloor \log(B) \rfloor$ para $1 \leq i \leq s$. Observamos que $e_i \leq \lfloor \log(B) \rfloor$ porque $r \leq B$ y por la observación hecha anteriormente. Cada $p_i \mid (r, n)$, luego $p_i \mid n$, lo cual implica que $p_i^{e_i} \mid n^{\lfloor \log(B) \rfloor}$ (esto por ser $e_i < \lfloor \log(B) \rfloor$). Esto implica que $r \mid n^{\lfloor \log(B) \rfloor}$, lo cual es imposible por la elección del $r$.\\
+	
+	Teniendo esto, sabemos que $\frac{r}{(r, n)}$ tampoco puede dividir a \eqref{valor_para_acotar_r}, pues hay algún factor primo de $r$ que no divide a $(r, n)$, y por lo tanto tampoco a $n$. Pero $r$ era el menor elemento que no dividía a dicho producto, y como $\frac{r}{(r, n)} \leq r$, no queda más remedio que $\frac{r}{(r, n)} = r$, luego $(r, n) = 1$.\\
+	
+	Finalmente, como $r$ no divide a ningún $n^i - 1$ para $1 \leq i \leq \lfloor \log^2(n) \rfloor$, se tiene que $ord_r(n) > \log^2(n)$, como queríamos.
+\end{proof}
+
+Este lema que acabamos de demostrar nos asegura que podemos elegir $r$ de manera que su tamaño sea polinómico en el logaritmo. Esto será esencial cuando probemos que el algoritmo es polinómico.\\
+
+Una vez encontrado $r$, puesto que $ord_r(n) > \log^2(n) \geq 1$, sabemos que debe existir un $p$ factor primo de $n$ de forma que $ord_r(p) > 1$ (si no existiera dicho $p$, entonces $n \equiv 1 \mod(r)$, lo cual sería una contradicción).\\
+
+Además, tenemos que destacar dos propiedades:
+
+\begin{itemize}
+	\item $p > r$, pues de lo contrario, el paso $3$ o el paso $4$ determinarían la primalidad de $n$.
+	
+	\item $(n, r) = 1$, pues de lo contrario, el paso $3$ o el paso $4$ determinarían la primalidad de $n$. Esto implica que $n, p \in \Z_r^\times$.
+\end{itemize}
+
+De ahora en adelante, consideramos $p$ y $r$ fijos. Ahora vamos a hablar de una propiedad que nos será de utilidad para la prueba, llamada \textit{introspección}.\\
+
+Antes de introducir el concepto de \textit{introspección}, vamos a definir $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor$. Sabemos además que el paso $5$ no devuelve COMPUESTO, por lo que se debe cumplir que, para todo $0 \leq a \leq \ell$,
+
+\begin{equation}\label{identidad_con_polinomio_introspeccion}
+(X + a)^n \equiv X^n + a \mod(n, X^r - 1)
+\end{equation}
+
+Esto implica para todo $0 \leq a \leq \ell$, dado que $p$ es un factor primo de $n$, que
+
+\begin{equation}\label{identidad_con_polinomio_y_p_introspeccion}
+(X + a)^n \equiv X^n + a \mod(p, X^r - 1)
+\end{equation}
+
+Por \autoref{lema_identidad_de_congruencias}, tenemos que, para todo $0 \leq a \leq \ell$
+
+\begin{equation}\label{identidad_original_con_p_introspeccion}
+(X + a)^p \equiv X^p + a \mod(p, X^r - 1)
+\end{equation}
+
+De estas dos últimas, deducimos que, para todo $0 \leq a \leq \ell$
+
+\begin{equation}\label{identidad_np_introspeccion}
+(X + a)^{n/p} \equiv X^{n/p} + a \mod(p, X^r - 1)
+\end{equation}
+
+Esto último lo comprobamos utilizando las siguientes cadenas de congruencias módulo $(p, X^r - 1)$:
+
+\[ X^p \equiv X \Leftrightarrow X^p + a \equiv X + a \Leftrightarrow (X^p + a)^{n/p} \equiv (X + a)^{n/p} \]
+
+\[ X^p \equiv X \Leftrightarrow (X^p)^{n/p} \equiv X^{n/p} \Leftrightarrow (X^p)^{n/p} + a \equiv X^{n/p} + a \]
+
+Con estas dos congruencias, obtenemos lo siguiente:
+
+\[ (X^p + a)^{n/p} \equiv \left[(X + a)^{n/p}\right] \equiv (X + a)^n \equiv X^n + a \equiv (X^p)^{n/p} + a \equiv X^{n/p} + a \]
+
+En la primera equivalencia usamos que $(X^p + a)^{n/p} \equiv (X + a)^{n/p}$. En la última usamos que $(X^p)^{n/p} + a \equiv X^{n/p} + a$. Esto es básicamente la última congruencia que queríamos probar.\\
+
+Lo que podemos comprobar de estas congruencias es que tanto $n$ como $\frac{n}{p}$ se comportan como $p$. Damos entonces una definición a esta propiedad.
+
+\begin{definicion}
+	Sea $f \in \mathbb{\Z_p}[X]$ un polinomio y sea $m \in \N$. Diremos que $m$ es \textit{introspectivo} para $f$ si
+	
+	\[ \left[f(X)\right]^m \equiv f(X^m) \mod(p, X^r - 1) \]
+\end{definicion}
+
+De las congruencias anteriores, es evidente ver que tanto $p$ como $\frac{n}{p}$ son introspectivos para $X + a$ con $0 \leq a \leq \ell$.\\
+
+Vamos ahora a dar dos características que prueban que esta propiedad es cerrada para la multiplicación, tanto para los números como para los polinomios.
+
+\begin{lema}
+	Se cumplen:
+	
+	\begin{enumerate}
+		\item Dados $m, m'$ introspectivos para $f$ un polinomio, entonces $mm'$ es introspectivo para $f$.
+		
+		\item Dados $f, g$ polinomios para los que $m$ es introspectivo, entonces $m$ es introspectivo para $fg$. 
+	\end{enumerate}
+\end{lema}
+
+\begin{proof}
+	Vamos a demostrar cada una por separado.
+	
+	\begin{enumerate}
+		\item Por un lado, puesto que $m$ es introspectivo para $f$, se tiene que
+		
+		\[ f(X)^{mm'} \equiv f(X^m)^{m'} \mod(p, X^r - 1) \]
+		
+		Por otro lado, como $m'$ es introspectivo para $f$, tenemos que
+		
+		\[ f(X^m)^{m'} \equiv f(X^{mm'}) \mod(p, X^{mr} - 1) \Rightarrow f(X^m)^{m'} \equiv f(X^{mm'}) \mod(p, X^r - 1) \]
+		
+		La implicación se sigue de que $X^r - 1 | X^{mr} - 1$. Uniendo entonces ambas congruencias, obtenemos la siguiente
+		
+		\[ f(X)^{mm'} \equiv f(X^{mm'}) \mod(p, X^r - 1) \]
+		
+		\item Se tiene lo siguiente
+		
+		\[ \left[f(X)g(X)\right]^m \equiv f(X)^mg(X)^m \equiv f(X^m)g(X^m) \mod(p, X^r - 1) \]
+	\end{enumerate}
+\end{proof}
+
+Con estos dos resultados, y sabiendo que $p$ y $\frac{n}{p}$ son introspectivos para $X + a$ con $0 \leq a \leq \ell$, podemos afirmar que todos los elementos del conjunto $I = \left\{ p^i\left(\frac{n}{p}\right)^j | i, j \geq 0 \right\}$ son introspectivos para todos los elementos del conjunto $P = \left\{ \prod_{a=0}^{\ell}(X + a)^{e_a} | e_a \geq 0 \right\}$.\\
+
+Vamos ahora a definir dos grupos que serán de vital importancia en la demostración. Empecemos por el primero de ellos.
+
+\[ G = \left\{ rem(g; r) \in \Z_r \mid g \in I \right\} \]
+
+Este grupo consiste básicamente en los restos de dividir los elementos de $I$ por $r$. Como tenemos que $(n, r) = (p, r) = 1$, es claro entonces que $G$ es un subgrupo del grupo multiplicativo de $\Z_r$, $\Z_r^\times$. Definamos $t = |G|$. Es claro que $G$ está generado por $n$ y $p$ (pues $n = \frac{n}{p}p$, producto de dos elementos de $I$) y, sabiendo esto y que $ord_r(n) > \log^2(n)$, es claro que $t > \log^2(n)$.\\
+
+Definamos ahora el segundo grupo. Para ello, sea $\Phi_r \in \Z_p[X]$ el $r$-ésimo polinomio ciclotómico con coeficientes en $\Z_p$. Entonces sabemos que $\Phi_r$ factoriza en polinomios irreducibles de grado $ord_r(p)$. Sea entonces $h \in \Z_p[X]$ uno de esos factores irreducibles, cuyo grado será mayor que $1$ al ser $ord_r(p) > 1$. Sea el cuerpo $\mathbb{F} = \Z_p[X]/(h(X))$. Definimos pues el segundo grupo.
+
+\[ \mathcal{G} = \left\{ f \in \mathbb{F} \mid g \equiv f \mod(p, X^r - 1),\;\;g \in P \right\} \]
+
+Este grupo consiste en los restos de dividir los elementos de $P$ entre $h(X)$ y $p$. Es claro que $\mathcal{G}$ está genarado por $X + a$ con $0\leq a \leq \ell$ en el cuerpo $\mathbb{F}$, y es claro entonces que $\mathcal{G}$ es un subgrupo del grupo multiplicativo de $\mathbb{F}$, $\mathbb{F}^\times$.\\
+
+Nuestra tarea ahora va a ser dar cotas para el grupo $\mathcal{G}$ recién definido. Para ello, enunciamos el siguiente lema, el cual nos da una cota inferior.
+
+\begin{lema}\label{cota_inferior_G}
+	\[ |\mathcal{G}| \geq \binom{t+l}{t-1} \]
+\end{lema}
+
+\begin{proof}
+	Para empezar vamos a comprobar que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathbb{F}$. Para ello, supongamos $g, f \in P$ distintos de grados menor que $t$ tales que $f(X) \equiv g(X)$ en $\mathbb{F}$. Tomemos $m \in I$. Sabemos que $f(X)^m \equiv g(X)^m$ en $\mathbb{F}$, y como $m$ es introspectivo para $f$ y $g$, entonces tenemos
+	
+	\[ f(X^m) \equiv g(X^m) \]
+	
+	Esta equivalencia se cumple para $\Z_p[X]/(X^r - 1)$, por lo que naturalmente se cumple para $\mathbb{F}$ al darse que $h(X) \mid X^r - 1$. Esto implica que $X^m$ es una raíz del polinomio $f(Y) - g(Y)$ para todo $m \in G$. Puesto que $g$ es un subgrupo de $\Z_p^\times$, es obvio que $(m, r) = 1$ y, por lo tanto, $X^m$ es una raíz $r$-ésima primitiva de la unidad (todas ellas distintas por ser todos los $m$ distintos). Por lo tanto, el polinomio $f(Y) - g(Y)$ tendrá al menos $t$ raíces distintas en $\mathbb{F}$. Esto es una contradicción, pues el grado de $f(Y) - g(Y)$ es menor que $t$ por la elección de ambos, luego llegamos a una contradicción, luego $f \not\equiv g$ en $\mathbb{F}$.\\
+	
+	Por otro lado sabemos que $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor < \sqrt{r}\log(n) < r < p$ (la penúltima desigualdad viene de que $r > \log^2(n)$). Por lo tanto, los polinomios $X + a$ con $0 \leq a \leq \ell$ son todos distintos en $\mathbb{F}$. Como además el grado de $h$ es mayor que $1$, tenemos que $X + a \not\equiv 0$ en $\mathbb{F}$ con $0 \leq a \leq \ell$. Por lo tanto tenemos que existen $\ell + 1$ polinomios de grado $1$. Teniendo en cuenta que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathcal{G}$, solo tenemos que calcular todas estas combinaciones usando combinatoria.\\
+	
+	Por un lado, sabemos que la cantidad de polinomios de grado exactamente $k \in \N$ que podemos construir con $\ell + 1$ polinomios de grado $1$ es equivalente a $\binom{l+k}{l}$. Tomando $0 \leq k \leq t-1$, tenemos que la cantidad total de polinomios de grado menor que $t$ que podemos construir con $\ell + 1$ polinomios de grado $1$ viene dada por
+	
+	\[ \sum_{k=0}^{t-1}\binom{\ell+k}{\ell} = \sum_{k=\ell}^{\ell+t-1}\binom{k}{\ell} = \binom{\ell + t}{\ell + 1} = \binom{t + \ell}{t - 1} \]
+	
+	Donde en la segunda desigualdad hemos usado la Identidad del Palo de Hockey. Por lo tanto tenemos que $|\mathcal{G}| \geq \binom{t + \ell}{t - 1}$, como queríamos.
+\end{proof}
+
+Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual solo es cierta cuando $n$ no es una potencia de $p$.
+
+\begin{lema}\label{cota_superior_G}
+	Si $n$ no es una potencia de $p$, entonces se tiene que $|\mathcal{G}| \leq n^{\sqrt{t}}$.
+\end{lema}
+
+\begin{proof}
+	Vamos a considerar el siguiente subconjunto de $I$ definido de la siguiente manera:
+	
+	\begin{equation}\label{subconjunto_de_I}
+	\hat{I} = \left\{\left(\frac{n}{p}\right)^ip^j \mid 0 \leq i,j \leq \lfloor \sqrt{t} \rfloor \right\}
+	\end{equation}
+	
+	Es evidente que si $n$ no es una potencia de $p$, la cantidad de elementos distintos en $\hat{I}$ es equivalente a $(\lfloor \sqrt{t} \rfloor + 1)^2 > t$. Dado que sabemos que $|G| = t$, por el principio del palomar, existen al menos dos elementos en $\hat{I}$ de manera que su resto módulo $r$ es el mismo. Dicho de otro modo, sean $m_1, m_2 \in \hat{I}$ con $m_1 > m_2$ (esto sin perder generalidad), de manera que $X^{m_1} \equiv X^{m_2} \mod(X^r - 1)$. Sea entonces $f \in P$, y se tiene lo siguiente por ser $m_1, m_2$ introspectivos para $f$:
+	
+	\begin{align}
+	f(X)^{m_1} &\equiv f(X^{m_1}) \mod(p, X^r-1)\\
+	&\equiv f(X^{m_2}) \mod(p, X^r-1)\\
+	&\equiv f(X)^{m_2} \mod(p, X^r-1)
+	\end{align}
+	
+	En específico, tenemos que $f(X)^{m_1} \equiv f(X)^{m_2} \mod(p, h(X))$. Por lo tanto, es evidente que $f \in \mathcal{G}$ es una raíz del polinomio $Y^{m_1} - Y^{m_2}$ en el cuerpo $\mathbb{F}$. Puesto que $f$ es un elemento arbitrario de $\mathcal{G}$, sabemos que el polinomio $Y^{m_1} - Y^{m_2}$ debe tener al menos $|\mathcal{G}|$ raíces distintas. Siendo tal el caso, y teniendo que el grado de $Y^{m_1} - Y^{m_2}$ es $m_1$, nos queda
+	
+	\[|\mathcal{G}| \leq m_1 \leq \left(\frac{n}{p}p\right)^{\lfloor\sqrt{t}\rfloor} = n^{\lfloor\sqrt{t}\rfloor} \leq n^{\sqrt{t}}\qedhere \]
+\end{proof}
+
+Con estos dos último lemas hemos conseguido acotar el tamaño de $\mathcal{G}$ cuando $n$ no es una potencia de $p$. Teniendo esto en cuenta, enunciamos ya el resultado final.
+
+\begin{lema}\label{n_primo_si_devuelve_PRIMO}
+	Si el algoritmo \autoref{aks_algorithm} devuelve PRIMO, entonces $n$ es primo. 
+\end{lema}
+
+\begin{proof}
+	Supongamos que el algoritmo devuelve PRIMO. Sea pues $t = |G|$ y $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor$. Entonces tenemos la siguiente cadena de desigualdades:
+	
+	\begin{align}
+	|\mathcal{G}| &\geq \binom{t + \ell}{t - 1}\\
+	&\geq \binom{\ell + 1 + \lfloor \sqrt{t}\log(n) \rfloor}{\lfloor \sqrt{t}\log(n) \rfloor}\\
+	&\geq \binom{2\lfloor \sqrt{t}\log(n) \rfloor + 1}{\lfloor \sqrt{t}\log(n) \rfloor}\\
+	&> 2^{\lfloor \sqrt{t}\log(n) \rfloor + 1} \geq 2^{\sqrt{t}\log(n)} \geq n^{\sqrt{t}}
+	\end{align}
+	
+	La primera igualdad se tiene por \autoref{cota_inferior_G}. La segunda porque $t > \log^2(n) \Leftrightarrow \sqrt{t} > \log(n) \Leftrightarrow t > \sqrt{t}\log(n)$. La tercera porque $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor \geq \lfloor \sqrt{t}\log(n) \rfloor$. La cuarta se tiene por \autoref{binomio_cota_inferior_2n}.\\
+	
+	Por \autoref{cota_superior_G} y dado que $|\mathcal{G}| > n^{\sqrt{t}}$, tiene que darse que $n$ sea una potencia de $p$. Es decir, $n = p^k$ con $k > 0$. Puesto que en el primer paso eliminamos todas las potencias donde $k > 1$, no queda más remedio que ser $n = p$, luego $n$ es primo.
+\end{proof}
+
+Finalmente, \autoref{validez_algoritmo_aks} se deduce por \autoref{devuelve_PRIMO_si_n_primo} y por \autoref{n_primo_si_devuelve_PRIMO}, lo cual concluye la prueba de la validez del algoritmo \autoref{aks_algorithm}.
+
+\section{Mejoras del Algoritmo AKS}
+
+Una vez probada la validez de nuestro algoritmo, es en la siguiente parte donde comprobaremos que dicho algoritmo tiene complejidad polinómica. En específico, veremos que usando buenos algoritmos de multiplicación y división de números enteros y polinomios, la complejidad es $O^\sim(\log{21/2}(n))$.\\
+
+Esta eficiencia se deduce de que $r = O(\log^5(n))$ por \autoref{cota_superior_r_log5} y que la cantidad de iteraciones a realizar en el paso $5$ es $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$.\\
+
+Mejorando la cota para $r$ o reduciendo la cantidad de iteraciones del paso $5$, podremos asegurar una mejor complejidad. Vamos a discutir ambos casos.
+
+\subsection{Cota de $r$}
+
+Como ya demostramos en \autoref{cota_superior_r_log5}, podemos encontrar $r = O(\log^5(n))$. En el mejor de los casos, y dado que $ord_r(n) > \log^2(n)$, podremos encontrar un $r = O(\log^2(n))$, lo cual reduce significativamente la complejidad del algoritmo. Existen dos conjeturas de las cuales se puede deducir dicha afirmación.
+
+\begin{conjetura}{(\textbf{Conjetura de Artin}).}\label{conjetura_de_artin}
+	Sea $n \in \N$ de manera que no es una potencia perfecta. Entonces, la cantidad de primos $q$ tales $q \leq m$ para algún $m > 0$ y tales que $ord_q(n) = q-1$ es asintóticamente $A(n)\frac{m}{\ln(n)}$, donde $A(n) > 0.35$ es la constante de Artin.
+\end{conjetura}
+
+Esta conjetura, en caso de que se cumpliera para un cierto $m = O(\log^2(n))$, implicaría la existencia de un $r = O(\log^2(n))$ cumpliendo las condiciones necesarias. Esta conjetura también es cierta en caso de que la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann} sea cierta.\\
+
+Para asegurar dicho $m$, enunciamos esta segunda conjetura.
+
+\begin{conjetura}{(\textbf{Conjetura de la Densidad de Sophie-Germain}).}\label{conjetura_de_sophie_germain}
+	La cantidad de primos $q$ con $q \leq m$ para algún $m > 0$ tales que $2q + 1$ también es primo es asintóticamente $\frac{2C_2m}{\ln^2(m)}$. $C_2 \simeq 0.66$ es la constante de los números primos gemelos.\\
+	
+	Los números primos con esta propiedad se les suele conocer como \textit{Primos de Sophie-Germain}.
+\end{conjetura}
+
+Si esta segunda conjetura fuera cierta, entonces podemos asegurar que existe un $m = O(\log^2(n))$ que cumple la conjetura de Artin, luego concluiríamos que existe un $r = O^\sim(\log^2(n))$ tal que $ord_r(n) > \log^2(n)$, como queríamos.\\
+
+A pesar de que se sigue realizando trabajo en demostrar estas dos conjeturas, una versión más débil fue demostrada por el matemático \textit{Fouvry} en \cite{fouvry_1985}.
+
+\begin{lema}
+	Existen $c, n_0$ con $c > 0$ tales que, para todo $x \geq n_0$, se tiene
+	
+	\begin{equation}
+	|\left\{ q \mid p\text{ es primo},q \leq x\text{ y } P(q-1) > q^{2/3} \right\}| \geq c\frac{x}{\ln(x)}
+	\end{equation}
+\end{lema}
+
+Usando este lema, se puede mejorar la cota de $r$.
+
+\begin{teorema}
+	Existe $r = O(\log^3(n))$ tal que $ord_r(n) > \log^2(n)$.
+\end{teorema}
+
+\subsection{Iteraciones del Paso $5$}
+
+Otra manera de optimizar aún más el algoritmo es reduciendo la cantidad de iteraciones que hay que realizar en el paso $5$, donde la implementación actual realiza $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$ iteraciones.\\
+
+La razón de estas iteraciones se basa en que necesitamos asegurar que el tamaño del grupo $\mathcal{G}$ sea suficientemente grande. Si podemos encontrar alguna manera de demostrar que un $\mathcal{G}$ puede estar generado por menos polinomios del estilo $X + a$, la cantidad de iteraciones también se reduciría, lo cual mejoraría la eficiencia del algoritmo.
+
+\subsection{Otras mejoras}
+
+Se puede mejorar aún más la complejidad del algoritmo hasta $O^\sim(\log^3(n))$ si la siguiente conjetura es cierta.
+
+\begin{conjetura}
+	Sea $r$ un número primo que no divide a $n$ tal que se cumple
+	
+	\begin{equation}
+	(X - 1)^n \equiv X^n - 1 \mod(n, X^r - 1)
+	\end{equation}
+	
+	Entonce $n$ es primo o $n^2 \equiv 1 \mod(r)$.
+\end{conjetura}
+
+Esta congruencia se puede determinar en tiempo $O^\sim(r\log^2(n))$, y como dicho $r$ podemos encontrarlo en el intervalo $[2, 4\log(n)]$, concluimos con el análisis.\\
+
+Existen argumentos heurísticos que afirman que dicha conjetura probablemente no sea cierta. Sin embarga, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
+
+\endinput

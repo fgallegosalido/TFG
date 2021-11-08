@@ -1,0 +1,477 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+\chapter{Herramientas de Álgebra}
+
+En este primer capítulo vamos a describir herramientas básicas del álgebra que nos van a servir para entender mejor los conceptos y demostraciones que presentaremos más adelante.\\
+
+Empezaremos dando una introducción a distintos espacios de trabajo como los cuerpos, los grupos, los anillos, etc.\\
+
+Después introduciremos el concepto de álgebra modular junto con algunas propiedades que nos serán imprescindibles para presentar el trabajo de la manera más clara posible.\\
+
+Haremos también una pequeña presentación de los polinomios ciclotómicos, los cuales son de vital importancia y nos serán muy útiles en la demostración del algoritmo \textbf{AKS}.
+
+\section{Estructuras Algebraicas}
+
+Para trabajar con muchos de los elementos que presentaremos a continuación, es necesario hacerlo bajo diversas estructuras matemáticas con ciertas propiedades.\\
+
+Presentaremos las que más nos servirán en el desarrollo del trabajo.
+
+\subsection{Anillos}
+
+Sea $R$ un conjunto no vacío y sean dos aplicaciones $(+), (\cdot)$ definidas por
+
+\begin{alignat*}{2}
+	(+): R \times R & \to & R \\
+	(a, b) & \mapsto & a+b, \\
+	(\cdot): R \times R & \to & R \\
+	(a, b) & \mapsto & ab,
+\end{alignat*}
+
+Dichas aplicaciones las llamaremos suma y producto respectivamente.
+
+\begin{definicion}
+	La tupla $(R, +, \cdot)$ es un anillo si cumple las siguientes propiedades:
+	
+	\begin{itemize}
+		\item \textbf{Asociatividad de la suma}. Para todo $a, b, c \in R$, se cumple que $(a + b) + c = a + (b + c)$.
+		
+		\item \textbf{Conmutatividad de la suma}. Para todo $a, b \in R$, se cumple que $a + b = b + a$.
+		
+		\item \textbf{Elemento neutro para la suma}. Existe $e \in R$ tal que $a + e = a$ para todo $a \in R$. Dicho elemento se suele representar con el número cero, $0$.
+		
+		\item \textbf{Inverso para la suma}. Para todo $a \in R$ existe $b \in R$ tal que $a + b = 0$. Dicho elemento se suele conocer como el opuesto de $a$, y se representa con $-a$.
+		
+		\item \textbf{Asociatividad del producto}. Para todo $a, b, c \in R$, se cumple que $(ab)c = a(bc)$.
+		
+		\item \textbf{Elemento neutro para el producto}. Existe $e \in R$ tal que $ae = ea = a$ para todo $a \in R$. Dicho elemento se suele representar con el número uno, $1$.
+		
+		\item \textbf{Distributividad de la suma respecto del producto}. Para todo $a, b, c \in R$, se cumplen:
+		
+		\[ a(b + c) = ab + ac \]
+		\[ (a + b)c = ac + bc \]
+	\end{itemize}
+	
+	Además, se dice que $(R, +, \cdot)$ es conmutativo si cumple:
+	
+	\begin{itemize}
+		\item \textbf{Conmutatividad del producto}. Para todo $a, b \in R$, se cumple que $ab = ba$.
+	\end{itemize}
+\end{definicion}
+
+Vamos ahora a definir las unidades de un anillo.
+
+\begin{definicion}
+	Sea $A$ un anillo conmutativo. Diremos que $a \in A$ es una unidad si tiene inverso respecto del producto. Esto es que existe $b \in A$ tal que $ab = ba = 1$ (dicho elemento se conoce como el inverso de $a$, y se suele representar con $a^{-1}$).\\
+	
+	Al conjunto de las unidades de un anillo se le denota por $\mathcal{U}(A)$. Se dice que $a \in A$ es un divisor de cero si existe $b \in A \setminus \{0\}$ tal que $ab = 0$.
+\end{definicion}
+
+A la operación de sumar el opuesto podemos llamarla \textit{resta}, y se representa con el símbolo $-$ (es decir, $a + (-b) = a - b$. A la operación de multiplicar por el inverso podemos llamarla \textit{dividir}, y se representa con el símbolo $/$ (es decir, $ab^{-1} = a/b$).
+
+Ahora vamos a dar algunas propiedades de los anillos.
+
+\begin{proposicion}
+	Sea $A$ un anillo. Se cumplen entonces:
+	
+	\begin{itemize}
+		\item Los elementos neutros tanto para la suma como para el producto son únicos.
+		
+		\item El opuesto de cada elemento es único.
+		
+		\item Para todo $a \in A$, se cumple que $a0 = 0$.
+		
+		\item Para todo $a, b \in A$, se cumple que $(-a)b = -(ab) = a(-b)$.
+		
+		\item Sea $a \in \mathcal{U}(A)$, entonces su inverso es único.
+		
+		\item Sean $a, b \in \mathcal{U}(A)$, entonces $ab \in \mathcal{U}(A)$ y $(ab)^{-1} = b^{-1}a^{-1}$. Esta propiedad implica además que $\mathcal{U}(A)$ es un grupo, concepto que explicaremos más adelante.
+	\end{itemize}
+\end{proposicion}
+
+Dadas estas propiedades de los anillos, vamos a pasar a definir dos estructuras con propiedades muchos más deseables.
+
+\begin{definicion}
+	Sea $A$ un anillo conmutativo. Diremos que $A$ es un \textit{dominio de integridad} si el elemento neutro para la suma, $0$, es el único divisor de cero.\\
+	
+	Esto implica que $A$ es un dominio de integridad si, y solo si, dados $a, b \in A$ con $ab = 0$, entonces se cumple que $a = 0$ ó $b = 0$.
+\end{definicion}
+
+\begin{definicion}
+	Sea $A$ un anillo conmutativo. Diremos que $A$ es un \textit{cuerpo} si todo elemento no nulo es unidad, es decir, $\mathcal{U}(A) = A \setminus \{0\}$.\\
+	
+	Esto implica que $A$ es un cuerpo si, y solo si, todo elemento de $A \setminus \{0\}$ tiene inverso.
+\end{definicion}
+
+Ahora vamos a presentar algunos ejemplos de anillos.
+
+\begin{ejemplo}
+	$\Z$, $\Z_n$ y $A[x]$ ($A$ siendo anillo conmutativo y $n > 1$) son ejemplos de anillos conmutativos.
+\end{ejemplo}
+
+\begin{ejemplo}
+	$\Q$, $\R$, $\C$ y $\mathbb{F}_p$ ($p$ potencia de un primo) son ejemplos de cuerpos, siendo $\mathbb{F}_p$ los únicos finitos. 
+\end{ejemplo}
+
+Definido el conjunto de las unidades del anillo y sabiendo que $\Z_n$ es un anillo, es natural definir entonces la \textit{Función $\phi$ de Euler}.
+
+\begin{definicion}\label{funcion_phi_de_euler}
+	Sea $n > 1$. Se define la \textit{Función $\phi$ de Euler} como
+	
+	\begin{equation}
+	\phi(n) = |\mathcal{U}(\Z_n)|
+	\end{equation}
+\end{definicion}
+
+Una propiedad que nos será útil más adelante sobre los cuerpos es la relacionada con las raíces de los polinomios con coeficientes en un cuerpo. Enunciamos pues la siguiente proposición.
+
+\begin{proposicion}\label{raices_en_cuerpos}
+	Sea $f \in F[x]$ con $F$ un cuerpo. Entonces $f$ tiene a lo mucho tantas raíces distintas como el grado de $f$.
+\end{proposicion}
+
+\begin{proof}
+	Haremos esta prueba por inducción  sobre el grado de $f$, siendo este $n$. Entonces:
+	
+	\begin{itemize}
+		\item Sea $f(x) = a \neq 0$, entonces $f$ no tiene raíces. Del mismo modo, si $f(x) = ax + b$ con $a \neq 0$, entonces $-a^{-1}b$ es la única raíz de $f$.
+		
+		\item Supongamos ahora la proposición cierta para todos los polinomios de grado $n$ y sea $f(x) = a_0 + a_1x + \dotso + a_nx^n + a_{n+1}x^{n+1}$ con $a_{n+1} \neq 0$, luego de grado $n+1$. Si $f$ no tiene raíces en $F$, entonces la proposición se cumple trivialmente, así que supongamos que $f$ tiene al menos una raíz $c \in F$. Entonces tenemos que $\exists g \in F[x]$ tal que $f(x) = (x - c)g(x)$.\\
+		
+		Es entonces claro que el grado de $g$ es $n$, y por hipótesis de inducción tenemos que $g$ tiene como mucho $n$ raíces distintas, luego $f$ tiene como mucho $n+1$ raíces distintas.
+	\end{itemize}
+\end{proof}
+
+En el desarrollo del trabajo, usaremos sobre todo $\Z_n$ con $n > 1$, también conocidos como anillos modulares. Es importante destacar que, si $n$ es primo, entonces $\Z_n$ es un cuerpo.\\
+
+También haremos uso del conjunto de las unidades de dichos anillos, es decir, $\mathcal{U}(\Z_n)$, a veces también notados como $\Z_n^*$ o $\Z_n^\times$.\\
+
+$\Z_n$ podemos entenderlo también como una clase de equivalencia, donde dos elementos $a, b \in \Z$ son equivalentes si, y solo si, los restos de dividir $a$ y $b$ son los mismos. Por ejemplo, $6$ y $11$ son equivalente en $\Z_5$, pues el resto de dividir ambos por $5$ es $1$. Con esta definición, muchas veces se denota este anillo con $\Z / n\Z$, donde $n\Z$ corresponde al anillo de los múltiplos de $n$. Por conveniencia, seguiremos utilizando $\Z_n$ para notar estos anillos.\\
+
+De la misma manera que presentamos $\Z_n$, también presentamos los anillos modulares de polinomios. Por ejemplo, en $\Z_n[x] / (x^2 - 1)$ (ó $(\Z/n\Z)[x]/(x^2 - 1)$) con $n > 1$, tenemos polinomios con coeficientes en $\Z_n$, donde dos polinomios son equivalentes si, y solo si, el resto de dividir ambos por $x^2 - 1$ es el mismo. Estos anillos los utilizaremos extensivamente en la demostración del algoritmo \textbf{AKS}, y por eso es necesario presentarlos aquí.
+
+\subsection{Grupos}
+
+Sea $G$ un conjunto no vacío y sea $(\cdot)$ una operación interna en $G$ definida como
+
+\begin{alignat*}{2}
+	(\cdot): G \times G & \to & G \\
+	(x, y) & \mapsto & xy,
+\end{alignat*}
+
+a la cual llamaremos producto. Damos entonces la siguiente definición.
+
+\begin{definicion}
+	La pareja $(G, \cdot)$ es un grupo si se cumplen las siguientes propiedades:
+	
+	\begin{itemize}
+		\item \textbf{Asociatividad}. Para todo $x, y, z \in G$, se tiene que $(xy)z = x(yz)$.
+		
+		\item \textbf{Elemento neutro}. Existe $e \in G$ tal que $ex = xe = x, \forall x \in G$. Dicho elemento se suele representar con el número uno, $1$.
+		
+		\item \textbf{Inverso}. Para todo $x \in G$ existe $y \in G$ tal que $xy = yx = 1$. Dicho elemento se suele conocer como el inverso de $x$, y se representa con el símbolo $x^{-1}$.
+	\end{itemize}
+	
+	Además, se dice que $(G, \cdot)$ es un grupo abeliano si cumple:
+	
+	\begin{itemize}
+		\item \textbf{Conmutatividad}. Para todo $x, y \in G$, se tiene que $xy = yx$.
+	\end{itemize}
+\end{definicion}
+
+Al cardinal del conjunto $G$ lo denominaremos \textit{orden del grupo $G$}, y lo representamos por $|G|$. En palabras más simples, se trata de la cantidad de elementos distintos que contiene el grupo. Si $|G| < \infty$, entonces decimos que se trata de un \textit{grupo finito}.\\
+
+Algunas propiedades inmediatas y fáciles de comprobar son las siguientes.
+
+\begin{proposicion}
+	Sea $(G, \cdot)$ un grupo. Entonces:
+	
+	\begin{itemize}
+		\item El elemento neutro es único.
+		
+		\item Para cada $x \in G$, su inverso $x^{-1}$ es único.
+		
+		\item \textbf{Involución}. Para cada $x \in G$, $(x^{-1})^{-1} = x$.
+		
+		\item Si $xx = x$ con $x \in G$, entonces $x = 1$.
+		
+		\item \textbf{Cancelación}. Sean $x, y, z \in G$, entonces:
+		
+		\[ xy = xz \Rightarrow y = z \]
+		\[ yx = zx \Rightarrow y = z \]
+		
+		\item El inverso del elemento neutro es él mismo.
+		
+		\item Para todo $x, y \in G$, se cumple que $(xy)^{-1} = y^{-1}x^{-1}$.
+		
+		\item Para todo $x, y \in G$, existen únicos $u, v \in G$ tales que:
+		
+		\[ xu = y \]
+		\[ vx = y \]
+	\end{itemize}
+\end{proposicion}
+
+Existen muchos ejemplos de grupos, como por ejemplo $\Z$, $\Q$, $\R$ y $\C$ bajo la operación de la suma.\\
+
+Además de los anteriores, existen muchas categorías grupos, entre los que podemos encontrar los grupos de permutaciones, los grupos diédricos, los cuaternios, etc. No vamos a centrarnos en ellos más, pues no los necesitaremos más adelante.\\
+
+Sin embargo, y como ya dijimos anteriormente, dado un anillo conmutativo $A$, el conjunto de la unidades de dicho anillo, $\mathcal{U}(A)$, es un grupo. En especial, nos vamos a centrar en los anillos $\Z_n$ con $n > 1$ y sus correspondiente grupos de unidades, $\mathcal{U}(\Z_n) = \Z_n^*$, también conocido como grupo multiplicativo de $\Z_n$.\\
+
+Es importante destacar lo siguiente:
+
+\begin{proposicion}
+	Sea $n \in \N$ con $n > 1$. Entonces $|\Z_n^*| = \phi(n)$, donde $\phi$ es la función de Euler.
+\end{proposicion}
+
+En la siguiente sección nos dedicaremos a introducirnos en los conceptos de aritmética modular más en profundidad.
+
+\section{Combinatoria}
+
+En esta sección vamos a presentar algunos resultados en el campo de la combinatoria, los cuales serán útiles más adelante.\\
+
+Empecemos por definir la operación del binomio, la cual aparece en la fórmula de los coeficientes del binomio de Newton.
+
+\begin{definicion}
+	Sean $n, k \in \Z$ con $n \geq k \geq 0$. Entonces definimos el binomio de la forma
+	
+	\[ \binom{n}{k} = \frac{n!}{k!(n - k)!} \],
+	
+	Donde $n!$ es la operación factorial de $n$.
+\end{definicion}
+
+Existen muchas propiedades de los binomios, pero solo presentaremos algunas que utilizaremos en el desarrollo de la teoría.
+
+\begin{proposicion}
+	Se cumplen:
+	
+	\begin{enumerate}
+		\item \[ \binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}\;\;\forall n \geq k > 0 \]
+		
+		\item \[ \binom{n}{k} = \binom{n}{n-k}\;\;\forall n \geq k \geq 0 \]
+		
+		\item \textbf{Identidad del Palo de Hockey}. Sean $n, k$ tales que $n \geq k \geq 0$. Entonces
+		
+		\begin{equation}\label{identidad_del_palo_de_hockey}
+		\sum_{i=k}^{n}\binom{i}{k} = \binom{n+1}{k+1}
+		\end{equation}
+	\end{enumerate}
+\end{proposicion}
+
+Ahora veremos algunos resultados que usaremos más adelante.
+
+\begin{lema}\label{binomio_cota_inferior_2n}
+	\[ \binom{2n + 1}{n} > 2^{n+1}\;\;\;\;\forall n \geq 2 \]
+\end{lema}
+
+\begin{proof}
+	Haremos una inducción sobre $n$. Sea entonces pues $n=2$, y tenemos
+	
+	\[ \binom{2\cdot2 + 1}{2} = \binom{5}{2} = \frac{5!}{2!3!} = 10 > 8 = 2^{2+1} \]
+	
+	Supuesto cierto para $n$, comprobemos la desigualdad para $n+1$:
+	
+	\[ \binom{2(n+1) + 1}{n+1} = \frac{(2n+3)!}{(n+1)!(n+2)!} = 2\frac{(2n+3)}{(n+2)}\binom{2n+1}{n} > \frac{(2n+3)}{(n+2)}2^{n+2} > 2^{n+2} \]
+	
+	En la penúltima desigualdad hemos aplicado la hipótesis de inducción sobre $n$, y la última desigualdad se deduce de que $\frac{(2n+3)}{(n+2)} = 2 - \frac{1}{n+2} > 1$.
+\end{proof}
+
+\section{Aritmética Modular}
+
+En este apartado nos vamos a centrar en la aritmética modular tanto con enteros como con polinomios. La mayoría de propiedades son las mismas, y solo distinguiremos entre ambos cuando sea necesario. En general, nos referiremos a aritmética de enteros, pero era necesario aclarar que dichas propiedades serán equivalente para polinomios (por tratarse ambos de anillos conmutativos).\\
+
+Empecemos por definir lo que es una congruencia.
+
+\begin{definicion}
+	Sean $a, b \in \Z$ y $n \in \N \setminus \{0\}$. Diremos que $a$ y $b$ son \textit{congruentes módulo $n$} si el resto de dividir ambos por $n$ es el mismo.\\
+	
+	Esto lo denotaremos por $a \equiv b \pmod{n}$, $a \equiv b \mod(n)$ ó $a \equiv_n b$. De la propia definición se sobreentiende que $b \equiv a \mod(n)$.
+\end{definicion}
+
+Es importante destacar que esta operación es una relación de equivalencia:
+
+\begin{itemize}
+	\item \textbf{Reflexividad}. $a \equiv a \mod(n)$ para todos $a, n$.
+	
+	\item \textbf{Simetría}. Se cumple $a \equiv b \mod(n)$ y $b \equiv a \mod(n)$ para todos $a, b, n$.
+	
+	\item \textbf{Transitividad}. Si $a \equiv b \mod(n)$ y $b \equiv c \mod(n)$, entonces $a \equiv c \mod(n)$ para todos $a, b, c, n$.
+\end{itemize}
+
+De la definición podemos deducir varias propiedades inmediatas.
+
+\begin{proposicion}
+	Sea $n \in \N \setminus \{0\}$. Se cumplen entonces:
+	
+	\begin{enumerate}
+		\item Si $a \equiv b \mod(n)$, entonces $a + k \equiv b + k \mod(n)$ para todo $k$.
+		
+		\item Si $a \equiv b \mod(n)$, entonces $ka \equiv kb \mod(n)$ para todo $k$
+		
+		\item Si $a \equiv b \mod(n)$ y $c \equiv d \mod(n)$, entonces $a + c \equiv b + d \mod(n)$.
+		
+		\item Si $a \equiv b \mod(n)$ y $c \equiv d \mod(n)$, entonces $a - c \equiv b - d \mod(n)$.
+		
+		\item Si $a \equiv b \mod(n)$ y $c \equiv d \mod(n)$, entonces $ac \equiv bd \mod(n)$.
+		
+		\item Si $a \equiv b \mod(n)$, entonces $a^k \equiv b^k \mod(n)$ para todo $k$
+		
+		\item Si $a \equiv b \mod(n)$ y $p \in \Z[x]$, entonces $p(a) \equiv p(b) \mod(n)$.
+		
+		\item Si $a \equiv b \mod(\phi(n))$, entonces $k^a \equiv k^b \mod(n)$ para algún $k$ tal que $(k, n) = 1$.
+				
+		\item Si $a + k \equiv b + k \mod(n)$ para algún $k$, entonces $a \equiv b \mod(n)$.
+		
+		\item Si $ka \equiv kb \mod(n)$ para algún $k$ tal que $(k, n) = 1$, entonces $a \equiv b \mod(n)$.
+		
+		\item Si $ka \equiv kb \mod(kn)$ para algún $k$, entonces $a \equiv b \mod(n)$.
+		
+		\item Existe un único $a^{-1}$ tal que $aa^{-1} \equiv 1 \mod(n)$ si, y solo si, $(a, n) = 1$. A $a^{-1}$ se le llama el \textit{inverso multiplicativo de $a$ módulo $n$}
+		
+		\item Si $a \equiv b \mod(n)$ y $(a, n) = (b, n) = 1$, entonces $a^{-1} \equiv b{-1} \mod(n)$.
+		
+		\item Si $ax \equiv b \mod(n)$ con $(a, n) = 1$, entonces $x \equiv a^{-1}b \mod(n)$ es solución de la ecuación.
+	\end{enumerate}
+\end{proposicion}
+
+Ahora vamos a presentar el \textit{Binomio de Newton}, propiedad que nos vendrá muy bien en algunas demostraciones.
+
+\begin{teorema}{(Binomio de Newton)}\label{binomio_de_newton}
+	Sean $x, y \in \Z$ (a nosotros nos vale con $\Z$, pero $x$ e $y$ pueden pertenecer a otros espacios más generales), y sea $n \in \Z$ no negativo. Entonces se cumple
+	
+	\[ (x + y)^n = \sum_{k=0}^{n}\binom{n}{k}x^ky^{n-k} \]
+\end{teorema}
+
+La demostración se puede hacer por inducción sobre $n$, por lo que no la vamos a detallar.\\
+
+Presentaremos ahora una propiedad interesante de las congruencias.
+
+\begin{lema}
+	Para todo $a, b \in \Z$ y para todo $p$ primo, se tiene que $(a + b)^p \equiv a^p + b^p \mod(p)$
+\end{lema}
+
+\begin{proof}
+	Por un lado, sabemos que $(a + b)^p = \sum_{i=0}^{p}\binom{p}{i}a^ib^{p-i}$.\\
+	
+	Sabiendo eso, consideremos los binomios dentro de la sumatoria, pero excluyendo los casos donde $i = 0$ e $i = p$:
+	
+	\[ \binom{p}{i} = \frac{p!}{i!(p - i)!} \]
+	
+	Como $p$ es primo, entonces $p \nmid k!$ para todo $0 < k < p$ ó, lo que es lo mismo, $k!$ no contiene el número $p$ en su factorización. Como $0 < i < p$ y, en consecuencia, $0 < p - i < p$, tenemos que ni $i!$ ni $(p - i)!$ contienen en su factorización a $p$, y por lo tanto no lo contiene el producto.\\
+	
+	Como el binomio es un número entero, tenemos entonces que $\binom{p}{i}$ contiene en su factorización a $p$ o, lo que es lo mismo, que es múltiplo de $p$. Esto último implica que, para $0 < i < p$, tenemos
+	
+	\[ \binom{p}{i}a^ib^{p-i} \equiv 0 \mod(p) \]
+	
+	Así tenemos que
+	
+	\[ (a + b)^p = \sum_{i=0}^{p}\binom{p}{i}a^ib^{p-i} \equiv a^p + b^p \mod(p) \]
+\end{proof}
+
+\begin{teorema}{(Pequeño Teorema de Fermat)}\label{pequenio_teorema_de_fermat}
+	Sean $n > 1$ y $p$ primo. Entonces se cumple que $n^p \equiv n \mod(p)$.
+\end{teorema}
+
+\begin{proof}
+	Procederemos usando inducción sobre $n$.\\
+	
+	Para el caso $n = 0$ tenemos que $0^p \equiv 0 \mod(p)$, que es trivialmente cierto.\\
+	
+	Aplicamos ahora inducción y suponemos que se cumple para $n$, por lo que vamos a comprobarlo para $n + 1$.
+	
+	\[ (n + 1)^p \equiv n^p + 1^p \mod(p) \]
+	
+	Usando la hipótesis de inducción sobre $n$ y que $1^p = 1$, tenemos
+	
+	\[ (n + 1)^p \equiv n + 1 \mod(p) \]
+	
+	Es justo lo que queríamos probar.
+\end{proof}
+
+Del teorema que acabamos de demostrar, es evidente comprobar que, dado $n \in \Z$, entonces $n^{p-1} \equiv 1 \mod(p)$ para todo $p$ primo. Este hecho nos da una pista de una generalización del pequeño teorema de Fermat, la cual fue descubierta por Euler.
+
+\begin{teorema}{(Teorema de Euler)}
+	Sean $n, p > 1$ con $n$ y $p$ coprimos, es decir, $(n, p) = 1$. Entonces se cumple que $n^{\phi(p)} \equiv 1 \mod(p)$, siendo $\phi$ la función de Euler.
+\end{teorema}
+
+Aquí podemos ver que el Pequeño Teorema de Fermat es un caso particular de este teorema, pues $\phi(p) = p-1$ si, y solo si, $p$ es primo.
+
+\section{Polinomios Ciclotómicos}
+
+Sea $a \in \C$ no nulo. El polinomio $x^n - a \in \C[x]$ con $n \geq 1$ tiene exactamente $n$ raíces distintas, pues la derivada de $x^n - a$ es $nx^{n-1}$, y $x$ (el cual es irreducible) no divide a $x^n - a$.\\
+
+A estos $n$ números complejos (raíces de $x^n - a$) vamos a llamarlos \textbf{raíces $n$-ésimas} de $a$. Si $n=2$, les llamamos \textbf{raíces cuadradas}, o \textbf{raíces cúbicas} si $n=3$. Si $a=1$, se les llama \textbf{raíces $n$-ésimas de la unidad}.\\
+
+Para cada $n \geq 1$, dichas raíces conforman un subgrupo, $\C_n$, del grupo multiplicativo de los complejos, $\C^\times$, definido tal que:
+
+\[ \C_n = \left\lbrace \zeta \in \C^\times : \zeta^n = 1 \right\rbrace = \left\lbrace cos\left(\frac{2k\pi}{n}\right) + i\;sen\left(\frac{2k\pi}{n}\right): k=0,...,n-1  \right\rbrace \]
+
+Entre estas raíces, $\zeta_n = cos\left(\frac{2\pi}{n}\right) + i\;sen\left(\frac{2\pi}{n}\right)$ es llamada la \textbf{raíz $n$-ésima primitiva de la unidad}. A partir de aquí, es evidente comprobar que $\C_n = \left\langle \zeta_n \right\rangle$, lo cual lo hace un grupo cíclico de orden $n$ generado por $\zeta_n$.\\
+
+Por otro lado, $\zeta_n^k$ es un generador de $\C_n$, o lo que es lo mismo, $or(\zeta_n^k) = n$, si y solo si $(n, k) = 1$. Por lo tanto definimos el conjunto de los generadores de $\C_n$ como:
+
+\[ Gen(\C_n) = \left\lbrace \zeta \in \C_n : or(\zeta) = n \right\rbrace = \left\lbrace \zeta_n^k : 1 \leq k \leq n, (n, k) = 1 \right\rbrace \]
+
+Es evidente ver que $\C_n$ tiene $\phi(n)$ ($\phi$ es la función de Euler) generadores. Hacemos entonces la siguiente definición.
+
+\begin{definicion}
+	Sea $n \geq 1$, se define el $n$-ésimo polinomio ciclotómico, $\Phi_n$ tal que:
+	
+	\[ \Phi(x) = \prod_{\zeta \in Gen(\C_n)}(x - \zeta) = \prod_{\substack{1 \leq k \leq n \\ (n, k) = 1}}(x - \zeta_n^k) \]
+\end{definicion}
+
+Dicho de otro modo, $\Phi_n$ es el polinomio mónico de grado $\phi(n)$ donde las raíces $n$-ésimas de la unidad son de orden $n$. Ahora vamos a pasar a dar algunas propiedades de estos polinomios:
+
+\begin{proposicion}
+	Los $n$-ésimos polinomios ciclotómicos cumplen las siguientes propiedades:
+	
+	\begin{itemize}
+		\item $\Phi_n \in \Z[x]$
+		\item $\Phi$ es irreducible en $\Q[x]$
+		\item $x^n - 1 = \prod_{d|n}\Phi_d(x)$. En particular, $\Phi_n$ es el polinomio irreducible en $\Z[x]$ de mayor grado que divide a $x^n - 1$ y no divide a $x^k - 1$ con $1 \leq k < n$.
+		\item Si restringimos los coeficientes de $\Phi_n$ a $\Z_p$ con $p$ primo, y tal que $p \nmid n$, tenemos que $\Phi_n$ se puede factorizar en $\frac{\phi(n)}{d}$ polinomios irreducibles de grado $d$, donde $d = ord_n(p)$.
+	\end{itemize}
+\end{proposicion}
+
+\section{Hipótesis Generalizada de Riemann}
+
+En la rama del Análisis Matemático y, en específico, la rama del Análisis en Variable Compleja, existe una conjetura muy importante propuesta por Riemann, cuya popularidad es debida a su inclusión entre uno de los Problemas del Milenio por el Clay Mathematics Institute. Para enunciar dicha conjetura, definamos primero la \textit{Función Zeta de Riemann}, $\zeta(s)$, con $s \in \C$:
+
+\begin{equation}\label{funcion_zeta_de_riemann}
+\zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s}
+\end{equation}
+
+Esta función se sabe que converge cuando la parte real de $s$ es mayor que $1$. Para los casos en los que la parte real de $s$ sea menor o igual que $1$, lo que se hace es extender analíticamente la función $\zeta$ de la siguiente manera:
+
+\begin{equation}\label{funcion_zeta_de_riemann_extendida}
+\zeta(s) = 2^s\pi^{s-1}\sin\left(\frac{\pi s}{2}\right)\Gamma(1-s)\zeta(1-s)
+\end{equation}
+
+Esta función está definida en todo $\C \setminus \{1\}$ (en $s = 1$ hay lo que se conoce como un \textit{polo}). La función $\Gamma$ extiende el concepto de factorial al plano complejo. Se define de la siguiente manera para $s$ con parte real positiva:
+
+\begin{equation}
+\Gamma(s) = \int_{0}^{\infty}t^{s-1}e^{-t}\mathop{dt}
+\end{equation}
+
+Como podemos ver en la propia definición de $\zeta$, dicha función se anula para todos los enteros negativos pares. Estos ceros son más conocidos como los \textit{ceros triviales} de la función $\zeta$. Existen también valores de $s$ cuya parte real se encuentra entre $0$ y $1$ (no incluidos) tales que $\zeta(s)$ también se anula. Estos valores son conocidos como los \textit{ceros no triviales} de la función $\zeta$.\\
+
+Armados con este conocimiento, pasamos a enunciar la conjetura, también conocida como \textit{Hipótesis de Riemann}.
+
+\begin{conjetura}\label{hipotesis_de_riemann}
+	Todos los ceros no triviales de la función $\zeta$ tienen parte real igual a $\frac{1}{2}$.
+\end{conjetura}
+
+Esta conjetura, de ser cierta, implicaría profundos resultados en el ámbito de los números primos. En específico, existe una generalización de dicha conjetura, también denominada \textit{Hipótesis Generalizada de Riemann}, la cual se enuncia para un conjunto específico de funciones llamado \textit{Funciones-L de Dirichlet} y los \textit{Caracteres de Dirichlet}, los cuales no vamos a definir en este trabajo. El enunciado de la conjetura es el siguiente.
+
+\begin{conjetura}\label{hipotesis_generalizada_de_riemann}
+	Sea $\chi$ un \textit{Carácter de Dirichlet}. Se define $L$ como una función-L de Dirichlet para todo $s \in \C \setminus \{1\}$ de la siguiente forma:
+	
+	\begin{equation}
+	L(\chi, s) = \sum_{n=1}^{\infty}\frac{\chi(n)}{n^s}
+	\end{equation}
+	
+	Entonces, si $L(\chi, s) = 0$ y la parte real de $s$ está entre $0$ y $1$ (no incluidos), la parte real de $s$ es igual a $\frac{1}{2}$.
+\end{conjetura}
+
+Es evidente comprobar que si tomamos $\chi(n) = 1$, tenemos la \textit{Hipótesis de Riemann} \ref{hipotesis_de_riemann}.\\
+
+Más adelante mencionaremos esta conjetura, cuya veracidad implicaría mejoras en la complejidad del algoritmo \textbf{AKS}.
+
+\endinput

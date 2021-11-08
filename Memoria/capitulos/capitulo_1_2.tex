@@ -1,0 +1,281 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+\chapter{Tests de Primalidad}
+
+En este capítulo vamos a dedicarnos a explicar qué son los tests de primalidad y cuál es su utilidad, además de presentar algunos de ellos.\\
+
+Primero daremos una descripción general de los tests de primalidad, incluyendo su utilidad en ramas como la criptografía, la cual es de vital importancia para la seguridad en Internet.\\
+
+Después haremos un repaso por la historia de los tests de primalidad, y presentaremos distintos tipos de tests de primalidad, entre los que incluiremos tanto los tests deterministas como los tests probabilísticos.\\
+
+Por último nos pararemos a detallar un poco el test de Miller-Rabin, el cual usaremos en nuestra comparación con el test \textbf{AKS}.
+
+\section{Introducción a los Tests de Primalidad}
+
+Un número decimos que es primo cuando sus únicos divisores son una unidad y el mismo número. En caso contrario diremos que es compuesto. Esto excluye a $1$ y $-1$, pues estos son considerados unidades del conjunto de los números enteros, y no son ni primos ni compuestos. El número $0$ también queda obviamente excluido. Además, considerar $1$ ó $-1$ primos implica que hay infinitas factorizaciones de cualquier número, lo cual supone incumplir el Teorema Fundamental de la Aritmética. Dicho teorema afirma que todo número se puede escribir de manera única (salvo el orden) como producto de números primos.\\
+
+Los números primos son de vital importancia en las matemáticas y, especialmente en el área de la Teoría de Números. De vital importancia son sobre todo las propiedades que nos permiten determinar cuándo un número es primo. Dichas propiedades son explotadas en el campo de la criptografía, rama en la que se apoya la seguridad en Internet.\\
+
+Distintos tipos de tests se han ido descubriendo a lo largo de la historia. De hecho, la propia definición de un número primo nos da una manera de comprobar que un número es primo. Sea ese número $n$.
+
+\begin{enumerate}
+	\item Comprobar todos los números hasta $\lfloor\sqrt{n}\rfloor$.
+	
+	\item Si alguno divide a $n$, entonces $n$ es compuesto.
+	
+	\item Si ninguno divide a $n$, entonces $n$ es primo.
+\end{enumerate}
+
+Este test, aunque simple, es extremadamente lento a medida que crece el número de cifras del número a testear. Es por ello que el estudio de los tests de primalidad se centra en encontrar tests mucho más rápidos.\\
+
+Existen otras propiedades para los números primos que nos pueden indicar tests de primalidad. Una de las más conocidas, y base para muchos otros tests de primalidad, es el conocido \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}, el cual que afirma que si $p$ es primo, entonces $a^p \equiv a \mod(p)$ para todo $a \in \Z$. Un test que podemos aplicar a un número $n$ es probar distintos valores de $a$ y ver si se cumple la congruencia. En caso de que encontremos un $a$ para el que la congruencia no se cumple, $n$ será compuesto. En caso contrario, diremos que $n$ es probablemente primo.\\
+
+Este test es mucho más rápido que el anterior. De hecho es polinómico. Sin embargo no es determinista. De hecho el test falla siempre en un conjunto de números compuestos denominados de \textit{Charmichael}, los cuales siempre cumplen el Pequeño Teorema de Fermat.\\
+
+Dicho test, a pesar de no ser correcto, es base de muchos otros tests, como por ejemplo el test de \textit{Miller-Rabin}, el test de \textit{Lucas} o el test \textit{AKS}.\\
+
+Uno de los tests que estudiaremos en este capítulo será el test de 
+
+\section{Tipos de Tests de Primalidad}
+
+Existen distintos tipos de tests de primalidad según las certezas que nos dan sobre el resultado del mismo. En este ámbito se pueden destacar tres propiedades:
+
+\begin{itemize}
+	\item \textbf{General}. Un test decimos que es general si se puede aplicar a cualquier número.
+	
+	\item \textbf{Determinista}. Un test se dice que es determinista si determina que un número es primo si, y solo si, dicho número es primo. En caso contrario, se suele decir que el test es probabilístico o no determinista.
+	
+	\item \textbf{Incondicional}. Un test se dice que es incondicional si no depende de un resultado no probado aún para ser correcto. En caso contrario, se dice que está condicionado.
+	
+	\item \textbf{Polinómico}. Un test se dice polinómico si tiene una complejidad polinómica en el número de dígitos de la entrada.
+\end{itemize}
+
+El primer test que vimos en el apartado anterior es general, determinista e incondicional. Desafortunadamente falla en que no es polinómico, por lo que su utilidad práctica es nula.\\
+
+Sin embargo, el test basado en el \textit{Pequeño Teorema de Fermat} es general, incondicional y polinómico, pero no es determinista (de hecho falla siempre en ciertos valores).\\
+
+El famoso test de \textit{Miller-Rabin} aleatorizado es general, incondicional y polinómico. Falla en que es probabilístico; pero con suficientes rondas de aplicar el test, se puede asegurar una probabilidad bastante baja de que el test falle. Además, \textit{Miller} dio una variante determinista, cuya validez depende de la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann}, lo cual lo hace condicionado. Explicaremos más adelante todo lo relacionado con este test.\\
+
+Un test similar desarrollado por \textit{Solovay} y \textit{Strassen} basado en una propiedad de los números primos y el símbolo de Jacobi, $(-)$, proporciona un test probabilístico, general, incondicional y polinómico. Este test también se puede hacer determinista si se cumple la \textit{Hipótesis Generalizada de Riemann}. Explicaremos también este test más adelante.\\
+
+Existen otros tipos de tests, como por ejemplo los basados en curvas elípticas. Dichos tests suelen ser generales, incondicionales y deterministas. También son polinómicos para la mayoría de los casos, pero no en general. Además, dichos tests proporcionan lo que se conocen como certificados de primalidad (lo normal era proporcionar certificados de composición). Explicaremos en otra sección más adelante en qué consisten los certificados.\\
+
+Finalmente, llegamos al algoritmo AKS, el cual cumple las cuatro propiedades que deseamos en un test de primalidad. Es general, incondicional, determinista y polinómico, lo cual resuelve un problema que lleva muchos años abierto. Dicho algoritmo veremos más adelante que su utilidad práctica no es tanta, pues el test suele tardar demasiado comparado con otros tests presentados anteriormente. Sin embargo, su utilidad teórica es vital, pues implica que la búsqueda de tales tests es útil.
+
+\section{Certificados}
+
+Los tests de primalidad están diseñados para determinar cuándo un número es primo o no. Dichos tests suelen proporcionar un ``testigo'' de que un número es compuesto. También existen testigos de que un número es primo, pero son menos comunes y más difíciles de obtener.\\
+
+A dichos testigos se les suele conocer como certificados de que un número es compuesto o primo. Ahora vamos a detallar cada tipo, cómo se pueden usar y qué tipos de certificados proporcionan los distintos algoritmos.
+
+\subsection{Certificados de Composición}
+
+Los certificados para comprobar que un número es compuesto nos permiten determinar rápidamente cuándo un número es compuesto.\\
+
+Un ejemplo claro de certificado de que un número es compuesto es uno de sus factores no triviales. Dado un número y un factor suyo, podemos comprobar rápidamente que dicho número es, de hecho, compuesto simplemente dividiéndolo por dicho factor y comprobar que el resto es cero.\\
+
+Estos certificados no tienen que ser únicamente factores primos no triviales. Un certificado de composición para $n$ puede ser por ejemplo un $a \in \Z$ para el que no se cumple el \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}, es decir, para el que $a^n \not\equiv a \mod(n)$. El test de \textit{Miller-Rabin} proporciona un certificado similar.\\
+
+Vamos a poner algunos ejemplos de ello.
+
+\begin{ejemplo}
+	Sea $n = 48941 = 449\cdot109$. Un certificado para comprobar que $n$ es compuesto es uno de sus factores, como por ejemplo $109$. Simplemente dividiendo $n$ por $109$ podemos comprobar que, efectivamente, es compuesto.
+\end{ejemplo}
+
+\begin{ejemplo}
+	Sea $n = 341$. Un certificado de composición para $n$ es $a = 3$, pues $a^n \equiv 168 \mod(n) \not\equiv a \mod(n)$, lo cual implica por el \textit{Pequeño Teorema de Fermat} que $n = 341$ no puede ser primo.
+\end{ejemplo}
+
+Más adelante veremos también cómo se puede obtener un certificado para el test de \textit{Miller-Rabin}.
+
+\subsection{Certificados de Primalidad}
+
+También existen los certificados de primalidad, esto es, un testigo de que un número es primo, de manera que podamos comprobar rápidamente que dicho número es, de hecho, primo. Estos no son tan comunes, y suelen producirse en algoritmos que utilizan curvas elípticas, \textit{ECPP}.\\
+
+En el caso de \textit{ECPP} (\textit{Elliptic Curves Primality Testing}), un certificado de primalidad se puede generar de manera recursiva. La generación de dicho certificado es lo que más tiempo consume en el algoritmo. Dicho certificado, como ya hemos explicado, permite comprobar muy rápidamente si el número es primo o no.
+
+\section{Tests de Miller-Rabin y Solovay-Strassen}
+
+En esta sección vamos a detallar dos tests que usaremos más adelante para comparar con el algoritmo \textbf{AKS}. Ambos tests son de naturaleza probabilística, aunque si se cumple la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann} y eligiendo adecuadamente los números para los que realizar los tests, se pueden convertir en deterministas.\\
+
+Ambos se basan en congruencias, y los vamos a describir a continuación, aunque nos centraremos más en el test de Miller-Rabin.
+
+\subsection{Test de Miller-Rabin}
+
+El test de \textit{Miller-Rabin} es uno de los más usados actualmente tanto por su velocidad como por su fiabilidad en el campo de la criptografía y seguridad en Internet \cite{digital_signature_standard}.\\
+
+Dicho test se basa en una serie de relaciones de congruencias, las cuales se cumplen siempre cuando se trata de un número primo impar. Demos pues la siguiente definición.\\
+
+\begin{definicion}
+	Sea $n > 2$ y sean $s, d > 0$ con $d$ impar tales que $n = 2^s d + 1$. Sea $a$ un entero con $0 < a < n$ al que llamaremos \textit{base}. Diremos entonces que $n$ es un primo probable fuerte en base $a$ si, se cumple alguna de las siguientes congruencias:
+	
+	\begin{align}\label{congruencias_miller_rabin}
+	a^d &\equiv 1 \mod(n)\\
+	a^{2^r d} &\equiv -1 \mod(n)\text{ con $0 \leq r < s$}
+	\end{align}
+\end{definicion}
+
+Si $n$ no es primo y encontramos un $a$ para el que no es un primo probable fuerte, entonces diremos que $a$ es un testigo de su composibilidad. En específico, es un certificado de composición de $n$.\\
+
+Si $n$ no es primo y es un primo probable fuerte para algún $a$, entonces diremos que $a$ es un \textit{mentiroso fuerte}.\\
+
+La idea del test yace en que, si $n$ es un primo impar, entonces pasa el test por las siguientes dos razones.
+
+\begin{itemize}
+	\item Como $n$ es primo, entonces $a^{n-1} \equiv 1 \mod(n)$ por el \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}.
+	
+	\item Las únicas raíces cuadradas de $1$ son $1$ y $-1$.
+\end{itemize}
+
+Vamos a empezar probando esto último.
+
+\begin{proposicion}\label{raices_miller_rabin}
+	La ecuación de congruencia $x^2 \equiv 1 \mod(n)$ tiene como únicas soluciones $1$ y $-1$.
+\end{proposicion}
+
+\begin{proof}
+	Por un lado, sabemos que $1$ y $-1$ son soluciones de la ecuación, luego nos queda ver que no hay más. Pero $x^2 - 1$ tiene como mucho $2$ raíces por \autoref{raices_en_cuerpos}, y como $x^2 - 1 = (x + 1)(x - 1)$, pues tenemos que no puede haber más raíces.
+\end{proof}
+
+Teniendo esto, enunciamos la siguiente proposición.
+
+\begin{proposicion}\label{proposicion_miller_rabin}
+	$n$ es un primo probable fuerte en base $a$.
+\end{proposicion}
+
+\begin{proof}
+	Por el \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat} sabemos que $a^{d2^s} \equiv 1 \mod(n)$.\\
+	
+	Es claro que cada $d2^r$ con $0 \leq r < s$ es la raíz cuadrada de $d2^{r+1}$. Como $a^{d2^s} \equiv 1 \mod(n)$, tenemos dos casos por \autoref{raices_miller_rabin}:
+	
+	\begin{itemize}
+		\item $a^{d2^{s-1}} \equiv -1 \mod(n)$. En este caso hemos acabado y $n$ es primo probable fuerte en bas $a$.
+		
+		\item $a^{d2^{s-1}} \equiv 1 \mod(n)$. En este caso, volvemos a iterar con la raíz cuadrada del término actual.
+	\end{itemize}
+	
+	Al terminar, o encontramos algún término de la sucesión tal que la congruencia se cumpla para $-1$ o todas se cumplen para $1$, y en particular para $a^d$, lo cual concluye nuestra prueba.
+\end{proof}
+
+Veamos ahora un ejemplo.
+
+\begin{ejemplo}
+	Sea $n = 221$ y sean $d = 55$ y $s = 2$ de modo que $n = 221 = d2^s + 1 = 55\cdot2^2 + 1$ y sea, por ejemplo, $a = 174$. Entonces
+	
+	\begin{align}
+	a^{d2^0} = 174^{55} &\equiv 47 \mod(n) \not\equiv 1 \mod(n) \not\equiv 220 \mod(n)\\
+	a^{d2^1} = 174^{110} &\equiv 220 \mod(n)
+	\end{align}
+	
+	Tenemos entonces que $n$ es un primo probable fuerte o $a$ es un mentiroso fuerte. Sea ahora $a = 137$.
+	
+	\begin{align}
+	a^{d2^0} = 137^{55} &\equiv 188 \mod(n) \not\equiv 1 \mod(n) \not\equiv 220 \mod(n)\\
+	a^{d2^1} = 137^{110} &\equiv 205 \mod(n) \not\equiv 220 \mod(n)
+	\end{align}
+	
+	Tenemos entonces que $n$ no ha pasado el test en base $137$, luego $a = 137$ es un testigo de la composibilidad de $n$ y $174$ es en realidad un mentiroso fuerte.
+\end{ejemplo}
+
+Es importante notar que si $n$ no es primo, entonces existirá alguna base para la que no se cumplan las congruencias \eqref{congruencias_miller_rabin}.\\
+
+Descrita ya la parte fundamental del test, vamos a describir las dos variantes de dicho test: la probabilística y la determinista condicionada.
+
+\subsubsection{Versión Probabilística}
+
+La versión probabilística del test de \textit{Miller-Rabin} es muy sencilla y es probablemente uno de los tests de primalidad más utilizados en la seguridad de las comunicaciones en Internet.\\
+
+La idea es simplemente comprobar si se cumplen las congruencias \eqref{congruencias_miller_rabin} para varias bases elegidas aleatoriamente. Si $n$ pasa el test para todas ellas, diremos que $n$ es probablemente primo con un cierto grado de fiabilidad.\\
+
+Si por el contrario encontramos una base para la que $n$ no pasa el test, entonces podemos asegurar que $n$ es compuesto y dicha base será un testigo de su composición.\\
+
+La elección se hace de manera aleatoria porque no se sabe con certeza la distribución de los testigos para un número compuesto. La cantidad de bases a probar depende del grado de fiabilidad que queramos obtener con el test. Se puede probar que si $n$ es compuesto, entonces hay como mucho una cuarta parte de las bases para las que $a$ es un mentiroso fuerte, por lo que para cada base que comprobamos, la probabilidad de encontrarnos con un mentiroso fuerte es de $4^{-1}$, luego si probamos $k$ bases, obtenemos que la probabilidad de encontrar un mentiroso fuerte es $4^{-k}$. Esta es la principal razón por la que el test de \textit{Miller-Rabin} es más usado que otros tests probabilísticos que también son muy rápidos. En el caso del test de \textit{Solovay-Strassen}, dicha probanilidad es de $2^{-k}$.\\
+
+En \cite{digital_signature_standard} Anexo C.3, podemos encontrar la cantidad de bases mínimas a probar para obtener una fiabilidad suficiente de la primalidad. Para números de $1024$ bits se recomienda probar $40$ bases, $56$ para números de $2048$ bits y $64$ para números de $3072$ bits. Estos números son algo menores si también aplicamos el test de \textit{Lucas}.\\
+
+En el anexo <complejidad miller rabin> detallaremos que la complejidad de este test es $O(k\log^3(n))$ con multiplicación tradicional, ó $O^\sim(k\log^2(n))$ con versiones que hacen uso de la \textit{Transformada Inversa de Fourier} ($k$ es la cantidad de bases a probar).
+
+\subsubsection{Versión Determinista Condicionada}
+
+Una manera de hacer el test de \textit{Miller-Rabin} determinista consiste en simplemente probar todas las bases entre $0$ y $n$. Dicho test es muy ineficiente, por lo que lo ideal sería probar una cantidad de bases igual a $O(\log^{O(1)}(n)$ para poder asegurar una complejidad polinómica en el logaritmo de $n$.\\
+
+Existe una versión que fue descubierta por \textit{Miller} la cual hace uso de la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann}. Dicha idea se basa en que, si $n$ es compuesto, entonces el conjunto de los mentirosos fuertes $a$ tales que $(a, n) = 1$ es un subgrupo del grupo multiplicativo de $\Z_n$, $\Z_n^*$. De este modo, si probamos todos los $a$ de un conjunto que genere $\Z_n^*$, uno de ellos debe quedarse fuera del subgrupo mencionado anteriormente, luego sería un testigo de la composibilidad de $n$.\\
+
+Asumiendo la veracidad de \autoref{hipotesis_generalizada_de_riemann}, se puede demostrar que las bases a probar son menores que $k = O(c\ln^2(n))$. La constante $c$ se puede demostrar que es $2$, y por lo tanto la versión determinista solo debe comprobar las congruencias \eqref{congruencias_miller_rabin} para $2 \leq a \leq \min\{n-2, \lfloor 2\ln^2(n) \rfloor\}$.\\
+
+Esta versión, puesto que $k = O(\ln^2(n))$, tiene complejidad $O^\sim(\log^4(n))$. Para versión una descripción más exacta, ir al anexo <anexo miller determinista>.
+
+\subsection{Test de Solovay-Strassen}
+
+Este test, aún habiendo sido muy usado, ha sido reemplazado por otros más fiables, como el ya mencionado test de \textit{Miller-Rabin}.\\
+
+Dicho test se basa también en una propiedad de las congruencias para los números primos. Dicha congruencia está basada en el \textit{Símbolo de Jacobi}, $(-)$, el cual vamos a definir a continuación. Para ello necesitamos un par de conceptos previos.
+
+\begin{definicion}
+	Se dice que $a$ es un residuo cuadrático módulo $p$ si la ecuación $x^2 \equiv a \mod(p)$ tiene solución.
+\end{definicion}
+
+\begin{definicion}\label{simbolo_de_legendre}
+	Sean $a, p$ donde $p$ es un primo impar. Se define el \textit{Símbolo de Legendre} de la siguiente forma.
+	
+	\begin{equation}
+	\left(\frac{a}{p}\right) =
+	\begin{cases}
+		1 &\text{si $a$ es un residuo cuadrático módulo $p$ y $a \not\equiv 0 \mod(p)$}\\
+		-1 &\text{si $a$ no es un residuo cuadrático módulo $p$}\\
+		0 &\text{si $a \equiv 0 \mod(p)$}
+	\end{cases}
+	\end{equation}
+\end{definicion}
+
+Con estas dos definiciones, podemos definir el \textit{Símbolo de Jacobi}.
+
+\begin{definicion}\label{simbolo_de_jacobi}
+	Sean $a, n$ con $n$ impar y donde $n = p_1^{e_1}\dotsb p_k^{e_k}$ es su factorización. Se define el \textit{Símbolo de Jacobi} de la siguiente forma.
+	
+	\begin{equation}
+	\left(\frac{a}{n}\right) = \left(\frac{a}{p_1}\right)^{e_1}\dotsb\left(\frac{a}{p_k}\right)^{e_k}
+	\end{equation}
+	
+	Cada factor $\left(\frac{a}{p_i}\right)$ es el \textit{Símbolo de Legendre} \ref{simbolo_de_legendre}.
+\end{definicion}
+
+Teniendo estas definiciones, podemos pasar a enunciar la congruencia que es la basa de este test.
+
+\begin{proposicion}
+	Si $p$ es cualquier primo y $a$ cualquier entero, entonces se cumple
+	
+	\begin{equation}
+	a^{\frac{(p-1)}{2}} \equiv \left(\frac{a}{p}\right) \mod(p),
+	\end{equation}
+	
+	donde $\left(\frac{a}{p}\right)$ es el \textit{Símbolo de Legendre} \ref{simbolo_de_legendre}.
+\end{proposicion}
+
+Puesto que el \textit{Símbolo de Jacobi} es la generalización del \textit{Símbolo de Legendre} para cualquier $n$ impar, podemos comprobar si se cumple la congruencia
+
+\begin{equation}\label{congruencia_solovay_strassen}
+a^{\frac{(n-1)}{2}} \equiv \left(\frac{a}{n}\right) \mod(n),
+\end{equation}
+
+para varias bases $a$ con $(a, n) = 1$. Como ya vimos antes, si $n$ es primo, entonces \eqref{congruencia_solovay_strassen} se cumple para todo $a$. Si encontramos una base para la que no se cumple la congruencia, podemos asegurar que $n$ es compuesto.\\
+
+Si encontramos una base $a$ para la que $n$ no pasa el test, diremos que $a$ es un \textit{testigo de Euler} de la composibilidad de $n$. Del mismo modo, si $n$ es compueto y pasa el test para una base $a$, diremos que dicha base es un \textit{mentiroso de Euler}.\\
+
+De modo parecido a como ocurría con el test de \textit{Miller-Rabin}, al menos la mitad de las bases $a \in \Z_n^*$ son \textit{testigos de Euler}. Esto da lugar a dos tests: uno probabilístico y uno determinista condicionado. Vamos a describirlos a continuación.
+
+\subsubsection{Versión Probabilística}
+
+Al igual que se hizo con el test de \textit{Miller-Rabin}, el test de \textit{Solovay-Strassen} tiene una versión probabilística.\\
+
+Dicha versión funciona de la misma manera que el test de \textit{Miller-Rabin}. Elegimos una base $a$ de manera aleatoria y comprobamos si se cumple \eqref{congruencia_solovay_strassen}. Realizamos este proceso una cantidad determinada de veces. Si encontramos una base $a$ para la que no se cumple la congruencia, podemos asegurar que $n$ es compuesto. En caso contrario, $n$ es probablemente primo.\\
+
+Como vimos antes, al menos la mitad de las bases son \textit{testigos de Euler}, luego en cada iteración tenemos una probabilidad de $2^{-1}$ de que $a$ sea un \textit{mentiroso de Euler}, luego la probabilidad después de $k$ rondas es $2^{-k}$, mucho mayor en contraste con la de \textit{Miller-Rabin}, $4^{-k}$.\\
+
+La complejidad de este test es, usando buenos algoritmos, $O(k\log^3(n))$, como veremos en el anexo <anexo solovay strassen probabilistico>.
+
+\subsubsection{Versión Determinista Condicionada}
+
+Usando la misma idea que en el test de \textit{Miller-Rabin}, en caso de que la \textit{Hipótesis Generalizada de Riemann} sea cierta, podemos encontrar un $k = O(\log{O(1)}(n))$ tal que la primalidad se pueda asegurar probando el test para todas las bases menores que dicho $k$, dando lugar a un algoritmo polinómico.
+
+\endinput
