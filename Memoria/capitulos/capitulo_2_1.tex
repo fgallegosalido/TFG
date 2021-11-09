@@ -2,90 +2,11 @@
 % !TeX encoding = utf8
 \chapter{Complejidad Algorítmica del test AKS}
 
-En este primer capítulo nos vamos a centrar en definir los conceptos necesarios para poder desarrollar la complejidad algorítmica del test AKS y poder comprobar que efectivamente tiene complejidad polinómica en el número de dígitos. Esto es, si la entrada del test es $n$, la complejidad deberá ser polinómica en el logaritmo en base 2 de $n$.
-
-\section{Introducción Complejidad Algorítmica}
-
-El primer paso para poder estudiar la complejidad algorítmica del test AKS está en entender qué es la complejidad algorítmica como tal. Para ello usaremos la notación asintótica $O$, $\Omega$ y $\Theta$.\\
-
-Estas tres notaciones nos sirven para dar forma al concepto de crecimiento asintótico de una función.\\
-
-Además, estas notaciones nos van a servir también para dar forma a la idea intuitiva de que el único término necesario en el comportamiento asintótico es aquel que crece más rápido.
-
-\subsection{Notación $O$}
-
-Empezaremos con el concepto intuitivo de que una función domina asintóticamente a otra según la entrada crece. Para ello damos la siguiente definición.
-
-\begin{definicion}
-	Sean $f$ y $g$ dos funciones definidas en $\N$, y cuyas imágenes pertenecen a $\R^+$. Diremos que $f$ es de orden $g$, notado como $O(g(n))$, si, y solo si, $\exists k \in \N$ y $\exists C \in \R^+$ tales que se cumple lo siguiente:
-	
-	$$f(n) \leq Cg(n) \;\;\;\forall n \in \N;\; n \geq k$$
-\end{definicion}
-
-Esta definición nos dice que una función domina a otra dada si la primera multiplicada por una constante es mayor que la segunda para toda entrada a partir de cierto punto. Veamos ahora algunos ejemplos:
-
-\begin{ejemplo}
-	Probar que $f(n) = 3n^2 + 1$ es $O(n^2)$.\\
-	
-	Tomando $k=1$ y $C=4$, podemos ver fácilmente usando inducción sobre $n$ que $3n^2 + 1 \leq 4n^2\;\forall n \geq 1$, luego podemos asegurar que $3n^2 + 1 = O(n^2)$.\\
-	
-	\begin{itemize}
-		\item Si $n=1$, entonces $3 \cdot 1^2 + 1 = 4 \leq 4$, luego se cumple el caso inicial.
-		\item Suponiendo cierto para $n$, comprobemos para $n + 1$. Entonces $3(n+1)^2 + 1 = 3n^2 + 6^n + 3 + 1 \leq 4n^2 + 6n + 3 \leq 4n^2 + 8n + 4 = 4(n+1)^2$, luego hemos probado lo que queríamos.
-	\end{itemize}
-\end{ejemplo}
-
-\subsection{Notación $\Omega$}
-
-Intuitivamente, el concepto de la notación $\Omega$ es el opuesto al concepto de la notación $O$. Lo vemos más rápido en la definición.
-
-\begin{definicion}
-	Sean $f$ y $g$ dos funciones definidas en $\N$, y cuyas imágenes pertenecen a $\R^+$. Diremos que $f$ es de orden $g$, notado como $\Omega(g(n))$, si, y solo si, $\exists k \in \N$ y $\exists C \in \R^+$ tales que se cumple lo siguiente:
-	
-	$$f(n) \geq Cg(n) \;\;\;\forall n \in \N;\; n \geq k$$
-\end{definicion}
-
-Viendo la definición, es inmediato ver que, dadas dos funciones $f,g:\N \to \R^+$, entonces $f(n) = O(g(n)) \Leftrightarrow f(n) = \Omega(g(n))$. Algunos ejemplos son:
-
-\begin{ejemplo}
-	$3^n = \Omega(2^n)$
-\end{ejemplo}
-
-\begin{ejemplo}
-	$n^3 + 2n + 3 \neq \Omega(n^4)$
-\end{ejemplo}
-
-Realmente este concepto es exactamente igual que el anterior, solo que la acotación la hacemos por debajo en vez de por arriba. Pasaremos entonces al concepto siquiente.
-
-\subsection{Notación $\Theta$}
-
-Este concepto no es más que una manera de indicar que dos funciones se acotan asintóticamente, o lo que es lo mismo, que crecen con la misma rapidez. También se le conoce como el ``orden exacto''. Para ser más exactos, esta es la definición.
-
-\begin{definicion}
-	Sean $f$ y $g$ dos funciones definidas en $\N$, y cuyas imágenes pertenecen a $\R^+$. Diremos que $f$ es de orden exacto $g$, notado como $\Theta(g(n))$, si, y solo si
-	
-	$$f(n) = O(g(n))\;\wedge\;f(n) = \Omega(g(n))$$
-\end{definicion}
-
-\subsection{Notación $O^\sim$}
-
-Algunas veces es complicado calcular la complejidad exacta, y puede que nos baste simplemente probar que nuestro algoritmo pertenece a una clase que sigue siendo polinómica. Por ello hacemos la siguiente definición:
-
-\begin{definicion}
-	Sea $f:\N \to \R^+$ y definimos $O^\sim(f(n)) = O(f(n) \cdot poly(\log(f(n)))$, donde $poly(n)$ es una función polinómica en $n$.
-\end{definicion}
-
-Con esta definición, tenemos que $O^\sim(\log^k(n)) = O(\log^k(n) \cdot poly(\log(\log^k(n))) = O(\log^{k+\epsilon}(n))$.\\
-
-Consideramos $\log(n)$ como el logaritmo en base $2$, y $ln$ como el logaritmo natural.
-
-\section{Complejidad AKS}
-
-En esta sección nos encargaremos de analizar la complejidad algorítmica de cada uno de los pasos del test AKS.\\
+En este capítulo nos encargaremos de analizar la complejidad algorítmica de cada uno de los pasos del test AKS, la cual queremos ver que es polinómica en la cantidad de dígitos de la entrada o, lo que es lo mismo, que es logarítmica.\\
 
 Al final de esta sección, tomaremos el paso cuya complejidad sea mayor, y comprobaremos que, efectivamente, el algoritmo AKS está dentro de la clase de complejidad polinomial para algoritmos deterministas.
 
-\subsection{Operaciones básicas}
+\section{Operaciones básicas}
 
 Para hablar de complejidad de algoritmos complejos, es necesario conocer la complejidad de las operaciones más básicas en matemáticas. Las que vamos a usar en este análisis son sobre todo la multiplicación y división de números enteros y la multiplicación de polinomios.\\
 
@@ -101,13 +22,13 @@ Es bien sabido ya que $O(M(n)) = O(n^2)$ y que $O(P(n, m)) = O(n^2m^2)$ usando l
 
 La complejidad se puede reducir aún más usando algoritmos más sofisticados. Sabemos que $O(M(n)) = O^\sim(n)$ y que $O(P(n, m)) = O^\sim(nm)$ \cite{modern_computer_algebra}. Estas últimas complejidades serán las que consideraremos al calcular eficiencias, aunque las obtenidas por métodos elementales funcionan perfectamente para probar que el algoritmo AKS es polinomial.
 
-\subsection{Pasos del algoritmo AKS}
+\section{Pasos del algoritmo AKS}
 
 En esta sección nos vamos a dedicar a estudiar cada paso del algoritmo y calcular las complejidades de cada uno.\\
 
 Es importante destacar que no es necesario calcular las mejores complejidades posibles. En algunos pasos podemos permitirnos perder un poco de eficiencia (siempre manteniendo la polinomialidad de la misma) sin que esto afecte al hecho de que el algoritmo se ejecuta en tiempo polinómico.
 
-\subsubsection{Paso 1: Potencias Perfectas}
+\subsection{Paso 1: Potencias Perfectas}
 
 El primer paso del algoritmo consiste en comprobar si la entrada es una potencia perfecta, en cuyo caso es evidente que el número es compuesto.\\
 
@@ -146,7 +67,7 @@ A pesar de que hay variantes que usan solo aquellos $k$ primos \cite{bach_sorens
 
 Como ya dijimos anteriormente, no vamos a intentar buscar un algoritmo mucho más eficiente, pues el tiempo de ejecución de este paso es básicamente nulo comparado con el tiempo de ejecución del quinto paso, que es en el que nos vamos a centrar más a fondo.
 
-\subsubsection{Paso 2: Encontrar el menor $r$ tal que $ord_r(n) > \log^2(n)$}
+\subsection{Paso 2: Encontrar el menor $r$ tal que $ord_r(n) > \log^2(n)$}
 
 Para este paso no necesitamos realmente calcular el orden exacto para cada $r$. Nos bastaría simplemente con probar que $n^k \neq 1 \mod(r)$ para todo $k \leq \log^2(n)$, pues si se cumplen todas esas igualdades, podemos asegurar que $ord_r(n) > \log^2(n)$ para ese $r$ en específico.\\
 
@@ -168,7 +89,7 @@ Teniendo esto en mente, podemos enunciar el teorema.
 
 Este paso es importante en el sentido de que la complejidad total del algoritmo depende de la cota que podamos obtener para $r$. A menor $r$, menor complejidad algorítmica.
 
-\subsubsection{Paso 3: Comprobar si $1 < (a, n) < n$ para algún $a \leq r$}
+\subsection{Paso 3: Comprobar si $1 < (a, n) < n$ para algún $a \leq r$}
 
 Primero tenemos que calcular una eficiencia para el algoritmo de Euclides. Para ello vamos primero a calcular la cantidad de pasos que toma el algoritmos de Euclides.\\
 
@@ -182,13 +103,13 @@ Sabiendo esto y que en cada paso debemos realizar una división, llegamos a que 
 
 El algoritmo de Euclides debemos aplicarlo $r$ veces, y sabemos que $r = O(\log^5(n))$, luego el tiempo de ejecución de este paso es $O^\sim(\log^7(n))$.
 
-\subsubsection{Paso 4: Comprobar si $n \leq r$}
+\subsection{Paso 4: Comprobar si $n \leq r$}
 
 Este paso es probablemente el más sencillo de todos, pues solo tenemos que hacer una comparación.\\
 
 Como las comparaciones solo requieren comparar los bits, podemos asegurar que este paso tiene complejidad $O(\log(n))$.
 
-\subsubsection{Paso 5: Comprobar identidades polinómicas}
+\subsection{Paso 5: Comprobar identidades polinómicas}
 
 En este paso tenemos un bucle. La complejidad entonces será el tamaño del bucle multiplicado por el tiempo que tarda cada iteración.\\
 
@@ -202,7 +123,7 @@ Ahora veamos lo que nos cuesta cada multiplicación de polinomios. Dado que esta
 
 Con todas estas piezas, tenemos que la complejidad del paso 5 es $O^\sim(\log^{7/2}(n)\log(n)\log^6(n)) = O^\sim(\log^{21/2}(n))$.
 
-\subsection{Resultado final}
+\section{Resultado final}
 
 Habiendo comprobado las eficiencias de todos los pasos, y sabiendo que el paso 6 no afecta en absoluto, tenemos que las eficiencias de cada paso son:
 
@@ -218,7 +139,7 @@ Puesto que la complejidad del quinto paso es superior a la de los 4 anteriores, 
 
 Cabe destacar que, si hubiésemos considerado que $O(M(n)) = O(n^2)$ y que $O(P(n, m)) = O(n^2m^2)$, la complejidad del quinto paso sería $O(\log^{33/2}(n))$, la cual es mucho peor que la obtenida, pero sigue siendo polinómica.
 
-\subsection{Cotas del algoritmo}
+\section{Cotas del algoritmo}
 
 En el análisis recién realizado, cabe destacar que la eficiencia del quinto paso (y la del algoritmo en general) depende del valor $r$ encontrado en el segundo paso. Dicho valor sabemos que está acotado superiormente por $max\{\lceil 3, \log^5(n) \rceil\}$, y es lo que nos ha proporcionado la complejidad $O^\sim(\log^{21/2}(n))$.\\
 

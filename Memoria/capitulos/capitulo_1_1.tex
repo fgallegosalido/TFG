@@ -1,6 +1,6 @@
 % !TeX root = ../libro.tex
 % !TeX encoding = utf8
-\chapter{Herramientas de Álgebra}
+\chapter{Herramientas Matemáticas}
 
 En este primer capítulo vamos a describir herramientas básicas del álgebra que nos van a servir para entender mejor los conceptos y demostraciones que presentaremos más adelante.\\
 
@@ -473,5 +473,80 @@ Esta conjetura, de ser cierta, implicaría profundos resultados en el ámbito de
 Es evidente comprobar que si tomamos $\chi(n) = 1$, tenemos la \textit{Hipótesis de Riemann} \ref{hipotesis_de_riemann}.\\
 
 Más adelante mencionaremos esta conjetura, cuya veracidad implicaría mejoras en la complejidad del algoritmo \textbf{AKS}.
+
+\section{Complejidad Algorítmica}
+
+Para poder estudiar la complejidad algorítmica del test AKS, tenemos que entender qué es la complejidad algorítmica como tal. Para ello usaremos la notación asintótica $O$, $\Omega$ y $\Theta$.\\
+
+Estas tres notaciones nos sirven para dar forma al concepto de crecimiento asintótico de una función.\\
+
+Además, estas notaciones nos van a servir también para dar forma a la idea intuitiva de que el único término necesario en el comportamiento asintótico es aquel que crece más rápido.
+
+\subsection{Notación $O$}
+
+Empezaremos con el concepto intuitivo de que una función domina asintóticamente a otra según la entrada crece. Para ello damos la siguiente definición.
+
+\begin{definicion}
+	Sean $f$ y $g$ dos funciones definidas en $\N$, y cuyas imágenes pertenecen a $\R^+$. Diremos que $f$ es de orden $g$, notado como $O(g(n))$, si, y solo si, $\exists k \in \N$ y $\exists C \in \R^+$ tales que se cumple lo siguiente:
+	
+	$$f(n) \leq Cg(n) \;\;\;\forall n \in \N;\; n \geq k$$
+\end{definicion}
+
+Esta definición nos dice que una función domina a otra dada si la primera multiplicada por una constante es mayor que la segunda para toda entrada a partir de cierto punto. Veamos ahora algunos ejemplos:
+
+\begin{ejemplo}
+	Probar que $f(n) = 3n^2 + 1$ es $O(n^2)$.\\
+	
+	Tomando $k=1$ y $C=4$, podemos ver fácilmente usando inducción sobre $n$ que $3n^2 + 1 \leq 4n^2\;\forall n \geq 1$, luego podemos asegurar que $3n^2 + 1 = O(n^2)$.\\
+	
+	\begin{itemize}
+		\item Si $n=1$, entonces $3 \cdot 1^2 + 1 = 4 \leq 4$, luego se cumple el caso inicial.
+		\item Suponiendo cierto para $n$, comprobemos para $n + 1$. Entonces $3(n+1)^2 + 1 = 3n^2 + 6^n + 3 + 1 \leq 4n^2 + 6n + 3 \leq 4n^2 + 8n + 4 = 4(n+1)^2$, luego hemos probado lo que queríamos.
+	\end{itemize}
+\end{ejemplo}
+
+\subsection{Notación $\Omega$}
+
+Intuitivamente, el concepto de la notación $\Omega$ es el opuesto al concepto de la notación $O$. Lo vemos más rápido en la definición.
+
+\begin{definicion}
+	Sean $f$ y $g$ dos funciones definidas en $\N$, y cuyas imágenes pertenecen a $\R^+$. Diremos que $f$ es de orden $g$, notado como $\Omega(g(n))$, si, y solo si, $\exists k \in \N$ y $\exists C \in \R^+$ tales que se cumple lo siguiente:
+	
+	$$f(n) \geq Cg(n) \;\;\;\forall n \in \N;\; n \geq k$$
+\end{definicion}
+
+Viendo la definición, es inmediato ver que, dadas dos funciones $f,g:\N \to \R^+$, entonces $f(n) = O(g(n)) \Leftrightarrow f(n) = \Omega(g(n))$. Algunos ejemplos son:
+
+\begin{ejemplo}
+	$3^n = \Omega(2^n)$
+\end{ejemplo}
+
+\begin{ejemplo}
+	$n^3 + 2n + 3 \neq \Omega(n^4)$
+\end{ejemplo}
+
+Realmente este concepto es exactamente igual que el anterior, solo que la acotación la hacemos por debajo en vez de por arriba. Pasaremos entonces al concepto siquiente.
+
+\subsection{Notación $\Theta$}
+
+Este concepto no es más que una manera de indicar que dos funciones se acotan asintóticamente, o lo que es lo mismo, que crecen con la misma rapidez. También se le conoce como el ``orden exacto''. Para ser más exactos, esta es la definición.
+
+\begin{definicion}
+	Sean $f$ y $g$ dos funciones definidas en $\N$, y cuyas imágenes pertenecen a $\R^+$. Diremos que $f$ es de orden exacto $g$, notado como $\Theta(g(n))$, si, y solo si
+	
+	$$f(n) = O(g(n))\;\wedge\;f(n) = \Omega(g(n))$$
+\end{definicion}
+
+\subsection{Notación $O^\sim$}
+
+Algunas veces es complicado calcular la complejidad exacta, y puede que nos baste simplemente probar que nuestro algoritmo pertenece a una clase que sigue siendo polinómica. Por ello hacemos la siguiente definición:
+
+\begin{definicion}
+	Sea $f:\N \to \R^+$ y definimos $O^\sim(f(n)) = O(f(n) \cdot poly(\log(f(n)))$, donde $poly(n)$ es una función polinómica en $n$.
+\end{definicion}
+
+Con esta definición, tenemos que $O^\sim(\log^k(n)) = O(\log^k(n) \cdot poly(\log(\log^k(n))) = O(\log^{k+\epsilon}(n))$.\\
+
+Consideramos $\log(n)$ como el logaritmo en base $2$, y $ln$ como el logaritmo natural.
 
 \endinput
