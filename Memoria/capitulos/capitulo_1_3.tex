@@ -14,9 +14,9 @@ Finalmente presentaremos mejoras que se han realizado al algoritmo desde su publ
 
 \section{Historia del Algoritmo}
 
-Como ya vimos en el capítulo anterior, de entre los distintos tests de primalidad, el Pequeño Teorema de Fermat es la base de muchos de los utilizados hoy en día. De hecho, el propio teorema casi nos daba un test eficiente, pero que desafortunadamente falla siempre en un conjunto de número, denominados de \textit{Charmichael}.\\
+Como ya vimos en el capítulo anterior, de entre los distintos tests de primalidad, el \textit{Pequeño Teorema de Fermat} es la base de muchos de los utilizados hoy en día. De hecho, el propio teorema casi nos daba un test eficiente, pero que desafortunadamente falla siempre en un conjunto de números, denominados de \textit{Charmichael}.\\
 
-Para poder intentar conseguir un test que sea determinista, será necesario encontrar una propiedad que nos proporcione mayores garantías sobre los números primos. Es por ello que presentamos la siguiente identidad, la cual es una generalización del Pequeño Teorema de Fermat.
+Para poder intentar conseguir un test que sea determinista, será necesario encontrar una propiedad que nos proporcione mayores garantías sobre las propiedades de los números primos. Es por ello que presentamos la siguiente identidad, la cual es una generalización del \textit{Pequeño Teorema de Fermat}.
 
 \begin{proposicion}\label{lema_identidad_de_congruencias}
 	Sean $a \in \Z$ y $n \in \N \setminus \{0\}$ con $n > 1$ tales que $(a, n) = 1$. Sean además $(X + a)^n, X^n + a \in \Z[X]$. Entonces $n$ es primo si, y solo si, se cumple
@@ -30,17 +30,17 @@ Para poder intentar conseguir un test que sea determinista, será necesario enco
 	Por el teorema del binomio, sabemos que para $0 < i < n$, el coeficiente $X^i$ del polinomio $(X + a)^n - (X^n + a)$ es $\binom{n}{i}a^{n-i}$.
 	
 	\begin{itemize}
-		\item Supongamos que $n$ es primo. Sabemos que $(X + a)^n \equiv X^n + a^n \mod(n)$, y como $n$ es primo, tenemos que $(X + a)^n \equiv X^n + a \mod(n)$ por el Pequeño Teorema de Fermat.
+		\item $\Rightarrow)$ Supongamos que $n$ es primo. Sabemos que $(X + a)^n \equiv X^n + a^n \mod(n)$ por \autoref{lema_abp_apbp}, y como $n$ es primo,  tenemos que $(X + a)^n \equiv X^n + a \mod(n)$ por el \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}.
 		
-		\item Supongamos que $(X + a)^n \equiv X^n + a \mod(n)$ y que $n$ es compuesto. Dado que $n$ es compuesto, sea $q$ un factor primo de $n$ y sea $k$ tal que $q^k | n$ y $q^{k+1} \nmid n$. Entonces tenemos que $q^k \nmid \binom{n}{q}$ dado que $q \nmid m$ con $n - q < m < n$, lo que implica que en el numerador, solo $n$ contiene factores $q$ (en específico $k$ de ellos). Como en el denominador hay al menos un factor $q$, tenemos que el resultado de dicho binomio es divisible, como mucho, por $q^{k-1}$.\\
+		\item $\Leftarrow)$ Supongamos que $(X + a)^n \equiv X^n + a \mod(n)$ y que $n$ es compuesto. Dado que $n$ es compuesto, sea $q$ un factor primo de $n$ y sea $k$ tal que $q^k | n$ y $q^{k+1} \nmid n$. Entonces tenemos que $q^k \nmid \binom{n}{q}$ dado que $q \nmid m$ con $n - q < m < n$, lo que implica que en el numerador de $\binom{n}{q}$, solo $n$ contiene factores $q$ (en específico $k$ de ellos). Como en el denominador hay al menos un factor $q$, tenemos que el resultado de dicho binomio es divisible, como mucho, por $q^{k-1}$.\\
 		
-		Además tenemos que $(a^{n-q}, q^k)$ por las hipótesis, luego nos queda que $n \nmid a^{n-q}$ ni $n \nmid \binom{n}{q}$, luego el coeficiente de $X^q$ no puede ser divisible por $n$, luego no es nulo en $\Z_n$. Esto contradice que $(X + a)^n - (X^n + a)$ sea nulo.
+		Además tenemos que $(a^{n-q}, q^k) = 1$ por hipótesis, luego nos queda que $n \nmid a^{n-q}$ ni $n \nmid \binom{n}{q}$, luego el coeficiente de $X^q$ no puede ser divisible por $n$, luego no es nulo en $\Z_n$. Esto contradice que $(X + a)^n - (X^n + a)$ sea nulo.
 	\end{itemize}
 \end{proof}
 
 Dicha identidad así presentada nos proporciona un test de primalidad determinista: dado un $n > 1$, comprobamos si la congruencia se cumple. El problema de este test es que es muy ineficiente, pues nos obliga a evaluar, en el peor de los casos, $n$ coeficientes del polinomio $(X + a)^n$, luego tendría eficiencia $\Omega(n)$.\\
 
-Una idea para reducir la cantidad de coeficientes a evaluar está en evaluar ambas partes de la congruencia módulo un polinomio del tipo $X^r - 1$ para un $r$ que haya sido convenientemente elegido. Esto nos ayuda a que la cantidad de coeficientes que tenemos que determinar sea mucho menor. En esencia, queremos reducir \eqref{identidad_original} a la siguiente congruencia.
+Una idea para reducir la cantidad de coeficientes a evaluar está en reducir la congruencia \eqref{identidad_original} módulo un polinomio del tipo $X^r - 1$ para un $r$ que haya sido convenientemente elegido. Esto nos ayuda a que la cantidad de coeficientes que tenemos que evaluar sea mucho menor. En esencia, queremos reducir \eqref{identidad_original} a la siguiente congruencia.
 
 \begin{equation}\label{identidad_con_polinomio}
 (X + a)^n \equiv X^n + a \mod(n, X^r - 1)
@@ -50,9 +50,9 @@ Dicho de otro modo, lo que queremos comprobar es que \eqref{identidad_original} 
 
 Es evidente por \autoref{lema_identidad_de_congruencias} que si $n$ es primo, entonces \eqref{identidad_con_polinomio} se sigue cumpliendo en $\Z_n[X]/(X^r-1)$. Sin embargo no ocurre igual al revés. Existen números compuestos $n$ para los que la congruencia \eqref{identidad_con_polinomio} se cumple para algunos valores de $a$.\\
 
-Para resolver este problema, probaremos que eligiendo un $r$ de manera conveniente de manera que si \eqref{identidad_con_polinomio} se satisface para varios valores de $a$, tenemos entonces que $n$ es una potencia de un número primo.\\
+Para resolver este problema, probaremos que eligiendo un $r$ de manera conveniente y tal que si \eqref{identidad_con_polinomio} se satisface para varios valores de $a$, tenemos entonces que $n$ es una potencia de un número primo.\\
 
-Además probaremos que tanto $r$ como $a$ tiene un tamaño polinómico en el $\log(n)$, lo cual nos permitirá probar en la segunda parte del trabajo que el algoritmo es, de hecho, polinómico.
+Además probaremos que tanto $r$ como $a$ tienen un tamaño polinómico en el $\log(n)$, lo cual nos permitirá probar en la segunda parte del trabajo que el algoritmo es, de hecho, polinómico.
 
 \section{El Algoritmo}
 
@@ -61,7 +61,7 @@ En esta sección vamos a presentar el algoritmo \textbf{AKS}.
 \begin{algorithm}[H]
 	\caption{Algoritmo \textbf{AKS}}\label{aks_algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{IsPrimeAKS}{$n$}\Comment{Comprobar que $n > 1$ es un número primo}
+		\Procedure{IsPrimeAKS}{$n$}\Comment{Comprobar si $n > 1$ es un número primo}
 			\If{$n = a^b$ para algún $a \in \N$ y $b > 1$}\Comment{Paso 1}
 				\State \Return{COMPUESTO}
 			\EndIf
@@ -90,7 +90,7 @@ En esta sección vamos a presentar el algoritmo \textbf{AKS}.
 Con el algoritmo ya presentado, vamos a enunciar el siguiente teorema.
 
 \begin{teorema}\label{validez_algoritmo_aks}
-	El algoritmo \textbf{AKS} propuesto devuelve PRIMO si, y solo si, $n$ es primo.
+	El algoritmo \autoref{aks_algorithm} devuelve PRIMO si, y solo si, $n$ es primo.
 \end{teorema}
 
 En la siguiente sección nos dedicaremos a probar dicho teorema, lo cual probaría que el algoritmo determina correctamente y de manera determinista si un número es primo.
@@ -106,7 +106,7 @@ Vamos a empezar probando una de las implicaciones del teorema.
 \begin{proof}
 	Puesto que $n$ es primo, el primer paso es imposible que devuelva COMPUESTO, pues implicaría que $n = a^b$ con $a \in \Z$ y $b > 1$.\\
 	
-	Del mismo modo, como $n$ es primo, el tercer paso es imposible que devuelve COMPUESTO porque implicaría que existe un $a \in \Z$ tal que $1 < (a, n) < n$, lo cual es imposible.\\
+	Del mismo modo, como $n$ es primo, el tercer paso es imposible que devuelva COMPUESTO porque implicaría que existe un $a \in \Z$ tal que $1 < (a, n) < n$, lo cual es imposible.\\
 	
 	Finalmente, el quinto paso tampoco puede devolver COMPUESTO por \autoref{lema_identidad_de_congruencias}.\\
 	
@@ -151,7 +151,7 @@ Lo primero que vamos a hacer ahora es dar una cota para $r$. Para ello necesitam
 	&= \sum_{i=0}^{m-k}\binom{m-k}{i}\frac{(-1)^i}{k+i}
 	\end{align}
 	
-	Como $k+i \mid LCM(m)$ para todo $0 \leq i \leq m-k$, podemos entonces asegurar que $LCM(m)I_{k,m} \in \Z$ para todo $1 \leq k \leq m$. Por otro lado tenemos lo siguiente si usamos integración por partes:
+	Como $k+i \mid LCM(m)$ para todo $0 \leq i \leq m-k$, podemos entonces asegurar que $I_{k,m}LCM(m) \in \Z$ para todo $1 \leq k \leq m$. Por otro lado tenemos lo siguiente si usamos integración por partes:
 	
 	\begin{align}
 	I_{k,m} &= \int_{0}^{1}x^{k-1}(1-x)^{m-k}\mathop{dx}\\
@@ -161,7 +161,7 @@ Lo primero que vamos a hacer ahora es dar una cota para $r$. Para ello necesitam
 	&= I_{1,m}\prod_{i=1}^{k-1}\frac{i}{m-i} = \frac{1}{k\displaystyle\binom{m}{k}}
 	\end{align}
 	
-	Tenemos entonces que $k\binom{m}{k} \mid LCM(m)$ por ser $\frac{1}{k\binom{m}{k}} \leq 1$ para todo $1 \leq k \leq m$. Por lo tanto tenemos lo siguiente para $k \geq 1$:
+	Tenemos entonces que $k\binom{m}{k} \mid LCM(m)$ por ser $\frac{1}{k\binom{m}{k}} \leq 1$ para todo $1 \leq k \leq m$ y porque $I_{k,m}LCM(m) \in \Z$. Por lo tanto tenemos lo siguiente para $k \geq 1$:
 	
 	\begin{align}
 	k\binom{2k}{k} &\mid LCM(2k)\\
@@ -172,7 +172,7 @@ Lo primero que vamos a hacer ahora es dar una cota para $r$. Para ello necesitam
 	
 	\[ LCM(2k+1) \geq k(2k+1)\binom{2k}{k} \geq k4^k \geq 2^{2k+2} \geq 2^{2k+1} \]
 	
-	La segunda igualdad se deduce usando que $\displaystyle\binom{2k}{k+i} = \binom{2k}{k-i} \leq \binom{2k}{k}$ para todo $0 \leq i \leq k$ y usando el Teorema del Binomio de Newton de la siguiente forma:
+	La segunda desigualdad se deduce usando que $\displaystyle\binom{2k}{k+i} = \binom{2k}{k-i} \leq \binom{2k}{k}$ para todo $0 \leq i \leq k$ y usando el \textit{Teorema del Binomio de Newton} \ref{binomio_de_newton} de la siguiente forma:
 	
 	\[ 4^k = (1+1)^{2k} = \sum_{i=0}^{2k}\binom{2k}{i} \leq \sum_{i=0}^{2k}\binom{2k}{k} = \binom{2k}{k}(2k+1) \]
 	
@@ -235,7 +235,7 @@ Teniendo estos dos lemas, podemos pasar a enunciar el lema que nos dará una cot
 	
 	Teniendo esto, hagamos ahora una pequeña observación. Si $m^k \leq B$ con $m \geq 2$ y $k \geq 0$, tenemos que el mayor valor posible de $k$ sería $\lfloor \log(B) \rfloor$ (el caso en el que $m = 2$).\\
 	
-	Habiendo hecho esta observación, entonces tenemos que $(r, n)$ no puede ser divisible por todos los factores primos de $r$. En caso de que sí, sea $r = p_1^{e_1}p_2^{e_2}\dotsm p_s^{e_s}$ con $p_i$ primo y $0 \leq e_i \leq \lfloor \log(B) \rfloor$ para $1 \leq i \leq s$. Observamos que $e_i \leq \lfloor \log(B) \rfloor$ porque $r \leq B$ y por la observación hecha anteriormente. Cada $p_i \mid (r, n)$, luego $p_i \mid n$, lo cual implica que $p_i^{e_i} \mid n^{\lfloor \log(B) \rfloor}$ (esto por ser $e_i < \lfloor \log(B) \rfloor$). Esto implica que $r \mid n^{\lfloor \log(B) \rfloor}$, lo cual es imposible por la elección del $r$.\\
+	Habiendo hecho esta observación, entonces tenemos que $(r, n)$ no puede ser divisible por todos los factores primos de $r$. En caso de que sí, sea $r = p_1^{e_1}p_2^{e_2}\dotsm p_s^{e_s}$ con $p_i$ primo y $0 \leq e_i \leq \lfloor \log(B) \rfloor$ para $1 \leq i \leq s$. Observamos que $e_i \leq \lfloor \log(B) \rfloor$ porque $r \leq B$ y por la observación hecha anteriormente. Cada $p_i \mid (r, n)$, luego $p_i \mid n$, lo cual implica que $p_i^{e_i} \mid n^{\lfloor \log(B) \rfloor}$ (esto por ser $e_i \leq \lfloor \log(B) \rfloor$). Esto implica que $r \mid n^{\lfloor \log(B) \rfloor}$, lo cual es imposible por la elección del $r$.\\
 	
 	Teniendo esto, sabemos que $\frac{r}{(r, n)}$ tampoco puede dividir a \eqref{valor_para_acotar_r}, pues hay algún factor primo de $r$ que no divide a $(r, n)$, y por lo tanto tampoco a $n$. Pero $r$ era el menor elemento que no dividía a dicho producto, y como $\frac{r}{(r, n)} \leq r$, no queda más remedio que $\frac{r}{(r, n)} = r$, luego $(r, n) = 1$.\\
 	
@@ -280,17 +280,18 @@ De estas dos últimas, deducimos que, para todo $0 \leq a \leq \ell$
 (X + a)^{n/p} \equiv X^{n/p} + a \mod(p, X^r - 1)
 \end{equation}
 
-Esto último lo comprobamos utilizando las siguientes cadenas de congruencias módulo $(p, X^r - 1)$:
+Esto último lo comprobamos utilizando la siguiente cadena de congruencias:
 
-\[ X^p \equiv X \Leftrightarrow X^p + a \equiv X + a \Leftrightarrow (X^p + a)^{n/p} \equiv (X + a)^{n/p} \]
+\begin{align}
+(X + a)^{n/p} &\equiv (X^p + a)^{n/p} \mod(p, X^r - 1)\\
+&\equiv \left[(X + a)^p\right]^{n/p} \mod(p, X^r - 1)\\
+&\equiv (X + a)^n \mod(p, X^r - 1)\\
+&\equiv X^n + a \mod(p, X^r - 1)\\
+&\equiv (X^p)^{n/p} + a \mod(p, X^r - 1)\\
+&\equiv X^{n/p} + a \mod(p, X^r - 1)
+\end{align}
 
-\[ X^p \equiv X \Leftrightarrow (X^p)^{n/p} \equiv X^{n/p} \Leftrightarrow (X^p)^{n/p} + a \equiv X^{n/p} + a \]
-
-Con estas dos congruencias, obtenemos lo siguiente:
-
-\[ (X^p + a)^{n/p} \equiv \left[(X + a)^{n/p}\right] \equiv (X + a)^n \equiv X^n + a \equiv (X^p)^{n/p} + a \equiv X^{n/p} + a \]
-
-En la primera equivalencia usamos que $(X^p + a)^{n/p} \equiv (X + a)^{n/p}$. En la última usamos que $(X^p)^{n/p} + a \equiv X^{n/p} + a$. Esto es básicamente la última congruencia que queríamos probar.\\
+En la segunda equivalencia usamos \eqref{identidad_original_con_p_introspeccion}. En la cuarta usamos \eqref{identidad_con_polinomio_y_p_introspeccion}\\
 
 Lo que podemos comprobar de estas congruencias es que tanto $n$ como $\frac{n}{p}$ se comportan como $p$. Damos entonces una definición a esta propiedad.
 
@@ -340,7 +341,7 @@ Con estos dos resultados, y sabiendo que $p$ y $\frac{n}{p}$ son introspectivos 
 
 Vamos ahora a definir dos grupos que serán de vital importancia en la demostración. Empecemos por el primero de ellos.
 
-\[ G = \left\{ rem(g; r) \in \Z_r \mid g \in I \right\} \]
+\[ G = \left\{ a \in \Z_r \mid b \equiv a \mod(p, X^r - 1),\;\;b \in I \right\} \]
 
 Este grupo consiste básicamente en los restos de dividir los elementos de $I$ por $r$. Como tenemos que $(n, r) = (p, r) = 1$, es claro entonces que $G$ es un subgrupo del grupo multiplicativo de $\Z_r$, $\Z_r^\times$. Definamos $t = |G|$. Es claro que $G$ está generado por $n$ y $p$ (pues $n = \frac{n}{p}p$, producto de dos elementos de $I$) y, sabiendo esto y que $ord_r(n) > \log^2(n)$, es claro que $t > \log^2(n)$.\\
 
@@ -361,15 +362,15 @@ Nuestra tarea ahora va a ser dar cotas para el grupo $\mathcal{G}$ recién defin
 	
 	\[ f(X^m) \equiv g(X^m) \]
 	
-	Esta equivalencia se cumple para $\Z_p[X]/(X^r - 1)$, por lo que naturalmente se cumple para $\mathbb{F}$ al darse que $h(X) \mid X^r - 1$. Esto implica que $X^m$ es una raíz del polinomio $f(Y) - g(Y)$ para todo $m \in G$. Puesto que $g$ es un subgrupo de $\Z_p^\times$, es obvio que $(m, r) = 1$ y, por lo tanto, $X^m$ es una raíz $r$-ésima primitiva de la unidad (todas ellas distintas por ser todos los $m$ distintos). Por lo tanto, el polinomio $f(Y) - g(Y)$ tendrá al menos $t$ raíces distintas en $\mathbb{F}$. Esto es una contradicción, pues el grado de $f(Y) - g(Y)$ es menor que $t$ por la elección de ambos, luego llegamos a una contradicción, luego $f \not\equiv g$ en $\mathbb{F}$.\\
+	Esta equivalencia se cumple para $\Z_p[X]/(X^r - 1)$, por lo que naturalmente se cumple para $\mathbb{F}$ al darse que $h(X) \mid X^r - 1$. Esto implica que $X^m$ es una raíz del polinomio $f(Y) - g(Y)$ para todo $m \in G$. Puesto que $G$ es un subgrupo de $\Z_p^\times$, es obvio que $(m, r) = 1$ y, por lo tanto, $X^m$ es una raíz $r$-ésima primitiva de la unidad (todas ellas distintas por ser todos los $m$ distintos). Por lo tanto, el polinomio $f(Y) - g(Y)$ tendrá al menos $t$ raíces distintas en $\mathbb{F}$. Esto es una contradicción, pues el grado de $f(Y) - g(Y)$ es menor que $t$ por la elección de ambos, luego llegamos a una contradicción, luego $f \not\equiv g$ en $\mathbb{F}$.\\
 	
 	Por otro lado sabemos que $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor < \sqrt{r}\log(n) < r < p$ (la penúltima desigualdad viene de que $r > \log^2(n)$). Por lo tanto, los polinomios $X + a$ con $0 \leq a \leq \ell$ son todos distintos en $\mathbb{F}$. Como además el grado de $h$ es mayor que $1$, tenemos que $X + a \not\equiv 0$ en $\mathbb{F}$ con $0 \leq a \leq \ell$. Por lo tanto tenemos que existen $\ell + 1$ polinomios de grado $1$. Teniendo en cuenta que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathcal{G}$, solo tenemos que calcular todas estas combinaciones usando combinatoria.\\
 	
-	Por un lado, sabemos que la cantidad de polinomios de grado exactamente $k \in \N$ que podemos construir con $\ell + 1$ polinomios de grado $1$ es equivalente a $\binom{l+k}{l}$. Tomando $0 \leq k \leq t-1$, tenemos que la cantidad total de polinomios de grado menor que $t$ que podemos construir con $\ell + 1$ polinomios de grado $1$ viene dada por
+	Por un lado, sabemos que la cantidad de polinomios de grado exactamente $k \in \N$ que podemos construir con $\ell + 1$ polinomios de grado $1$ es equivalente a $\binom{\ell+k}{\ell}$. Tomando $0 \leq k \leq t-1$, tenemos que la cantidad total de polinomios de grado menor que $t$ que podemos construir con $\ell + 1$ polinomios de grado $1$ viene dada por
 	
 	\[ \sum_{k=0}^{t-1}\binom{\ell+k}{\ell} = \sum_{k=\ell}^{\ell+t-1}\binom{k}{\ell} = \binom{\ell + t}{\ell + 1} = \binom{t + \ell}{t - 1} \]
 	
-	Donde en la segunda desigualdad hemos usado la Identidad del Palo de Hockey. Por lo tanto tenemos que $|\mathcal{G}| \geq \binom{t + \ell}{t - 1}$, como queríamos.
+	Donde en la segunda desigualdad hemos usado la \textit{Identidad del Palo de Hockey} \ref{propiedades_binomio}. Por lo tanto tenemos que $|\mathcal{G}| \geq \binom{t + \ell}{t - 1}$, como queríamos.
 \end{proof}
 
 Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual solo es cierta cuando $n$ no es una potencia de $p$.

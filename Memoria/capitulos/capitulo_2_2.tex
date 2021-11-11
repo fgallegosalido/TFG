@@ -57,17 +57,17 @@ Para la implementación del test AKS en específico haremos uso de las siguiente
 	
 	Además, esta librería contiene un wrapper para C++, lo cual nos será muy útil a la hora de definir la interfaz.\\
 	
-	\item \textbf{MPFR}: Implementada en C. Esta librería es utilizada para trabajar con número en coma flotante de precisión arbitraria.\\
+	\item \textbf{MPFR}: Implementada en C. Esta librería es utilizada para trabajar con números en coma flotante de precisión arbitraria.\\
 	
 	Hay algunos puntos en la implementación del test AKS donde necesitaremos funciones que nos permitan controlar bien la precisión para calcular cotas lo más fieles posibles.\\
 	
 	Esta librería tiene buena integración con \textbf{GMP}, por lo que es una candidata perfecta para este proyecto.
 	
-	\item \textbf{NTL}: Implementada en C++. Más conocida como Number Theory Library, será nuestra opción a la hora de implementar las identidades polinómicas.\\
+	\item \textbf{NTL}: Implementada en C++. Más conocida como \textit{Number Theory Library}, será nuestra opción a la hora de implementar las identidades polinómicas.\\
 	
 	Tiene una alta cantidad de módulos entre los que elegir, y la interfaz es mucho más clara al estar escrita en C++.\\
 	
-	La única pega de esta librería es que no está incluida en el manejador de paquetes, por lo que habrá que el usuario deberá instalarla en el sistema para poder obtener todos sus beneficios.
+	La única pega de esta librería es que no está incluida en el manejador de paquetes, por lo que el usuario deberá instalarla en el sistema para poder obtener todos sus beneficios.
 \end{itemize}
 
 Además de las librerías para implementar el test AKS, también necesitaremos algunas otras para testing, benchmarks, etc:
@@ -75,7 +75,7 @@ Además de las librerías para implementar el test AKS, también necesitaremos a
 \begin{itemize}
 	\item \textbf{Catch2}: Implementada en C++. Esta librería es una de las más utilizadas en el entorno de C++ para testear código. Nos será muy útil para implementar los tests de todos los pasos del algoritmo.
 	
-	\item \textbf{Google Benchmark}: Implementada en C++. Esta librería la usaremos sobre todo para evitar optimizaciones del compilador, y de esa manera conseguir que los tiempos de ejecución sean lo más fieles posibles a los reales.
+	\item \textbf{Google Benchmark}: Implementada en C++. Esta librería la usaremos sobre todo para evitar que el compilador optimice los resultados de algunas llamadas, y de esa manera conseguir que los tiempos de ejecución sean lo más fieles posibles a los reales.
 \end{itemize}
 
 \subsection{Analizadores estáticos: Cppcheck y Clang-tidy}
@@ -116,7 +116,7 @@ Antes de explicar la estructura física del proyecto, vamos a mostrar un diagram
 	\caption{Diagrama de relaciones de los componentes del proyecto}
 \end{figure}
 
-Todos los tests que se implementan en el proyecto hacen uso de la librería \textbf{GMP} para manejar números de precisión arbitraria. Además el algoritmo \textbf{AKS} hace uso de las librerías \textbf{NTL} (multiplicación de polinomios) y \textbf{MPFR} (cálculo preciso de cotas). Estas dos últimas además hacen uso de \textbf{GMP}. Finalmente tenemos el paquete \textbf{TFG} que incluye todos los tests de primalidad implementados. Ahor vamos a explicar cómo se ha estructurado físicamente el proyecto.\\
+Todos los tests que se implementan en el proyecto hacen uso de la librería \textbf{GMP} para manejar números de precisión arbitraria. Además el algoritmo \textbf{AKS} hace uso de las librerías \textbf{NTL} (multiplicación de polinomios) y \textbf{MPFR} (cálculo preciso de cotas). Estas dos últimas además hacen uso de \textbf{GMP}. Finalmente tenemos el paquete \textbf{TFG} que incluye todos los tests de primalidad implementados. Ahora vamos a explicar cómo se ha estructurado físicamente el proyecto.\\
 
 El código fuente está incluido todo en una carpeta a la que hemos llamado \textbf{TFG}. Dentro de esta carpeta tenemos varios archivos:
 
@@ -253,7 +253,7 @@ auto isPerfectPower(mpz_class const& n) -> bool {
 }
 \end{lstlisting}
 
-Este algoritmo utiliza el método de Newton para calcular raíces. Una explicación un poco más detallada se puede encontrar en el Apéndice.
+Este algoritmo utiliza el método de Newton para calcular raíces. Una explicación un poco más detallada se puede encontrar en el Apéndice <apéndice implementación potencia perfecta de GMP>.
 
 \subsection{Encontrar menor $r$ tal que $ord_r(n) > \log^2(n)$}
 
@@ -306,7 +306,7 @@ Las entradas son $n$ (número cuya primalidad queremos testear), $r$ (el valor a
 
 Es importante remarcar que, aunque sabemos que la cota es $\log^2(n)$ y, por lo tanto, podríamos calcularla dentro del bucle, es preferible calcularla fuera una vez y pasarla simplemente a esta función cada vez.\\
 
-El algoritmo es muy simple. Simplemente comprobamos si en algún momento $n^k = 1 \mod(r)$ y, en dicho caso, devolver false (pues el orden entonces es menor que la cota que hemos pasado).\\
+El algoritmo simplemente comprueba si en algún momento $n^k \equiv 1 \mod(r)$ y, en dicho caso, devolver false (pues el orden entonces es menor que la cota que hemos pasado).\\
 
 Si acabamos el bucle, significa que $ord_r(n) > \log^2(n)$, luego devolvemos true.
 
@@ -326,13 +326,13 @@ auto step2(mpz_class n) -> size_t {
 
 Lo importante a destacar aquí es que el primer $r$ que probamos es $\log^2(n) + 2$, pues este es el primer $r$ para el que es posible que se cumpla que $ord_r(n) > \log^2(n)$.\\
 
-La razón es simplemente que, dado que $n^{\phi(r)} \equiv 1 \mod(r)$ para todo $n, r \geq 1$, si $r \leq \log^2(n) + 1 \Rightarrow ord_r(n) \leq \phi(r) \leq r - 1 \leq \log^2(n)$, luego sería imposible que $ord_r(n) > \log^2(n)$.\\
+La razón e que, dado que $n^{\phi(r)} \equiv 1 \mod(r)$ para todo $n, r \geq 1$, si $r \leq \log^2(n) + 1 \Rightarrow ord_r(n) \leq \phi(r) \leq r - 1 \leq \log^2(n)$, luego sería imposible que $ord_r(n) > \log^2(n)$.\\
 
-Más allá de esa aclaración, el código es simple. Simplemente vamos probando hasta que encontremos el $r$ que cumple la condición, el cual ya sabemos que existe por \autoref{cota_superior_r_log5}.
+Más allá de esa aclaración, el código es fácil de entender. Simplemente vamos probando varios valores de $r$ hasta que encontremos uno que cumple la condición, el cual ya sabemos que existe por \autoref{cota_superior_r_log5}.
 
 \subsection{Comprobar si $1 < (a, n) < n$ para algún $a \leq r$}
 
-Este paso es bastante sencillo, pues solo tenemos que calcular el máximo común divisor repetidamente para valores de $a \leq r$. El código para ello es bastante simple:\\
+Este paso consiste simplemente en calcular el máximo común divisor repetidamente para valores de $a \leq r$. El código para ello es el siguiente:\\
 
 \begin{lstlisting}
 auto checkGCD(mpz_class n, size_t r) -> bool {
@@ -354,18 +354,18 @@ Si encontramos un $a$ de manera que $1 < (a, n) < n$, devolvemos true. En caso c
 
 \subsection{Comprobar si $n \leq r$}
 
-Este paso sea probablemente el más fácil de todos, y ocupará poco espacio en nuestro análisis.\\
+Este paso es el más fácil de todos, y ocupará poco espacio en nuestro análisis.\\
 
-En este paso simplemente tendremos que añadir un condicional tal que así entre los pasos 3 y 5:\\
+En este paso simplemente vamos a añadir la siguiente condición, la cual se encuentra entre el paso $3$ y el paso $5$:\\
 
 \begin{lstlisting}
 if (n <= r)
 	return true;
 \end{lstlisting}
 
-Podemos optimizar esto un poco más si tenemos en cuenta que este paso solo es necesario, ya que la condición $n \leq r$ solo se cumple si $n \leq 5'690'034$, pues $\lceil \log^5(r) \rceil < r$ para todo $n > 5'690'034$.\\
+Podemos optimizar esto un poco más si tenemos en cuenta que este paso solo es necesario, ya que la condición $n \leq r$ solo se cumple si $n \leq 5.690.034$, pues $\lceil \log^5(r) \rceil < r$ para todo $n > 5.690.034$.\\
 
-Esta optimización puede ser útil cuando el número de cifras crezca mucho, aunque tampoco va a afectar mucho, pues volvemos a insistir que la complejidad real está en el paso 5.
+Esta optimización puede ser útil cuando el número de cifras crezca mucho, aunque tampoco va a afectar demasiado, pues volvemos a insistir que la complejidad real está en el paso 5.
 
 \subsection{Comprobar identidades polinómicas}
 
@@ -476,7 +476,7 @@ Vamos a presentar entonces dos clases que nos ayudarán a la hora de la implemen
 	Además, hay una variable estática de clase que indicará el grado del polinomio que marca el módulo (si el polinomio es $X^r - 1$, nosotros guardamos el valor de $r$).
 \end{itemize}
 
-Ambas clases son extremadamente simples en el sentido de que implementaremos lo justo para poder usarlas con el algoritmo \textbf{AKS}, y además no estarán expuestas en la interfaz pública, por lo que no necesitamos una API extremadamente versátil.\\
+Para ambas clases implementaremos lo justo para poder usarlas con el algoritmo \textbf{AKS}, y además no estarán expuestas en la interfaz pública, por lo que no necesitamos una API extremadamente versátil.\\
 
 La implementación de \textbf{AKSCoefficient} es simplemente un wrapper con las operaciones elementales adaptadas al anillo $\Z_n$, por lo que no vamos a ocupar mucho tiempo en ella.\\
 
@@ -680,7 +680,7 @@ Ahora declaramos el polinomio $X^r - 1$ como el módulo que usaremos para expone
 
 Después calculamos $X^n \mod(X^r-1, n)$ con la función \textit{NTL::PowMod}. El segundo parámetro es el polinomio a exponenciar (base). El tercer parámetro es el exponente. El cuarto parámetro es el polinomio cuyo módulo vamos a aplicar.El resultado se guarda en el primer parámetro.\\
 
-Finalmente ejecutamos el bucle, y en cada iteración calculamos $(x + a)^n - a \mod(X^r-1, n)$. Si alguna identidad no se cumple, devolvemos true.\\
+Finalmente ejecutamos el bucle, y en cada iteración calculamos $(X + a)^n - a \mod(X^r-1, n)$. Si alguna identidad no se cumple, devolvemos true.\\
 
 Finalmente, si llegamos al final del bucle, devolvemos false (pues todas las identidades se han cumplido).\\
 
@@ -696,7 +696,7 @@ En esta sección vamos a justificar con resultados gráficos la elección de usa
 
 Como ya explicamos anteriormente, este paso es el único en el que usamos implementaciones distintas, por lo que el resto de pasos serán comunes en la comparación y solo mediremos el tiempo de ejecución del quinto paso.\\
 
-Para la comparación vamos a usar los mayores primos que ocupan una cantidad determinada de bits (desde $2$ bits hasta $13$ bits). Nuestro conjunto de prueba será el siguiente:
+Para la comparación vamos a usar los mayores primos que ocupan una cantidad determinada de bits (desde $2$ bits hasta $16$ bits). Nuestro conjunto de prueba será el siguiente:
 
 \[ \{ 3, 7, 13, 31, 61, 127, 251, 509,
 1021, 2039, 4093, 8191, 16381, 32749,

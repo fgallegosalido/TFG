@@ -13,14 +13,14 @@ Para hablar de complejidad de algoritmos complejos, es necesario conocer la comp
 Sean entonces pues las siguientes funciones:\\
 
 \begin{itemize}
-	\item $M(n)$ la cantidad de pasos que hay que realizar para multiplicar/dividir dos números enteros de tamaño $n$ bits.
+	\item $M(n)$ la cantidad de pasos a realizar para multiplicar/dividir dos números enteros de tamaño $n$ bits.
 	
-	\item $P(n, m)$ la cantidad de pasos que realizar para multiplicar dos polinomios de grado $n$ con coeficientes de tamaño $m$ bits.
+	\item $P(n, m)$ la cantidad de pasos a realizar para multiplicar dos polinomios de grado $n$ con coeficientes de tamaño $m$ bits.
 \end{itemize}
 
 Es bien sabido ya que $O(M(n)) = O(n^2)$ y que $O(P(n, m)) = O(n^2m^2)$ usando los métodos elementales. Para demostrar que el test \textbf{AKS} tiene complejidad polinómica, estas complejidades serán suficientes para la prueba.\\
 
-La complejidad se puede reducir aún más usando algoritmos más sofisticados. Sabemos que $O(M(n)) = O^\sim(n)$ y que $O(P(n, m)) = O^\sim(nm)$ \cite{modern_computer_algebra}. Estas últimas complejidades serán las que consideraremos al calcular eficiencias, aunque las obtenidas por métodos elementales funcionan perfectamente para probar que el algoritmo AKS es polinomial.
+No obstante, la complejidad se puede reducir aún más usando algoritmos más sofisticados. Sabemos que $O(M(n)) = O^\sim(n)$ y que $O(P(n, m)) = O^\sim(nm)$ usando algoritmos basados en la \textit{Transformada Rápida de Fourier} \cite{modern_computer_algebra}. Estas últimas complejidades serán las que consideraremos al calcular eficiencias, aunque las obtenidas por métodos elementales funcionan perfectamente para probar que el algoritmo AKS es polinomial.
 
 \section{Pasos del algoritmo AKS}
 
@@ -39,7 +39,7 @@ Sea entonces pues el siguiente algoritmo:
 \begin{algorithm}
 	\caption{Potencia Perfecta}\label{perfect_power}
 	\begin{algorithmic}[1]
-		\Procedure{IsPerfectPower}{$n$}\Comment{Comprobar $n = x^y$ con $x,y > 1$}
+		\Procedure{IsPerfectPower}{$n$}\Comment{Comprobar si $n = x^y$ con $x,y > 1$}
 			\For{cada $k \leq \log(n)$}
 				\State $x = \lfloor n^{1/k} \rfloor$
 				\If{$n = x^k$}
@@ -71,16 +71,16 @@ Como ya dijimos anteriormente, no vamos a intentar buscar un algoritmo mucho má
 
 Para este paso no necesitamos realmente calcular el orden exacto para cada $r$. Nos bastaría simplemente con probar que $n^k \neq 1 \mod(r)$ para todo $k \leq \log^2(n)$, pues si se cumplen todas esas igualdades, podemos asegurar que $ord_r(n) > \log^2(n)$ para ese $r$ en específico.\\
 
-Lo anterior junto con el hecho de que $r \leq max{3, \lceil \log^5(n) \rceil}$,
+Lo anterior junto con el hecho de que $r \leq \max\{3, \lceil \log^5(n) \rceil\}$,
 
 Teniendo esto en mente, podemos enunciar el teorema.
 
 \begin{teorema}
-	El paso 2 del algoritmo AKS tiene un complejidad de $O^\sim(\log^7(n))$.
+	El paso 2 del algoritmo AKS tiene complejidad $O^\sim(\log^7(n))$.
 \end{teorema}
 
 \begin{proof}
-	Por <insertar lema 4.3 del paper>, tenemos que $r \leq max\{3, \lceil \log^5(n) \rceil \}$, es decir, solo hay que comprobar $O(\log^5(n))$ valores de $r$ como mucho.\\
+	Por \autoref{cota_superior_r_log5}, tenemos que $r \leq max\{3, \lceil \log^5(n) \rceil \}$, es decir, solo hay que comprobar $O(\log^5(n))$ valores de $r$ como mucho.\\
 	
 	Por otro lado, fijado ya $r$, comprobar $ord_r(n) > \log^2(n)$ es equivalente a comprobar que se cumple $n^k \neq 1 \mod(r)$ para todo $k \leq \log^2(n)$. Esto equivale a hacer $O(\log^2(n))$ comprobaciones para cada $r$, ya que para cada igualdad solo realizamos una multiplicación, que al ser módulo $r$, nos queda que la comprobación tenga complejidad $O(\log^2(n)\log(r)) = O^\sim(\log^2(n))$.\\
 	
@@ -93,9 +93,9 @@ Este paso es importante en el sentido de que la complejidad total del algoritmo 
 
 Primero tenemos que calcular una eficiencia para el algoritmo de Euclides. Para ello vamos primero a calcular la cantidad de pasos que toma el algoritmos de Euclides.\\
 
-Para ello, primero debemos hacer un par de comprobaciones. Supongamos que queremos calcular $(a, b)$ con $a > b$. Sabemos que $(a, b) = (b, c)$ con $a = nb + c$ para algún $n \in \N$ o, dicho en términos más claros, $c$ es el resto de dividir $a$ entre $b$ ($c = a \% b$). Por otro lado, $(b, c) = (c, d)$ con $b = mc + d$ para algún $m \in \N$.\\
+Primero vamos a hacer un par de comprobaciones. Supongamos que queremos calcular $(a, b)$ con $a > b$. Sabemos que $(a, b) = (b, c)$ con $a = k_1b + c$ para algún $k_1 \in \N$ o, dicho en términos más claros, $c$ es el resto de dividir $a$ entre $b$ ($c = a \% b$). Por otro lado, $(b, c) = (c, d)$ con $b = k_2c + d$ para algún $k_2 \in \N$.\\
 
-Puesto que $b > c$, es claro entonces que $m \geq 1$, luego $b = mc + d \geq c + d$, y en consecuencia, $a > c + d$. Sumamos estas dos últimas expresiones y obtenemos $a + b > 2(c + d)$.\\
+Puesto que $b > c$, es claro entonces que $k_2 \geq 1$, luego $b = k_2c + d \geq c + d$, y en consecuencia, $a > c + d$. Sumamos estas dos últimas expresiones y obtenemos $a + b > 2(c + d)$.\\
 
 Estas dos observaciones nos dan a entender que, cada dos pasos, el tamaño del problema se reduce a algo menos de la mitad. Con eso en las manos y asumiendo que $a, b$ tienen como mucho $k$ bits, podemos asegurar que el algoritmo da $O(k)$ pasos.\\
 
@@ -119,7 +119,7 @@ $$O\left(\lfloor \sqrt{\phi(r)}\log(n) \rfloor\right) = O(\sqrt{r}\log(n)) = O(\
 
 Teniendo esto claro, ahora tenemos que comprobar lo que nos cuesta cada iteración. Para ello nos basta primero con saber que la exponenciación requiere de $O(\log(n))$ multiplicaciones de polinomios. Aunque tengamos que realizar dos exponenciaciones ($(X^n + a)^n$ y $X^n$), esto no cambia el hecho de que la cantidad de multiplicaciones de polinomios siga siendo $O(\log(n))$.\\
 
-Ahora veamos lo que nos cuesta cada multiplicación de polinomios. Dado que esta exponenciación se hace módulo $(X^r - 1, n)$, sabemos que el grado de los polinomios va a ser $O(r)$ y el tamaño de los coeficientes $O(\log(n))$. Como ya vimos anteriormente, la multiplicación de polinomios con grado $r$ y coeficientes de tamaño $O(\log(n))$ bits tiene complejidad $O(P(r)M(\log(n)) = O^\sim(r\log(n)) = O^\sim(\log^6(n))$.\\
+Ahora veamos lo que nos cuesta cada multiplicación de polinomios. Dado que esta exponenciación se hace módulo $(X^r - 1, n)$, sabemos que el grado de los polinomios va a ser $O(r)$ y el tamaño de los coeficientes $O(\log(n))$. Como ya vimos anteriormente, la multiplicación de polinomios con grado $r$ y coeficientes de tamaño $O(\log(n))$ bits tiene complejidad $O(P(r, \log(n)) = O^\sim(r\log(n)) = O^\sim(\log^6(n))$.\\
 
 Con todas estas piezas, tenemos que la complejidad del paso 5 es $O^\sim(\log^{7/2}(n)\log(n)\log^6(n)) = O^\sim(\log^{21/2}(n))$.
 
@@ -141,9 +141,9 @@ Cabe destacar que, si hubiésemos considerado que $O(M(n)) = O(n^2)$ y que $O(P(
 
 \section{Cotas del algoritmo}
 
-En el análisis recién realizado, cabe destacar que la eficiencia del quinto paso (y la del algoritmo en general) depende del valor $r$ encontrado en el segundo paso. Dicho valor sabemos que está acotado superiormente por $max\{\lceil 3, \log^5(n) \rceil\}$, y es lo que nos ha proporcionado la complejidad $O^\sim(\log^{21/2}(n))$.\\
+En el análisis recién realizado, cabe destacar que la eficiencia del quinto paso (y la del algoritmo en general) depende del valor $r$ encontrado en el segundo paso. Dicho valor sabemos que está acotado superiormente por $\max\{\lceil 3, \log^5(n) \rceil\}$, y es lo que nos ha proporcionado la complejidad $O^\sim(\log^{21/2}(n))$.\\
 
-Como sabemos que dicho valor tiene que ser mayor que $\log^2(n) + 1$ por lo explicado anteriormente, podemos entonces asegurar que $r \in \{\log^2(n) + 2, \log^5(n)\}$. De esta manera podemos acotar la complejidad exacta del algoritmo, teniendo así que $O^\sim(\log^{21/2}(n))$ y $\Omega^\sim(\log^6(n))$, y concluyendo que $\Theta(\log^x(n))$ con $x \in [6, 21/2]$.
+Como sabemos que dicho valor tiene que ser mayor que $\log^2(n) + 1$ por lo explicado anteriormente, podemos entonces asegurar que $r \in [\log^2(n) + 2, \lceil\log^5(n)\rceil]$. De esta manera podemos acotar la complejidad exacta del algoritmo, teniendo así que $O^\sim(\log^{21/2}(n))$ y $\Omega^\sim(\log^6(n))$, y concluyendo que $\Theta(\log^x(n))$ con $x \in [6, 21/2]$.
 
 \endinput
 %------------------------------------------------------------------------------------

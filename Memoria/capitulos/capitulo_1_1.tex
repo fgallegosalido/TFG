@@ -6,9 +6,13 @@ En este primer capítulo vamos a describir herramientas básicas del álgebra qu
 
 Empezaremos dando una introducción a distintos espacios de trabajo como los cuerpos, los grupos, los anillos, etc.\\
 
-Después introduciremos el concepto de álgebra modular junto con algunas propiedades que nos serán imprescindibles para presentar el trabajo de la manera más clara posible.\\
+Después introduciremos los conceptos de combinatoria y álgebra modular junto con algunas propiedades que nos serán imprescindibles para presentar el trabajo de la manera más clara posible.\\
 
-Haremos también una pequeña presentación de los polinomios ciclotómicos, los cuales son de vital importancia y nos serán muy útiles en la demostración del algoritmo \textbf{AKS}.
+Haremos también una pequeña presentación de los polinomios ciclotómicos, los cuales son de vital importancia y nos serán muy útiles en la demostración del algoritmo \textbf{AKS}.\\
+
+Haremos una breve introducción a la \textit{Hipótesis Generaliza de Riemann}, la cual nos servirá para ver resultados mejorados a los que presentaremos.\\
+
+Finalmente haremos una introducción a la notación que usaremos para estudiar la complejidad algorítmica.
 
 \section{Estructuras Algebraicas}
 
@@ -66,7 +70,7 @@ Vamos ahora a definir las unidades de un anillo.
 	Al conjunto de las unidades de un anillo se le denota por $\mathcal{U}(A)$. Se dice que $a \in A$ es un divisor de cero si existe $b \in A \setminus \{0\}$ tal que $ab = 0$.
 \end{definicion}
 
-A la operación de sumar el opuesto podemos llamarla \textit{resta}, y se representa con el símbolo $-$ (es decir, $a + (-b) = a - b$. A la operación de multiplicar por el inverso podemos llamarla \textit{dividir}, y se representa con el símbolo $/$ (es decir, $ab^{-1} = a/b$).
+A la operación de sumar el opuesto podemos llamarla \textit{resta}, y se representa con el símbolo $-$ (es decir, $a + (-b) = a - b$). A la operación de multiplicar por el inverso podemos llamarla \textit{dividir}, y se representa con el símbolo $/$ (es decir, $ab^{-1} = a/b$).
 
 Ahora vamos a dar algunas propiedades de los anillos.
 
@@ -146,7 +150,9 @@ También haremos uso del conjunto de las unidades de dichos anillos, es decir, $
 
 $\Z_n$ podemos entenderlo también como una clase de equivalencia, donde dos elementos $a, b \in \Z$ son equivalentes si, y solo si, los restos de dividir $a$ y $b$ son los mismos. Por ejemplo, $6$ y $11$ son equivalente en $\Z_5$, pues el resto de dividir ambos por $5$ es $1$. Con esta definición, muchas veces se denota este anillo con $\Z / n\Z$, donde $n\Z$ corresponde al anillo de los múltiplos de $n$. Por conveniencia, seguiremos utilizando $\Z_n$ para notar estos anillos.\\
 
-De la misma manera que presentamos $\Z_n$, también presentamos los anillos modulares de polinomios. Por ejemplo, en $\Z_n[x] / (x^2 - 1)$ (ó $(\Z/n\Z)[x]/(x^2 - 1)$) con $n > 1$, tenemos polinomios con coeficientes en $\Z_n$, donde dos polinomios son equivalentes si, y solo si, el resto de dividir ambos por $x^2 - 1$ es el mismo. Estos anillos los utilizaremos extensivamente en la demostración del algoritmo \textbf{AKS}, y por eso es necesario presentarlos aquí.
+De la misma manera que presentamos $\Z_n$, también presentamos los anillos modulares de polinomios. Por ejemplo, en $\Z_n[x] / (x^2 - 1)$ (ó $(\Z/n\Z)[x]/(x^2 - 1)$) con $n > 1$, tenemos polinomios con coeficientes en $\Z_n$, donde dos polinomios son equivalentes si, y solo si, el resto de dividir ambos por $x^2 - 1$ es el mismo. Es importante destacar que si $n$ es primo y $h \in \Z_n[x]$ es irreducible en $\Z_n$, entonces $\Z_n[x]/h(x)$ es un cuerpo. Esto será de utilidad más adelante.\\
+
+Estos anillos los utilizaremos extensivamente en la demostración del algoritmo \textbf{AKS}, y por eso es necesario presentarlos aquí.
 
 \subsection{Grupos}
 
@@ -211,7 +217,7 @@ Algunas propiedades inmediatas y fáciles de comprobar son las siguientes.
 
 Existen muchos ejemplos de grupos, como por ejemplo $\Z$, $\Q$, $\R$ y $\C$ bajo la operación de la suma.\\
 
-Además de los anteriores, existen muchas categorías grupos, entre los que podemos encontrar los grupos de permutaciones, los grupos diédricos, los cuaternios, etc. No vamos a centrarnos en ellos más, pues no los necesitaremos más adelante.\\
+Además de los anteriores, existen muchas categorías de grupos, entre los que podemos encontrar los grupos de permutaciones, los grupos diédricos, los cuaternios, etc. No vamos a centrarnos en ellos más, pues no los necesitaremos más adelante.\\
 
 Sin embargo, y como ya dijimos anteriormente, dado un anillo conmutativo $A$, el conjunto de la unidades de dicho anillo, $\mathcal{U}(A)$, es un grupo. En especial, nos vamos a centrar en los anillos $\Z_n$ con $n > 1$ y sus correspondiente grupos de unidades, $\mathcal{U}(\Z_n) = \Z_n^*$, también conocido como grupo multiplicativo de $\Z_n$.\\
 
@@ -221,7 +227,7 @@ Es importante destacar lo siguiente:
 	Sea $n \in \N$ con $n > 1$. Entonces $|\Z_n^*| = \phi(n)$, donde $\phi$ es la función de Euler.
 \end{proposicion}
 
-En la siguiente sección nos dedicaremos a introducirnos en los conceptos de aritmética modular más en profundidad.
+En la siguiente sección nos dedicaremos a introducirnos en los conceptos de combinatoria y aritmética modular más en profundidad.
 
 \section{Combinatoria}
 
@@ -232,14 +238,16 @@ Empecemos por definir la operación del binomio, la cual aparece en la fórmula 
 \begin{definicion}
 	Sean $n, k \in \Z$ con $n \geq k \geq 0$. Entonces definimos el binomio de la forma
 	
-	\[ \binom{n}{k} = \frac{n!}{k!(n - k)!} \],
+	\begin{equation}\label{formula_binomio}
+	\binom{n}{k} = \frac{n!}{k!(n - k)!},
+	\end{equation}
 	
-	Donde $n!$ es la operación factorial de $n$.
+	Donde $n! = 1\cdot2\dotsm n$ es la operación factorial de $n$.
 \end{definicion}
 
 Existen muchas propiedades de los binomios, pero solo presentaremos algunas que utilizaremos en el desarrollo de la teoría.
 
-\begin{proposicion}
+\begin{proposicion}\label{propiedades_binomio}
 	Se cumplen:
 	
 	\begin{enumerate}
@@ -325,7 +333,7 @@ De la definición podemos deducir varias propiedades inmediatas.
 		
 		\item Existe un único $a^{-1}$ tal que $aa^{-1} \equiv 1 \mod(n)$ si, y solo si, $(a, n) = 1$. A $a^{-1}$ se le llama el \textit{inverso multiplicativo de $a$ módulo $n$}
 		
-		\item Si $a \equiv b \mod(n)$ y $(a, n) = (b, n) = 1$, entonces $a^{-1} \equiv b{-1} \mod(n)$.
+		\item Si $a \equiv b \mod(n)$ y $(a, n) = (b, n) = 1$, entonces $a^{-1} \equiv b^{-1} \mod(n)$.
 		
 		\item Si $ax \equiv b \mod(n)$ con $(a, n) = 1$, entonces $x \equiv a^{-1}b \mod(n)$ es solución de la ecuación.
 	\end{enumerate}
@@ -343,7 +351,7 @@ La demostración se puede hacer por inducción sobre $n$, por lo que no la vamos
 
 Presentaremos ahora una propiedad interesante de las congruencias.
 
-\begin{lema}
+\begin{lema}\label{lema_abp_apbp}
 	Para todo $a, b \in \Z$ y para todo $p$ primo, se tiene que $(a + b)^p \equiv a^p + b^p \mod(p)$
 \end{lema}
 
@@ -366,7 +374,7 @@ Presentaremos ahora una propiedad interesante de las congruencias.
 \end{proof}
 
 \begin{teorema}{(Pequeño Teorema de Fermat)}\label{pequenio_teorema_de_fermat}
-	Sean $n > 1$ y $p$ primo. Entonces se cumple que $n^p \equiv n \mod(p)$.
+	Sean $n \geq 0$ y $p$ primo. Entonces se cumple que $n^p \equiv n \mod(p)$.
 \end{teorema}
 
 \begin{proof}
@@ -391,7 +399,15 @@ Del teorema que acabamos de demostrar, es evidente comprobar que, dado $n \in \Z
 	Sean $n, p > 1$ con $n$ y $p$ coprimos, es decir, $(n, p) = 1$. Entonces se cumple que $n^{\phi(p)} \equiv 1 \mod(p)$, siendo $\phi$ la función de Euler.
 \end{teorema}
 
-Aquí podemos ver que el Pequeño Teorema de Fermat es un caso particular de este teorema, pues $\phi(p) = p-1$ si, y solo si, $p$ es primo.
+Aquí podemos ver que el Pequeño Teorema de Fermat es un caso particular de este teorema, pues $\phi(p) = p-1$ si, y solo si, $p$ es primo.\\
+
+Vamos a dar ahora una definición que está íntimamente relacionada con estos resultados y que será de vital importancia más adelante.
+
+\begin{definicion}
+	Sean $n > 1$ y $a \in \Z$ tales que $(a, n) = 1$. Se define el \textit{orden de $a$ módulo $n$}, como el menor $k > 0$ tal que $a^k \equiv 1 \mod(n)$. Dicho $k$ se denota por $ord_n(a)$
+\end{definicion}
+
+Por el \textit{Teorema de Euler}, podemos deducir claramente que $ord_n(a) \mid \phi(n)$ para todo $a \in \Z$ tal que $(a, n) = 1$.
 
 \section{Polinomios Ciclotómicos}
 
@@ -409,12 +425,14 @@ Por otro lado, $\zeta_n^k$ es un generador de $\C_n$, o lo que es lo mismo, $or(
 
 \[ Gen(\C_n) = \left\lbrace \zeta \in \C_n : or(\zeta) = n \right\rbrace = \left\lbrace \zeta_n^k : 1 \leq k \leq n, (n, k) = 1 \right\rbrace \]
 
-Es evidente ver que $\C_n$ tiene $\phi(n)$ ($\phi$ es la función de Euler) generadores. Hacemos entonces la siguiente definición.
+Es evidente ver que $\C_n$ tiene $\phi(n)$ generadores. Hacemos entonces la siguiente definición.
 
 \begin{definicion}
-	Sea $n \geq 1$, se define el $n$-ésimo polinomio ciclotómico, $\Phi_n$ tal que:
+	Sea $n \geq 1$, se define el $n$-ésimo polinomio ciclotómico, $\Phi_n$, tal que:
 	
-	\[ \Phi(x) = \prod_{\zeta \in Gen(\C_n)}(x - \zeta) = \prod_{\substack{1 \leq k \leq n \\ (n, k) = 1}}(x - \zeta_n^k) \]
+	\begin{equation}\label{formula_polinomio_ciclotomico}
+	\Phi_n(x) = \prod_{\zeta \in Gen(\C_n)}(x - \zeta) = \prod_{\substack{1 \leq k \leq n \\ (n, k) = 1}}(x - \zeta_n^k)
+	\end{equation}
 \end{definicion}
 
 Dicho de otro modo, $\Phi_n$ es el polinomio mónico de grado $\phi(n)$ donde las raíces $n$-ésimas de la unidad son de orden $n$. Ahora vamos a pasar a dar algunas propiedades de estos polinomios:
@@ -424,15 +442,18 @@ Dicho de otro modo, $\Phi_n$ es el polinomio mónico de grado $\phi(n)$ donde la
 	
 	\begin{itemize}
 		\item $\Phi_n \in \Z[x]$
+		
 		\item $\Phi$ es irreducible en $\Q[x]$
+		
 		\item $x^n - 1 = \prod_{d|n}\Phi_d(x)$. En particular, $\Phi_n$ es el polinomio irreducible en $\Z[x]$ de mayor grado que divide a $x^n - 1$ y no divide a $x^k - 1$ con $1 \leq k < n$.
-		\item Si restringimos los coeficientes de $\Phi_n$ a $\Z_p$ con $p$ primo, y tal que $p \nmid n$, tenemos que $\Phi_n$ se puede factorizar en $\frac{\phi(n)}{d}$ polinomios irreducibles de grado $d$, donde $d = ord_n(p)$.
+		
+		\item Si restringimos los coeficientes de $\Phi_n$ a $\Z_p$ con $p$ primo y tal que $(p, n) = 1$, tenemos que $\Phi_n$ se puede factorizar en $\frac{\phi(n)}{d}$ polinomios irreducibles de grado $d$, donde $d = ord_n(p)$.
 	\end{itemize}
 \end{proposicion}
 
 \section{Hipótesis Generalizada de Riemann}
 
-En la rama del Análisis Matemático y, en específico, la rama del Análisis en Variable Compleja, existe una conjetura muy importante propuesta por Riemann, cuya popularidad es debida a su inclusión entre uno de los Problemas del Milenio por el Clay Mathematics Institute. Para enunciar dicha conjetura, definamos primero la \textit{Función Zeta de Riemann}, $\zeta(s)$, con $s \in \C$:
+En la rama del Análisis Matemático y, en específico, la rama del Análisis en Variable Compleja, existe una conjetura muy importante propuesta por \textit{Bernhard Riemann} en $1859$, cuya popularidad es debida a su inclusión entre uno de los Problemas del Milenio por el \textit{Clay Mathematics Institute}. Para enunciar dicha conjetura, definamos primero la \textit{Función Zeta de Riemann}, $\zeta(s)$, con $s \in \C$:
 
 \begin{equation}\label{funcion_zeta_de_riemann}
 \zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s}
@@ -476,7 +497,7 @@ Más adelante mencionaremos esta conjetura, cuya veracidad implicaría mejoras e
 
 \section{Complejidad Algorítmica}
 
-Para poder estudiar la complejidad algorítmica del test AKS, tenemos que entender qué es la complejidad algorítmica como tal. Para ello usaremos la notación asintótica $O$, $\Omega$ y $\Theta$.\\
+Para poder estudiar la complejidad algorítmica del test \textbf{AKS}, tenemos que entender qué es la complejidad algorítmica como tal. Para ello usaremos la notación asintótica $O$, $\Omega$ y $\Theta$.\\
 
 Estas tres notaciones nos sirven para dar forma al concepto de crecimiento asintótico de una función.\\
 
@@ -515,7 +536,7 @@ Intuitivamente, el concepto de la notación $\Omega$ es el opuesto al concepto d
 	$$f(n) \geq Cg(n) \;\;\;\forall n \in \N;\; n \geq k$$
 \end{definicion}
 
-Viendo la definición, es inmediato ver que, dadas dos funciones $f,g:\N \to \R^+$, entonces $f(n) = O(g(n)) \Leftrightarrow f(n) = \Omega(g(n))$. Algunos ejemplos son:
+Viendo la definición, es inmediato ver que, dadas dos funciones $f,g:\N \to \R^+$, entonces $f(n) = O(g(n)) \Leftrightarrow g(n) = \Omega(f(n))$. Algunos ejemplos son:
 
 \begin{ejemplo}
 	$3^n = \Omega(2^n)$

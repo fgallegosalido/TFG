@@ -8,11 +8,11 @@ Primero daremos una descripción general de los tests de primalidad, incluyendo 
 
 Después haremos un repaso por la historia de los tests de primalidad, y presentaremos distintos tipos de tests de primalidad, entre los que incluiremos tanto los tests deterministas como los tests probabilísticos.\\
 
-Por último nos pararemos a detallar un poco el test de Miller-Rabin, el cual usaremos en nuestra comparación con el test \textbf{AKS}.
+Por último nos pararemos a detallar un poco los tests de \textit{Miller-Rabin} y \textit{Solovay-Strassen}, el cual usaremos en nuestra comparación con el test \textbf{AKS}.
 
 \section{Introducción a los Tests de Primalidad}
 
-Un número decimos que es primo cuando sus únicos divisores son una unidad y el mismo número. En caso contrario diremos que es compuesto. Esto excluye a $1$ y $-1$, pues estos son considerados unidades del conjunto de los números enteros, y no son ni primos ni compuestos. El número $0$ también queda obviamente excluido. Además, considerar $1$ ó $-1$ primos implica que hay infinitas factorizaciones de cualquier número, lo cual supone incumplir el Teorema Fundamental de la Aritmética. Dicho teorema afirma que todo número se puede escribir de manera única (salvo el orden) como producto de números primos.\\
+Un número decimos que es primo cuando sus únicos divisores son una unidad y el mismo número. En caso contrario diremos que es compuesto. Esto excluye a $1$ y $-1$, pues estos son considerados unidades del conjunto de los números enteros, y no son ni primos ni compuestos. El número $0$ también queda obviamente excluido. Además, considerar $1$ ó $-1$ primos implica que hay infinitas factorizaciones de cualquier número, lo cual supone incumplir el \textit{Teorema Fundamental de la Aritmética}. Dicho teorema afirma que todo número se puede escribir de manera única (salvo el orden) como producto de números primos.\\
 
 Los números primos son de vital importancia en las matemáticas y, especialmente en el área de la Teoría de Números. De vital importancia son sobre todo las propiedades que nos permiten determinar cuándo un número es primo. Dichas propiedades son explotadas en el campo de la criptografía, rama en la que se apoya la seguridad en Internet.\\
 
@@ -30,11 +30,9 @@ Este test, aunque simple, es extremadamente lento a medida que crece el número 
 
 Existen otras propiedades para los números primos que nos pueden indicar tests de primalidad. Una de las más conocidas, y base para muchos otros tests de primalidad, es el conocido \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}, el cual que afirma que si $p$ es primo, entonces $a^p \equiv a \mod(p)$ para todo $a \in \Z$. Un test que podemos aplicar a un número $n$ es probar distintos valores de $a$ y ver si se cumple la congruencia. En caso de que encontremos un $a$ para el que la congruencia no se cumple, $n$ será compuesto. En caso contrario, diremos que $n$ es probablemente primo.\\
 
-Este test es mucho más rápido que el anterior. De hecho es polinómico. Sin embargo no es determinista. De hecho el test falla siempre en un conjunto de números compuestos denominados de \textit{Charmichael}, los cuales siempre cumplen el Pequeño Teorema de Fermat.\\
+Este test es mucho más rápido que el anterior. De hecho es polinómico. Sin embargo no es determinista. De hecho el test falla siempre en un conjunto de números compuestos denominados de \textit{Charmichael}, los cuales siempre cumplen el \textit{Pequeño Teorema de Fermat}.\\
 
-Dicho test, a pesar de no ser correcto, es base de muchos otros tests, como por ejemplo el test de \textit{Miller-Rabin}, el test de \textit{Lucas} o el test \textit{AKS}.\\
-
-Uno de los tests que estudiaremos en este capítulo será el test de 
+Dicho test, a pesar de no ser correcto, es base de muchos otros tests, como por ejemplo el test de \textit{Miller-Rabin}, el test de \textit{Lucas} o el test \textit{AKS}.
 
 \section{Tipos de Tests de Primalidad}
 
@@ -92,7 +90,7 @@ Más adelante veremos también cómo se puede obtener un certificado para el tes
 
 También existen los certificados de primalidad, esto es, un testigo de que un número es primo, de manera que podamos comprobar rápidamente que dicho número es, de hecho, primo. Estos no son tan comunes, y suelen producirse en algoritmos que utilizan curvas elípticas, \textit{ECPP}.\\
 
-En el caso de \textit{ECPP} (\textit{Elliptic Curves Primality Testing}), un certificado de primalidad se puede generar de manera recursiva. La generación de dicho certificado es lo que más tiempo consume en el algoritmo. Dicho certificado, como ya hemos explicado, permite comprobar muy rápidamente si el número es primo o no.
+En el caso de \textit{ECPP} (\textit{Elliptic Curves for Primality Proving}), un certificado de primalidad se puede generar de manera recursiva. La generación de dicho certificado es lo que más tiempo consume en el algoritmo. Dicho certificado, como ya hemos explicado, permite comprobar muy rápidamente si el número es primo o no.
 
 \section{Tests de Miller-Rabin y Solovay-Strassen}
 
@@ -107,7 +105,7 @@ El test de \textit{Miller-Rabin} es uno de los más usados actualmente tanto por
 Dicho test se basa en una serie de relaciones de congruencias, las cuales se cumplen siempre cuando se trata de un número primo impar. Demos pues la siguiente definición.\\
 
 \begin{definicion}
-	Sea $n > 2$ y sean $s, d > 0$ con $d$ impar tales que $n = 2^s d + 1$. Sea $a$ un entero con $0 < a < n$ al que llamaremos \textit{base}. Diremos entonces que $n$ es un primo probable fuerte en base $a$ si, se cumple alguna de las siguientes congruencias:
+	Sea $n > 2$ y sean $s, d > 0$ con $d$ impar tales que $n = 2^s d + 1$. Sea $a$ un entero con $0 < a < n$ al que llamaremos \textit{base}. Diremos entonces que $n$ es un primo probable fuerte en base $a$ si se cumple alguna de las siguientes congruencias:
 	
 	\begin{align}\label{congruencias_miller_rabin}
 	a^d &\equiv 1 \mod(n)\\
@@ -149,7 +147,7 @@ Teniendo esto, enunciamos la siguiente proposición.
 	Es claro que cada $d2^r$ con $0 \leq r < s$ es la raíz cuadrada de $d2^{r+1}$. Como $a^{d2^s} \equiv 1 \mod(n)$, tenemos dos casos por \autoref{raices_miller_rabin}:
 	
 	\begin{itemize}
-		\item $a^{d2^{s-1}} \equiv -1 \mod(n)$. En este caso hemos acabado y $n$ es primo probable fuerte en bas $a$.
+		\item $a^{d2^{s-1}} \equiv -1 \mod(n)$. En este caso hemos acabado y $n$ es primo probable fuerte en base $a$.
 		
 		\item $a^{d2^{s-1}} \equiv 1 \mod(n)$. En este caso, volvemos a iterar con la raíz cuadrada del término actual.
 	\end{itemize}
@@ -203,7 +201,7 @@ Existe una versión que fue descubierta por \textit{Miller} la cual hace uso de 
 
 Asumiendo la veracidad de \autoref{hipotesis_generalizada_de_riemann}, se puede demostrar que las bases a probar son menores que $k = O(c\ln^2(n))$. La constante $c$ se puede demostrar que es $2$, y por lo tanto la versión determinista solo debe comprobar las congruencias \eqref{congruencias_miller_rabin} para $2 \leq a \leq \min\{n-2, \lfloor 2\ln^2(n) \rfloor\}$.\\
 
-Esta versión, puesto que $k = O(\ln^2(n))$, tiene complejidad $O^\sim(\log^4(n))$. Para versión una descripción más exacta, ir al anexo <anexo miller determinista>.
+Esta versión, puesto que $k = O(\ln^2(n))$, tiene complejidad $O^\sim(\log^4(n))$. Para una descripción más exacta, ir al anexo <anexo miller determinista>.
 
 \subsection{Test de Solovay-Strassen}
 
@@ -240,7 +238,7 @@ Con estas dos definiciones, podemos definir el \textit{Símbolo de Jacobi}.
 	Cada factor $\left(\frac{a}{p_i}\right)$ es el \textit{Símbolo de Legendre} \ref{simbolo_de_legendre}.
 \end{definicion}
 
-Teniendo estas definiciones, podemos pasar a enunciar la congruencia que es la basa de este test.
+Teniendo estas definiciones, podemos pasar a enunciar la congruencia que es la base de este test.
 
 \begin{proposicion}
 	Si $p$ es cualquier primo y $a$ cualquier entero, entonces se cumple
