@@ -32,7 +32,7 @@ We can speed up the process if we reduce the amount of coefficients to evaluate 
 (X + a)^n \equiv X^n + a \mod(n, X^r - 1)
 \end{equation}
 
-This congruence still holds if $n$ is prime for every $a \in \Z$ and every $r$. However, it also holds for some values of $a$ and $r$ when $n$ is composite. This property can be restored if we appropriately choose $r$ and test it for some values of $a$. We are going to prove that $r$ and $a$ are $O(\log{O(1)}(n))$, which leads us to a deterministic polynomial algorithm.\\
+This congruence still holds if $n$ is prime for every $a \in \Z$ and every $r$. However, it also holds for some values of $a$ and $r$ when $n$ is composite. This property can be restored if we appropriately choose $r$ and test it for some values of $a$. We are going to prove that $r$ and $a$ are $O(\log^c(n))$ for some constant $c$, which leads us to a deterministic polynomial algorithm.\\
 
 The algorithm is of great interest when it comes to the theory, as it is the first polynomial, deterministic, general and uncondicional primality test. This opens the door to the development of better algorithms that also run in polynomial time.\\
 
@@ -42,9 +42,9 @@ Even other primality tests that are deterministic and non-polynomial, like the o
 
 An empirical study and comparison with other probabilistic tests is going to let us jump to that conclusion.\\
 
-The algorithm is easy to implement, but some care must be taken when dealing with polynomial multiplication. A good algorithm for polynomial multiplication is necessary so that the test is not completely useless. We will see that a bad algorithm for polynomial multiplication can lead to an efficiency of $O^\sim(\log{31/2}(n))$ instead of $O^\sim(\log^{21/2}(n))$. This is going to make the test struggle for inputs bigger than $16$ bits.\\
+The algorithm is easy to implement, but some care must be taken when dealing with polynomial multiplication. A good algorithm for polynomial multiplication is needed so that the test is not completely useless. We will see that a bad algorithm for polynomial multiplication can lead to an efficiency of $O^\sim(\log^{31/2}(n))$ instead of $O^\sim(\log^{21/2}(n))$. This is going to make the test struggle for inputs bigger than $16$ bits.\\
 
-The implementation uses C++ as the main programming language for its raw speed and control over the memory. for multiprecision, \textbf{GMP} is the library that we are going to use to implement the algorithm, as it has been extensively tested and is one of the most used libraries. Ii is written in C, and it has a C++ API, which makes the integration easier.
+The implementation uses C++ as the main programming language for its raw speed and control over the memory. For multiprecision, \textbf{GMP} is the library that we are going to use to implement the algorithm, as it has been extensively tested and is one of the most used libraries. It is written in C, and it has a C++ API, which makes the integration easier.
 
 % Al finalizar el resumen en inglés, volvemos a seleccionar el idioma español para el documento
 \selectlanguage{spanish} 

@@ -51,10 +51,10 @@ Sea entonces pues el siguiente algoritmo:
 	\end{algorithmic}
 \end{algorithm}
 
-A pesar de que hay variantes que usan solo aquellos $k$ primos \cite{bach_sorenson_1989}, de manera que la complejidad se reduce a $O^\sim(\log^3(n))$, nosotros no vamos a hacer dicha selección, de modo que nuestro algoritmo tendrá una complejidad de $O(\log^4(n))$, la cual sigue siendo polinómica en el número de cifras, pero es mucho más sencilla de probar.\\
+Hay variantes que en vez de tomar todos los números $k \leq \log(n)$ en el algoritmo \autoref{perfect_power}, lo que hacen es tomar todos los $p \leq \log(n)$ primos, de manera que usando \textit{Teoría de Cribas} se puede conseguir una complejidad de $O^\sim(\log^3(n))$ \cite{bach_sorenson_1989}. Nosotros no vamos a hacer dicha selección, de modo que nuestro algoritmo tendrá una complejidad de $O(\log^4(n))$, la cual sigue siendo polinómica en el número de cifras, pero es mucho más sencilla de probar.\\
 
 \begin{teorema}
-	El Algoritmo 1 presentado anteriormente tiene complejidad $O(\log^4(n))$.
+	El Algoritmo \autoref{perfect_power} tiene complejidad $O(\log^4(n))$.
 \end{teorema}
 
 \begin{proof}
@@ -62,7 +62,7 @@ A pesar de que hay variantes que usan solo aquellos $k$ primos \cite{bach_sorens
 	
 	La operación de elevar tiene un coste de $O(\log^2(n))$ usando el algoritmo de cuadrados repetidos, y como dicha operación la realizamos $O(\log(n))$ veces (debido a la naturaleza de la búsqueda binaria), podemos concluir que cada iteración del algoritmo ocupa $O(\log^3(n))$.\\
 	
-	Como tenemos que realizar $O(\log(n))$ iteraciones en total, podemos concluir entonces que la complejidad del Algoritmo 1 es $O(\log^4(n))$.
+	Como tenemos que realizar $O(\log(n))$ iteraciones en total, podemos concluir entonces que la complejidad del Algoritmo \autoref{perfect_power} es $O(\log^4(n))$.
 \end{proof}
 
 Como ya dijimos anteriormente, no vamos a intentar buscar un algoritmo mucho más eficiente, pues el tiempo de ejecución de este paso es básicamente nulo comparado con el tiempo de ejecución del quinto paso, que es en el que nos vamos a centrar más a fondo.
@@ -111,7 +111,7 @@ Como las comparaciones solo requieren comparar los bits, podemos asegurar que es
 
 \subsection{Paso 5: Comprobar identidades polinómicas}
 
-En este paso tenemos un bucle. La complejidad entonces será el tamaño del bucle multiplicado por el tiempo que tarda cada iteración.\\
+En este paso tenemos un bucle. La complejidad entonces será el tamaño del bucle multiplicado por la complejidad de cada iteración.\\
 
 Primero tenemos que el número de iteraciones es $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$. Como sabemos que $\phi(r) = r-1$ si $r$ es primo y que $r = O(\log^5(n))$, podemos entonces asegurar lo siguiente:
 

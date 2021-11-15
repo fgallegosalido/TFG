@@ -205,7 +205,7 @@ auto isPerfectPower(mpz_class n) -> bool {
 }
 \end{lstlisting}
 
-La función \textbf{floorLog2} se implementa como el número de bits que ocupa $n$ menos 1 (\textit{mpz\_sizeinbase(n.get\_mpz\_t(), 2) - 1}). Sabemos que ese es el top, y luego es simplemente comprobar para cada valor de $p$ si $n = a^p$ para algún $a > 1$.\\
+La función \textbf{floorLog2} se implementa como el número de bits que ocupa $n$ menos 1 (\textit{mpz\_sizeinbase(n.get\_mpz\_t(), 2) - 1}). Dicha cota sabemos que es la mayor porque $\lfloor\log(b)\rfloor$ es el mayor exponente posible suponiendo que $n$ pueda ser una potencia de $2$. Luego simplemente se comprueba para cada valor de $p$ si $n = a^p$ para algún $a > 1$.\\
 
 Esta implementación es relativamente simple. Ahora pasaremos a explicar optimizaciones que podemos hacer a esta implementación para reducir la complejidad a $O^\sim(\log^3(n))$, tal y como se explica en \cite{bach_sorenson_1989}, Theorem 3.1.
 
@@ -378,9 +378,9 @@ En este apartado discutiremos 2 implementaciones posibles. Cada una tiene sus ve
 \begin{itemize}
 	\item \textbf{Implementación directa}. Esta implementación es la más directa, sencilla de integrar en el código fuente (ya que no hace uso de librerías externas) y la que nos da más flexibilidad al tomar distintas decisiones.\\
 	
-	La mayor desventaja es que será muy complicado lograr una eficiencia parecida a la que otras librerías ya han conseguido, pues mientras que esta implementación se puede realizar en un par de días o tres de desarrollo, optimizarla puede suponer un tiempo innecesariamente largo.\\
+	La mayor desventaja es que será muy complicado lograr una eficiencia parecida a la que otras librerías ya han conseguido, pues mientras que esta implementación se puede realizar en un tiempo relativamente corto de desarrollo, optimizarla puede suponer un tiempo innecesariamente largo.\\
 	
-	Además de lo mencionado, para que el algoritmo sea realmente rápido, habría que implementar la versión de la multiplicación polinómica que hace uso de la \textit{Transformada Rápida de Fourier} (FFT). En nuestro caso usaremos el método clásico para no perder excesivo tiempo en dicha implementación y centrarnos más en las que nos proporciona la librería siguiente.
+	Además de lo mencionado, para que el algoritmo sea realmente rápido, habría que implementar la versión de la multiplicación polinómica que hace uso de la \textit{Transformada Rápida de Fourier} (FFT). En nuestro caso usaremos el método clásico para centrarnos más en la que nos proporciona la librería siguiente.
 	
 	\item \textbf{NTL}. Esta librería ya tiene implementadas funciones para poder trabajar con anillos de polinomios y módulos, además de haber sido optimizada. Además, la interfaz es en C++, lo cual facilita su integración.\\
 	
@@ -704,7 +704,7 @@ Para la comparación vamos a usar los mayores primos que ocupan una cantidad det
 
 No usamos primos más grandes porque, como veremos en las gráficas, el tiempo que invierte la implementación directa es muy alto para números pequeños.\\
 
-No usamos números compuestos porque necesitamos comparar la eficiencia del paso $5$, el cual se ejecuta por completo cuando la entrada se trata de un número primo. Es por ello que aquí no tiene mucho sentido usar números compuestos. Por esta razón, en la comparación solo vamos a ejecutar los pasos $2$ y $5$, ya que necesitamos el valor de $r$ calculado en el segundo paso para poder ejecutar el quinto.
+No usamos números compuestos porque necesitamos comparar la eficiencia del paso $5$, el cual se ejecuta por completo cuando la entrada se trata de un número primo. Es por ello que aquí no tiene mucho sentido usar números compuestos. Por esta razón, en la comparación solo vamos a ejecutar los pasos $2$ y $5$, ya que necesitamos el valor de $r$ calculado en el segundo paso para poder ejecutar el quinto.\\
 
 Además de presentar los tiempos de ejecución de ambas implementaciones, también vamos a representar las gráficas de las eficiencias teóricas ajustadas con la función \textit{fit} de \textit{gnuplot}.\\
 

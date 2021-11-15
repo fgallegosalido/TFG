@@ -109,12 +109,51 @@ Dadas estas propiedades de los anillos, vamos a pasar a definir dos estructuras 
 Ahora vamos a presentar algunos ejemplos de anillos.
 
 \begin{ejemplo}
-	$\Z$, $\Z_n$ y $A[x]$ ($A$ siendo anillo conmutativo y $n > 1$) son ejemplos de anillos conmutativos.
+	$\Z$ es un anillo junto con las operaciones suma y producto clásicas.
 \end{ejemplo}
 
 \begin{ejemplo}
-	$\Q$, $\R$, $\C$ y $\mathbb{F}_p$ ($p$ potencia de un primo) son ejemplos de cuerpos, siendo $\mathbb{F}_p$ los únicos finitos. 
+	Sea $n\Z$ el conjunto de los múltiplos de $n$ en $\Z$. Es un anillo con las operaciones heredadas de $\Z$.
 \end{ejemplo}
+
+\begin{ejemplo}
+	Sea $\Z/n\Z$ una clase de equivalencia tal que dos elementos de $\Z$ son iguales si, y solo si, son múltiplos de $n$. A este conjunto se le suele denotar con $\Z_n$ y también es un anillo con las siguientes operaciones.
+	
+	\begin{alignat}{2}
+	(+): \Z_n \times \Z_n & \to & \Z_n \\
+	(a, b) & \mapsto & res(a+b; n), \\
+	(\cdot): \Z_n \times \Z_n & \to & \Z_n \\
+	(a, b) & \mapsto & res(ab; n),
+	\end{alignat}
+	
+	donde $res(a; n)$ es el resto de dividir $a \in \Z$ entre $n$.\\
+	
+	Así pues, si tomamos por ejemplo $\Z_5$, entonces $6$ y $11$ son equivalentes en este anillo, pues el resto de dividirlos entre $5$ es el mismo.\\
+	
+	A estos anillos se les suele conocer como \textit{anillos modulares}.
+\end{ejemplo}
+
+\begin{ejemplo}
+	Sea $A$ un anillo y $f \in A[x]$ un polinomio con coeficientes en $A$. Entonces la clase de equivalencia $A[x]/f(x)$ donde dos polinomios con coeficientes en $A$ son equivalentes si tienen el mismo resto al dividirlos por $f(x)$, es un anillo. En particular, si $A$ es un cuerpo y $f$ es irreducible en $A$, entonces $A[x]/f(x)$ es un cuerpo.\\
+	
+	Por ejemplo, $\Z_p/(x+1)$ con $p$ primo es un cuerpo.
+\end{ejemplo}
+
+\begin{ejemplo}
+	Sea $A$ un anillo conmutativo, entonces el conjunto de los polinomios con coeficientes en $A$, $A[x]$, es también un anillo conmutativo.
+\end{ejemplo}
+
+\begin{ejemplo}
+	$\Q$, $\R$ y $\C$ son ejemplos de cuerpos infinitos.
+\end{ejemplo}
+
+\begin{ejemplo}
+	Todos los cuerpos finitos se denominan por $\mathbb{F}_q$ con $q = p^k$ con $p$ primo y $k \geq 1$. Además, dos cuerpos finitos con el mismo cardinal son equivalentes.
+\end{ejemplo}
+
+En el desarrollo del trabajo, usaremos sobre todo los anillos modulares y los anillos modulares de polinomios.\\
+
+También haremos uso del conjunto de las unidades de los anillos modulares, es decir, $\mathcal{U}(\Z_n)$, a veces también notados como $\Z_n^*$ o $\Z_n^\times$.\\
 
 Definido el conjunto de las unidades del anillo y sabiendo que $\Z_n$ es un anillo, es natural definir entonces la \textit{Función $\phi$ de Euler}.
 
@@ -122,14 +161,16 @@ Definido el conjunto de las unidades del anillo y sabiendo que $\Z_n$ es un anil
 	Sea $n > 1$. Se define la \textit{Función $\phi$ de Euler} como
 	
 	\begin{equation}
-	\phi(n) = |\mathcal{U}(\Z_n)|
+	\phi(n) = |\mathcal{U}(\Z_n)|,
 	\end{equation}
+	
+	donde la operación $|\cdot|$ es el cardinal de un conjunto.
 \end{definicion}
 
 Una propiedad que nos será útil más adelante sobre los cuerpos es la relacionada con las raíces de los polinomios con coeficientes en un cuerpo. Enunciamos pues la siguiente proposición.
 
 \begin{proposicion}\label{raices_en_cuerpos}
-	Sea $f \in F[x]$ con $F$ un cuerpo. Entonces $f$ tiene a lo mucho tantas raíces distintas como el grado de $f$.
+	Sea $f \in F[x]$ con $F$ un cuerpo. Entonces $f$ tiene a lo sumo tantas raíces distintas como el grado de $f$.
 \end{proposicion}
 
 \begin{proof}
@@ -143,16 +184,6 @@ Una propiedad que nos será útil más adelante sobre los cuerpos es la relacion
 		Es entonces claro que el grado de $g$ es $n$, y por hipótesis de inducción tenemos que $g$ tiene como mucho $n$ raíces distintas, luego $f$ tiene como mucho $n+1$ raíces distintas.
 	\end{itemize}
 \end{proof}
-
-En el desarrollo del trabajo, usaremos sobre todo $\Z_n$ con $n > 1$, también conocidos como anillos modulares. Es importante destacar que, si $n$ es primo, entonces $\Z_n$ es un cuerpo.\\
-
-También haremos uso del conjunto de las unidades de dichos anillos, es decir, $\mathcal{U}(\Z_n)$, a veces también notados como $\Z_n^*$ o $\Z_n^\times$.\\
-
-$\Z_n$ podemos entenderlo también como una clase de equivalencia, donde dos elementos $a, b \in \Z$ son equivalentes si, y solo si, los restos de dividir $a$ y $b$ son los mismos. Por ejemplo, $6$ y $11$ son equivalente en $\Z_5$, pues el resto de dividir ambos por $5$ es $1$. Con esta definición, muchas veces se denota este anillo con $\Z / n\Z$, donde $n\Z$ corresponde al anillo de los múltiplos de $n$. Por conveniencia, seguiremos utilizando $\Z_n$ para notar estos anillos.\\
-
-De la misma manera que presentamos $\Z_n$, también presentamos los anillos modulares de polinomios. Por ejemplo, en $\Z_n[x] / (x^2 - 1)$ (ó $(\Z/n\Z)[x]/(x^2 - 1)$) con $n > 1$, tenemos polinomios con coeficientes en $\Z_n$, donde dos polinomios son equivalentes si, y solo si, el resto de dividir ambos por $x^2 - 1$ es el mismo. Es importante destacar que si $n$ es primo y $h \in \Z_n[x]$ es irreducible en $\Z_n$, entonces $\Z_n[x]/h(x)$ es un cuerpo. Esto será de utilidad más adelante.\\
-
-Estos anillos los utilizaremos extensivamente en la demostración del algoritmo \textbf{AKS}, y por eso es necesario presentarlos aquí.
 
 \subsection{Grupos}
 
@@ -184,6 +215,8 @@ a la cual llamaremos producto. Damos entonces la siguiente definición.
 \end{definicion}
 
 Al cardinal del conjunto $G$ lo denominaremos \textit{orden del grupo $G$}, y lo representamos por $|G|$. En palabras más simples, se trata de la cantidad de elementos distintos que contiene el grupo. Si $|G| < \infty$, entonces decimos que se trata de un \textit{grupo finito}.\\
+
+Denominaremos \textit{orden} de un elemento al menor $k \geq 1$ tal que dicho elemento multiplicado $k$ veces es igual a $1$. Se denota por $\mathop{or}(a)$ con $a \in G$ un grupo cualquiera.\\
 
 Algunas propiedades inmediatas y fáciles de comprobar son las siguientes.
 
@@ -227,8 +260,6 @@ Es importante destacar lo siguiente:
 	Sea $n \in \N$ con $n > 1$. Entonces $|\Z_n^*| = \phi(n)$, donde $\phi$ es la función de Euler.
 \end{proposicion}
 
-En la siguiente sección nos dedicaremos a introducirnos en los conceptos de combinatoria y aritmética modular más en profundidad.
-
 \section{Combinatoria}
 
 En esta sección vamos a presentar algunos resultados en el campo de la combinatoria, los cuales serán útiles más adelante.\\
@@ -242,7 +273,7 @@ Empecemos por definir la operación del binomio, la cual aparece en la fórmula 
 	\binom{n}{k} = \frac{n!}{k!(n - k)!},
 	\end{equation}
 	
-	Donde $n! = 1\cdot2\dotsm n$ es la operación factorial de $n$.
+	donde $n! = 1\cdot2\dotsm n$ es la operación factorial de $n$.
 \end{definicion}
 
 Existen muchas propiedades de los binomios, pero solo presentaremos algunas que utilizaremos en el desarrollo de la teoría.
@@ -263,10 +294,22 @@ Existen muchas propiedades de los binomios, pero solo presentaremos algunas que 
 	\end{enumerate}
 \end{proposicion}
 
+Ahora vamos a presentar el \textit{Binomio de Newton}, propiedad que nos vendrá muy bien en algunas demostraciones.
+
+\begin{teorema}{(Binomio de Newton)}\label{binomio_de_newton}
+	Sean $x, y \in \Z$ (a nosotros nos vale con $\Z$, pero $x$ e $y$ pueden pertenecer a otros espacios más generales), y sea $n \in \Z$ no negativo. Entonces se cumple
+	
+	\[ (x + y)^n = \sum_{k=0}^{n}\binom{n}{k}x^ky^{n-k} \]
+\end{teorema}
+
+La demostración se puede hacer por inducción sobre $n$, por lo que no la vamos a detallar.\\
+
 Ahora veremos algunos resultados que usaremos más adelante.
 
 \begin{lema}\label{binomio_cota_inferior_2n}
-	\[ \binom{2n + 1}{n} > 2^{n+1}\;\;\;\;\forall n \geq 2 \]
+	\begin{equation}
+	\binom{2n + 1}{n} > 2^{n+1}\;\;\;\;\forall n \geq 2
+	\end{equation}
 \end{lema}
 
 \begin{proof}
@@ -280,6 +323,112 @@ Ahora veremos algunos resultados que usaremos más adelante.
 	
 	En la penúltima desigualdad hemos aplicado la hipótesis de inducción sobre $n$, y la última desigualdad se deduce de que $\frac{(2n+3)}{(n+2)} = 2 - \frac{1}{n+2} > 1$.
 \end{proof}
+
+\section{Máximo Común Divisor y Mínimo Común Múltiplo}
+
+En esta sección vamos a introducir un concepto que es una de las bases de la \textit{Teoría de Números} y del \textit{Álgebra} en general.\\
+
+Damos entonces la siguiente definición.
+
+\begin{definicion}
+	Sean $a, b \in \Z$. Diremos que $d \in \Z$ con $d \geq 0$ es el \textit{Máximo Común Divisor} de $a$ y $b$ si se cumplen:
+	
+	\begin{itemize}
+		\item $d \mid a$ y $d \mid b$.
+		
+		\item Sea $d' \in \Z$ tal que $d' \mid a$ y $d' \mid b$, entonces $d' \mid d$.
+	\end{itemize} 
+	
+	Ha dicho $d$ se le suele denotar por $\mathop{mcd}(n)$ (siglas en español), $\gcd(a, b)$ (siglas del nombre en inglés, \textit{Greatest Common Divisor}) ó $(a, b)$. Esta última suele ser la más utilizada por no depender del idioma, y será la que usaremos a lo largo del trabajo.
+\end{definicion}
+
+Como veremos más adelante en el \textit{Algoritmo de Euclides} \autoref{algoritmo_de_euclides}, necesitamos saber qué ocurre cuando uno de los dos parámetros es $0$. Dado entonces $a \in \Z$, se tiene que $(a, 0) = (0, a) = |a|$ por la propia definición. Además, por convención, se tiene que $(0, 0) = 0$.\\
+
+En esencia, el \textit{Máximo Común Divisor} se puede entender como el mayor número entero positivo de manera que divide a dos números dados. Existe también el concepto opuesto, llamado \textit{Mínimo Común Múltiplo}, que es la contraparte del \textit{Máximo Común Divisor}, el cual podemos definir de la siguiente manera.
+
+\begin{definicion}
+	Sean $a, b \in \Z$. Diremos que $d \in \Z$ con $d \geq 0$ es el \textit{Mínimo Común Múltiplo} de $a$ y $b$ si se cumplen:
+	
+	\begin{itemize}
+		\item $a \mid d$ y $b \mid d$.
+		
+		\item Sea $d' \in \Z$ tal que $a \mid d'$ y $b \mid d'$, entonces $d \mid d'$.
+	\end{itemize} 
+	
+	Ha dicho $d$ se le suele denotar por $\mathop{mcm}(n)$ (siglas en español), $lcm(a, b)$ (siglas del nombre en inglés, \textit{Least Common Multiplier}) ó $[a, b]$. Esta última suele ser la más utilizada por no depender del idioma, y será la que usaremos a lo largo del trabajo.
+\end{definicion}
+
+La conexión entre ambos conceptos viene dada por el siguiente teorema.
+
+\begin{teorema}\label{}
+	Sean $a, b \in \Z$, entonces se cumple
+	
+	\begin{equation}
+	(a, b)[a, b] = |ab|
+	\end{equation}
+\end{teorema}
+
+Del mismo modo que pasa con el \textit{Máximo Común Divisor}, el $0$ se comporta mal con esta definición, luego por convención se denota $[a, 0] = [0, a] = [0, ] = 0$ para todo $a \in \Z$.\\
+
+En esencia es el menor entero de manera que es múltiplo tanto de ambos números.\\
+
+Vamos a dar ahora algunas propiedades del \textit{Máximo Común Divisor}.
+
+\begin{proposicion}\label{propiedades_maximo_comun_divisor}
+	Sean $a, b \in \Z$. Entonces se tiene:
+	
+	\begin{enumerate}
+		\item \textbf{Existencia y Unicidad}. Existe un único $d \in \Z$ tal que $(a, b) = d$.
+		
+		\item \textbf{Identidad de Bézout}. Existen $x, y \in \Z$ tales que $ax + by = (a, b)$.
+		
+		\item $(ca, cb) = c(a, b)$ para todo $c > 0$.
+		
+		\item Sea $c > 0$ tal que $c \mid a$ y $c \mid b$. Entonces $\left(\frac{a}{c}, \frac{b}{c}\right) = \frac{(a, b)}{c}$.
+		
+		\item $(a, b) = (b, a) = (a, -b) = (a, b + ac)$ para todo $c \in \Z$.
+		
+		\item Para todo $c \in \Z$ tal que $b \mid ac$, se tiene que $b \mid (a, b)c$.
+		
+		\item Si $(a, b) = 1$ y $b \mid ac$ para algún $c \in \Z$, entonces $b \mid c$.
+		
+		\item Si $b \mid a$ y sea $c \in \Z$ tal que $c \mid a$ y $(b, c) = 1$, entonces se tiene que $bc \mid a$.
+		
+		\item Sea $c \in \Z$, entonces $(a, bc) = 1$ si, y solo si, $(a, b) = (a, c) = 1$.
+	\end{enumerate}
+\end{proposicion}
+
+Una manera elemental de calcular el \textit{Máximo Común Divisor} de dos números es calcular los factores primos de ambos, seleccionar aquellos que coincidan y multiplicarlos. Este método es fácil de enseñar y aplicar. Sin embargo, a medida que las entradas se hacen más grandes, calcular los factores primos puede convertirse en una tarea difícil. Es por ello que \textit{Euclides} desarrolló un algoritmo que acelera este proceso, conocido como \textit{Algoritmo de Euclides}. Antes de mostrar el algoritmo, vamos a dar un par de propiedades que prueban su validez.
+
+\begin{proposicion}
+	Sean $a, b \in \Z$. Se tienen:
+	
+	\item Si $a, b \neq 0$ y $b \mid a$, entonces $(a, b) = |b|$.
+	
+	\item Si $a = qb + r$ para algunos $q, r \in \Z$, entonces $(a, b) = (b, r)$.
+\end{proposicion}
+
+Estas dos propiedades nos permiten mostrar un algoritmo para calcular el \textit{Máximo Común Divisor} que no requiere de calcular los factores primos de ambos números, y solo se basa en los restos de la división de enteros. Mostramos entonces el algoritmo a continuación.
+
+\begin{algorithm}[H]
+	\caption{Algoritmo de Euclides}\label{algoritmo_de_euclides}
+	\begin{algorithmic}[1]
+		\Procedure{GCD}{$a$, $b$}\Comment{Calcula el \textit{máximo común divisor} de $a$ y $b$}
+			\If{$a = b = 0$}
+				\State \Return{$0$}
+			\EndIf
+			\If{$a = 0$}
+				\State \Return{$|a|$}
+			\EndIf
+			\If{$b = 0$}
+				\State \Return{$|b|$}
+			\EndIf
+			\State \Return{GCD($b$, $res(a; b)$)}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+Este algoritmo junto con la definición de \textit{Máximo Común Divisor} será fundamental en todo el trabajo.
 
 \section{Aritmética Modular}
 
@@ -323,7 +472,7 @@ De la definición podemos deducir varias propiedades inmediatas.
 		
 		\item Si $a \equiv b \mod(n)$ y $p \in \Z[x]$, entonces $p(a) \equiv p(b) \mod(n)$.
 		
-		\item Si $a \equiv b \mod(\phi(n))$, entonces $k^a \equiv k^b \mod(n)$ para algún $k$ tal que $(k, n) = 1$.
+		\item Si $a \equiv b \mod(\phi(n))$ y un $k$ tal que $(k, n) = 1$, entonces $k^a \equiv k^b \mod(n)$.
 				
 		\item Si $a + k \equiv b + k \mod(n)$ para algún $k$, entonces $a \equiv b \mod(n)$.
 		
@@ -339,15 +488,45 @@ De la definición podemos deducir varias propiedades inmediatas.
 	\end{enumerate}
 \end{proposicion}
 
-Ahora vamos a presentar el \textit{Binomio de Newton}, propiedad que nos vendrá muy bien en algunas demostraciones.
-
-\begin{teorema}{(Binomio de Newton)}\label{binomio_de_newton}
-	Sean $x, y \in \Z$ (a nosotros nos vale con $\Z$, pero $x$ e $y$ pueden pertenecer a otros espacios más generales), y sea $n \in \Z$ no negativo. Entonces se cumple
+\begin{proof}
+	Vamos a demostrar algunas de estas propiedades, pues muchas de ellas son casi triviales.
 	
-	\[ (x + y)^n = \sum_{k=0}^{n}\binom{n}{k}x^ky^{n-k} \]
-\end{teorema}
-
-La demostración se puede hacer por inducción sobre $n$, por lo que no la vamos a detallar.\\
+	\begin{itemize}
+		\item[6] Si $a \equiv b \mod(n)$, entonces $a = qn + b$ para algún $q \in \Z$. Elevamos a $k$ y nos queda por \autoref{binomio_de_newton} lo siguiente
+		
+		\[ a^k = (qn + b)^k = \sum_{i=0}^{k}\binom{k}{i}q^in^ib^{k-i} = b^k + \sum_{i=1}^{k}\binom{k}{i}q^in^ib^{k-i} = b^k + n\sum_{i=0}^{k-1}\binom{k}{i}q^{i+1}n^ib^{k-i-1} \]
+		
+		Llamando $q' = \sum_{i=0}^{k-1}\binom{k}{i}q^{i+1}n^ib^{k-i-1}$, tenemos que $a^k = q'n + b^k$, luego $a^k \equiv b^k \mod(n)$.
+		
+		\item[7] Se deduce de $2$ y de $6$.
+		
+		\item[8] Si $a \equiv b \mod(\phi(n))$, entonces $a = q\phi(n) + b$ para algún $q \in \Z$, luego nos queda
+		
+		\begin{equation}
+		k^a = k^{q\phi(n) + b} = \left(k^{\phi(n)}\right)^qk^b \equiv k^b \mod(n)
+		\end{equation} 
+		
+		En la última equivalencia hemos usado la propiedad 2 y \autoref{teorema_de_euler}, ya que $(k, n) = 1$.
+		
+		\item[12] Vamos a probar ambas implicaciones.
+		
+		\begin{itemize}
+			\item[$\Rightarrow$] Si $aa^{-1} \equiv 1 \mod(n)$, entonces $aa^{-1} + n(-q) = 1$ para algún $q \in \Z$. Puesto que $ax+ny = (a, n)$ para algunos $x, y \in \Z$ por la \textit{Identidad de Bézout} \autoref{propiedades_maximo_comun_divisor}, entonces podemos asegurar que $(a, n) = 1$.
+			
+			\item[$\Leftarrow$] Como $(a, n) = 1$, por la \textit{Identidad de Bézout} \autoref{propiedades_maximo_comun_divisor} tenemos que $\exists x,y \in \Z$ tales que $ax + ny = 1 \Rightarrow ax \equiv 1 \mod(n)$, luego hemos probado la existencia.\\
+			
+			Supongamos ahora que existe un $b \not\equiv a^{-1} \mod(n)$ tal que $ab \equiv 1 \mod(n)$. Se tiene entonces
+			
+			\begin{align}
+			b &\equiv b(aa^{-1}) \mod(n)\\
+			&\equiv (ba)a^{-1} \mod(n)\\
+			&\equiv a^{-1} \mod(n)
+			\end{align}
+			
+			Llegamos así a una contradicción, luego $a^{-1}$ es único.
+		\end{itemize}
+	\end{itemize}
+\end{proof}
 
 Presentaremos ahora una propiedad interesante de las congruencias.
 
@@ -395,7 +574,7 @@ Presentaremos ahora una propiedad interesante de las congruencias.
 
 Del teorema que acabamos de demostrar, es evidente comprobar que, dado $n \in \Z$, entonces $n^{p-1} \equiv 1 \mod(p)$ para todo $p$ primo. Este hecho nos da una pista de una generalización del pequeño teorema de Fermat, la cual fue descubierta por Euler.
 
-\begin{teorema}{(Teorema de Euler)}
+\begin{teorema}{(Teorema de Euler)}\label{teorema_de_euler}
 	Sean $n, p > 1$ con $n$ y $p$ coprimos, es decir, $(n, p) = 1$. Entonces se cumple que $n^{\phi(p)} \equiv 1 \mod(p)$, siendo $\phi$ la función de Euler.
 \end{teorema}
 
@@ -411,24 +590,38 @@ Por el \textit{Teorema de Euler}, podemos deducir claramente que $ord_n(a) \mid 
 
 \section{Polinomios Ciclotómicos}
 
-Sea $a \in \C$ no nulo. El polinomio $x^n - a \in \C[x]$ con $n \geq 1$ tiene exactamente $n$ raíces distintas, pues la derivada de $x^n - a$ es $nx^{n-1}$, y $x$ (el cual es irreducible) no divide a $x^n - a$.\\
+Lo primero que vamos a hacer es dar una propiedad de las raíces de los polinomios del estilo $x^n - a \in \C[x]$ con $a \in \C$ y $n \geq 1$.
+
+\begin{lema}
+	Sea $a \in \C$ y $n \geq 1$. Entonces el polinomio $x^n - a \in \C[x]$ tiene exactamente $n$ raíces distintas
+\end{lema}
+
+\begin{proof}
+	Si $n = 1$, entonces $a$ es la única raíz, luego supongamos $n > 1$.\\
+	
+	Supongamos ahora que existe $r \in \C$ raíz doble de $x^n - a$. Entonces debe existir un $g \in \C[x]$ tal que $x^n - a = (x - r)^2g(x)$. Derivando ambas partes obtenemos lo siguiente
+	
+	\[ nx^{n-1} = (x - r)(2g(x) + (x - r)g'(x)) \]
+	
+	Luego tanto $x^n - a$ como $nx^{n-1}$ son divisibles por $x - r$, luego $x - r \mid (x^n - a, nx^{n-1})$. Pero $(x^n - a, nx^{n-1}) = a$ y $x - r \nmid a$, lo cual es una contradicción y por lo tanto $r$ no puede ser una raíz doble, luego todas las raíces de $x^n - a$ son distintas.
+\end{proof}
 
 A estos $n$ números complejos (raíces de $x^n - a$) vamos a llamarlos \textbf{raíces $n$-ésimas} de $a$. Si $n=2$, les llamamos \textbf{raíces cuadradas}, o \textbf{raíces cúbicas} si $n=3$. Si $a=1$, se les llama \textbf{raíces $n$-ésimas de la unidad}.\\
 
 Para cada $n \geq 1$, dichas raíces conforman un subgrupo, $\C_n$, del grupo multiplicativo de los complejos, $\C^\times$, definido tal que:
 
-\[ \C_n = \left\lbrace \zeta \in \C^\times : \zeta^n = 1 \right\rbrace = \left\lbrace cos\left(\frac{2k\pi}{n}\right) + i\;sen\left(\frac{2k\pi}{n}\right): k=0,...,n-1  \right\rbrace \]
+\[ \C_n = \left\lbrace \zeta \in \C^\times : \zeta^n = 1 \right\rbrace = \left\lbrace \cos\left(\frac{2k\pi}{n}\right) + i\;\sin\left(\frac{2k\pi}{n}\right): k=0,...,n-1  \right\rbrace \]
 
-Entre estas raíces, $\zeta_n = cos\left(\frac{2\pi}{n}\right) + i\;sen\left(\frac{2\pi}{n}\right)$ es llamada la \textbf{raíz $n$-ésima primitiva de la unidad}. A partir de aquí, es evidente comprobar que $\C_n = \left\langle \zeta_n \right\rangle$, lo cual lo hace un grupo cíclico de orden $n$ generado por $\zeta_n$.\\
+Entre estas raíces, $\zeta_n = \cos\left(\frac{2\pi}{n}\right) + i\;\sin\left(\frac{2\pi}{n}\right)$ es llamada la \textbf{raíz $n$-ésima primitiva de la unidad}. A partir de aquí, es evidente comprobar que $\C_n = \left\langle \zeta_n \right\rangle$, lo cual lo hace un grupo cíclico de orden $n$ generado por $\zeta_n$.\\
 
-Por otro lado, $\zeta_n^k$ es un generador de $\C_n$, o lo que es lo mismo, $or(\zeta_n^k) = n$, si y solo si $(n, k) = 1$. Por lo tanto definimos el conjunto de los generadores de $\C_n$ como:
+Por otro lado, $\zeta_n^k$ es un generador de $\C_n$, o lo que es lo mismo, $or(\zeta_n^k) = n$ si, y solo si, $(n, k) = 1$. Por lo tanto definimos el conjunto de los generadores de $\C_n$ como:
 
 \[ Gen(\C_n) = \left\lbrace \zeta \in \C_n : or(\zeta) = n \right\rbrace = \left\lbrace \zeta_n^k : 1 \leq k \leq n, (n, k) = 1 \right\rbrace \]
 
 Es evidente ver que $\C_n$ tiene $\phi(n)$ generadores. Hacemos entonces la siguiente definición.
 
 \begin{definicion}
-	Sea $n \geq 1$, se define el $n$-ésimo polinomio ciclotómico, $\Phi_n$, tal que:
+	Sea $n \geq 1$, se define el $n$-ésimo polinomio ciclotómico $\Phi_n$ de la siguiente manera:
 	
 	\begin{equation}\label{formula_polinomio_ciclotomico}
 	\Phi_n(x) = \prod_{\zeta \in Gen(\C_n)}(x - \zeta) = \prod_{\substack{1 \leq k \leq n \\ (n, k) = 1}}(x - \zeta_n^k)
@@ -546,7 +739,7 @@ Viendo la definición, es inmediato ver que, dadas dos funciones $f,g:\N \to \R^
 	$n^3 + 2n + 3 \neq \Omega(n^4)$
 \end{ejemplo}
 
-Realmente este concepto es exactamente igual que el anterior, solo que la acotación la hacemos por debajo en vez de por arriba. Pasaremos entonces al concepto siquiente.
+Realmente este concepto es exactamente igual que el anterior, solo que la acotación la hacemos por debajo en vez de por arriba.
 
 \subsection{Notación $\Theta$}
 
@@ -568,6 +761,6 @@ Algunas veces es complicado calcular la complejidad exacta, y puede que nos bast
 
 Con esta definición, tenemos que $O^\sim(\log^k(n)) = O(\log^k(n) \cdot poly(\log(\log^k(n))) = O(\log^{k+\epsilon}(n))$.\\
 
-Consideramos $\log(n)$ como el logaritmo en base $2$, y $ln$ como el logaritmo natural.
+Consideramos de ahora en adelante $\log(n)$ como el logaritmo en base $2$ de $n$, y $\ln(n)$ como el logaritmo natural (o en base $e$) de $n$.
 
 \endinput

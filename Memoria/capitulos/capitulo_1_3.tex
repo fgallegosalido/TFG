@@ -48,7 +48,7 @@ Una idea para reducir la cantidad de coeficientes a evaluar está en reducir la 
 
 Dicho de otro modo, lo que queremos comprobar es que \eqref{identidad_original} se satisface en el anillo $\Z_n[X]/(X^r-1)$ en vez de en $\Z_n[X]$.\\
 
-Es evidente por \autoref{lema_identidad_de_congruencias} que si $n$ es primo, entonces \eqref{identidad_con_polinomio} se sigue cumpliendo en $\Z_n[X]/(X^r-1)$. Sin embargo no ocurre igual al revés. Existen números compuestos $n$ para los que la congruencia \eqref{identidad_con_polinomio} se cumple para algunos valores de $a$.\\
+Es evidente por \autoref{lema_identidad_de_congruencias} que si $n$ es primo, entonces \eqref{identidad_con_polinomio} se sigue cumpliendo en $\Z_n[X]/(X^r-1)$. Sin embargo no ocurre igual al revés. Existen números compuestos $n$ para los que la congruencia \eqref{identidad_con_polinomio} se cumple para algunos valores de $a$ \cite{primes_is_in_p}.\\
 
 Para resolver este problema, probaremos que eligiendo un $r$ de manera conveniente y tal que si \eqref{identidad_con_polinomio} se satisface para varios valores de $a$, tenemos entonces que $n$ es una potencia de un número primo.\\
 
@@ -229,9 +229,9 @@ Teniendo estos dos lemas, podemos pasar a enunciar el lema que nos dará una cot
 	
 	Tenemos entonces la siguiente cadena de desigualdades:
 	
-	\[ r \leq n^{\lfloor \log(B) \rfloor}\prod_{i=1}^{\lfloor \log^2(n) \rfloor}(n^i - 1) < n^{\lfloor \log(B) \rfloor + \frac{1}{2}(\log^4(n) - \log^2(n))} \leq n^{\log^4(n)} = 2^{\log^5(n)} \leq 2^B \leq LCM(B) \]
+	\[ n^{\lfloor \log(B) \rfloor}\prod_{i=1}^{\lfloor \log^2(n) \rfloor}(n^i - 1) < n^{\lfloor \log(B) \rfloor + \frac{1}{2}(\log^4(n) - \log^2(n))} \leq n^{\log^4(n)} = 2^{\log^5(n)} \leq 2^B \leq LCM(B) \]
 	
-	En la tercera desigualdad hemos usado \autoref{desigualdad_log4_log2}, y en la ultima hemos usado \autoref{desigualdad_LCM}. Esto implica que $r \leq B$.\\
+	En la tercera desigualdad hemos usado \autoref{desigualdad_log4_log2}, y en la ultima hemos usado \autoref{desigualdad_LCM}. Puesto que \eqref{valor_para_acotar_r} es menor que $LCM(B)$, debe haber algún valor $d \leq B$ de modo que no divida a \eqref{valor_para_acotar_r}. Si no fuera así, es decir, que \eqref{valor_para_acotar_r} es divisible por todo $d \leq B$, tendríamos que \eqref{valor_para_acotar_r} es un múltiplo común de todos esos números, luego tenemos que \eqref{valor_para_acotar_r} es mayor o igual que $LCM(B)$, lo cual contradice la cadena anterior. Por haber elegido $r$ como el menor número de manera que no divida a \eqref{valor_para_acotar_r}, podemos entonces asegurar que $r \leq B$.\\
 	
 	Teniendo esto, hagamos ahora una pequeña observación. Si $m^k \leq B$ con $m \geq 2$ y $k \geq 0$, tenemos que el mayor valor posible de $k$ sería $\lfloor \log(B) \rfloor$ (el caso en el que $m = 2$).\\
 	
@@ -337,17 +337,31 @@ Vamos ahora a dar dos características que prueban que esta propiedad es cerrada
 	\end{enumerate}
 \end{proof}
 
-Con estos dos resultados, y sabiendo que $p$ y $\frac{n}{p}$ son introspectivos para $X + a$ con $0 \leq a \leq \ell$, podemos afirmar que todos los elementos del conjunto $I = \left\{ p^i\left(\frac{n}{p}\right)^j | i, j \geq 0 \right\}$ son introspectivos para todos los elementos del conjunto $P = \left\{ \prod_{a=0}^{\ell}(X + a)^{e_a} | e_a \geq 0 \right\}$.\\
+Con estos dos resultados, y sabiendo que $p$ y $\frac{n}{p}$ son introspectivos para $X + a$ con $0 \leq a \leq \ell$, podemos afirmar que todos los elementos del conjunto
+
+\begin{equation}\label{i_valores_introspectivos}
+I = \left\{ p^i\left(\frac{n}{p}\right)^j | i, j \geq 0 \right\}
+\end{equation}
+
+son introspectivos para todos los elementos del conjunto
+
+\begin{equation}\label{p_polinomios_introspectivos}
+P = \left\{ \prod_{a=0}^{\ell}(X + a)^{e_a} | e_a \geq 0 \right\}
+\end{equation}
 
 Vamos ahora a definir dos grupos que serán de vital importancia en la demostración. Empecemos por el primero de ellos.
 
-\[ G = \left\{ a \in \Z_r \mid b \equiv a \mod(p, X^r - 1),\;\;b \in I \right\} \]
+\begin{equation}\label{grupo_introspectivos}
+G = \left\{ a \in \Z_r \mid b \equiv a \mod(p, X^r - 1),\;\;b \in I \right\}
+\end{equation}
 
 Este grupo consiste básicamente en los restos de dividir los elementos de $I$ por $r$. Como tenemos que $(n, r) = (p, r) = 1$, es claro entonces que $G$ es un subgrupo del grupo multiplicativo de $\Z_r$, $\Z_r^\times$. Definamos $t = |G|$. Es claro que $G$ está generado por $n$ y $p$ (pues $n = \frac{n}{p}p$, producto de dos elementos de $I$) y, sabiendo esto y que $ord_r(n) > \log^2(n)$, es claro que $t > \log^2(n)$.\\
 
 Definamos ahora el segundo grupo. Para ello, sea $\Phi_r \in \Z_p[X]$ el $r$-ésimo polinomio ciclotómico con coeficientes en $\Z_p$. Entonces sabemos que $\Phi_r$ factoriza en polinomios irreducibles de grado $ord_r(p)$. Sea entonces $h \in \Z_p[X]$ uno de esos factores irreducibles, cuyo grado será mayor que $1$ al ser $ord_r(p) > 1$. Sea el cuerpo $\mathbb{F} = \Z_p[X]/(h(X))$. Definimos pues el segundo grupo.
 
-\[ \mathcal{G} = \left\{ f \in \mathbb{F} \mid g \equiv f \mod(p, X^r - 1),\;\;g \in P \right\} \]
+\begin{equation}\label{grupo_polinomios_introspectivos}
+\mathcal{G} = \left\{ f \in \mathbb{F} \mid g \equiv f \mod(p, X^r - 1),\;\;g \in P \right\}
+\end{equation}
 
 Este grupo consiste en los restos de dividir los elementos de $P$ entre $h(X)$ y $p$. Es claro que $\mathcal{G}$ está genarado por $X + a$ con $0\leq a \leq \ell$ en el cuerpo $\mathbb{F}$, y es claro entonces que $\mathcal{G}$ es un subgrupo del grupo multiplicativo de $\mathbb{F}$, $\mathbb{F}^\times$.\\
 
@@ -358,7 +372,7 @@ Nuestra tarea ahora va a ser dar cotas para el grupo $\mathcal{G}$ recién defin
 \end{lema}
 
 \begin{proof}
-	Para empezar vamos a comprobar que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathbb{F}$. Para ello, supongamos $g, f \in P$ distintos de grados menor que $t$ tales que $f(X) \equiv g(X)$ en $\mathbb{F}$. Tomemos $m \in I$. Sabemos que $f(X)^m \equiv g(X)^m$ en $\mathbb{F}$, y como $m$ es introspectivo para $f$ y $g$, entonces tenemos
+	Para empezar vamos a comprobar que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathbb{F}$. Para ello, supongamos $g, f \in P$ \eqref{grupo_polinomios_introspectivos} distintos de grados menor que $t$ tales que $f(X) \equiv g(X)$ en $\mathbb{F}$. Tomemos $m \in I$. Sabemos que $f(X)^m \equiv g(X)^m$ en $\mathbb{F}$, y como $m$ es introspectivo para $f$ y $g$, entonces tenemos
 	
 	\[ f(X^m) \equiv g(X^m) \]
 	
@@ -380,7 +394,7 @@ Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual s
 \end{lema}
 
 \begin{proof}
-	Vamos a considerar el siguiente subconjunto de $I$ definido de la siguiente manera:
+	Vamos a considerar el siguiente subconjunto de $I$ \eqref{i_valores_introspectivos} definido de la siguiente manera:
 	
 	\begin{equation}\label{subconjunto_de_I}
 	\hat{I} = \left\{\left(\frac{n}{p}\right)^ip^j \mid 0 \leq i,j \leq \lfloor \sqrt{t} \rfloor \right\}
@@ -394,7 +408,7 @@ Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual s
 	&\equiv f(X)^{m_2} \mod(p, X^r-1)
 	\end{align}
 	
-	En específico, tenemos que $f(X)^{m_1} \equiv f(X)^{m_2} \mod(p, h(X))$. Por lo tanto, es evidente que $f \in \mathcal{G}$ es una raíz del polinomio $Y^{m_1} - Y^{m_2}$ en el cuerpo $\mathbb{F}$. Puesto que $f$ es un elemento arbitrario de $\mathcal{G}$, sabemos que el polinomio $Y^{m_1} - Y^{m_2}$ debe tener al menos $|\mathcal{G}|$ raíces distintas. Siendo tal el caso, y teniendo que el grado de $Y^{m_1} - Y^{m_2}$ es $m_1$, nos queda
+	Así tenemos que $f(X)^{m_1} \equiv f(X)^{m_2} \mod(p, h(X))$. Por lo tanto, es evidente que $f \in \mathcal{G}$ es una raíz del polinomio $Y^{m_1} - Y^{m_2}$ en el cuerpo $\mathbb{F}$. Puesto que $f$ es un elemento arbitrario de $\mathcal{G}$, sabemos que el polinomio $Y^{m_1} - Y^{m_2}$ debe tener al menos $|\mathcal{G}|$ raíces distintas. Siendo tal el caso, y teniendo que el grado de $Y^{m_1} - Y^{m_2}$ es $m_1$, nos queda
 	
 	\[|\mathcal{G}| \leq m_1 \leq \left(\frac{n}{p}p\right)^{\lfloor\sqrt{t}\rfloor} = n^{\lfloor\sqrt{t}\rfloor} \leq n^{\sqrt{t}}\qedhere \]
 \end{proof}
@@ -488,6 +502,6 @@ Se puede mejorar aún más la complejidad del algoritmo hasta $O^\sim(\log^3(n))
 
 Esta congruencia se puede determinar en tiempo $O^\sim(r\log^2(n))$, y como dicho $r$ podemos encontrarlo en el intervalo $[2, 4\log(n)]$, concluimos con el análisis.\\
 
-Existen argumentos heurísticos que afirman que dicha conjetura probablemente no sea cierta. Sin embarga, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
+Existen argumentos heurísticos que afirman que dicha conjetura probablemente no sea cierta. Sin embargo, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
 
 \endinput

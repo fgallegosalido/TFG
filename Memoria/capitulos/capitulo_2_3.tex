@@ -16,7 +16,7 @@ El análisis de cada conjunto irá acompañado de gráficas que representen visu
 
 \section{Tests Probabilísticos}
 
-En esta sección vamos a presentar las dos implementaciones de los tests probabilísticos que vamos a usar, además de explicarlos un poco por encima.\\
+En esta sección vamos a presentar las dos implementaciones de los tests probabilísticos que vamos a usar, además de explicarlos brevemente.\\
 
 La base teórica de ambos test ya la explicamos anteriormente, y en esta solo nos vamos a centrar en la implementación de los mismos.\\
 
@@ -106,7 +106,7 @@ auto isProbablyPrime(mpz_class n, mpz_class k, gmp_randclass &prng) -> bool {
 
 Primero nos libramos de los múltiplos de $2$.\\
 
-Una vez hecho eso, simplemente ejecutamos el test el número de rondas que se ha pasado con números aleatorios generados entre $2$ y $n-1$. El \textit{Símbolo de Jacobi} \ref{simbolo_de_jacobi} lo hayamos usando la función que nos proporciona \textbf{GMP} para ello (usando el wrapper que hemos creado para C++).\\
+Una vez hecho eso, simplemente ejecutamos el test el número de rondas que se ha pasado con números aleatorios generados entre $2$ y $n-1$. El \textit{Símbolo de Jacobi} \ref{simbolo_de_jacobi} lo hallamos usando la función que nos proporciona \textbf{GMP} para ello (usando el wrapper que hemos creado para C++).\\
 
 Igual que con el test de \textit{Miller-Rabin}, si no se pasa el test para alguna ronda, devolvemos false (compuesto). Si llegamos al final, devolvemos true (probablemente primo).
 
