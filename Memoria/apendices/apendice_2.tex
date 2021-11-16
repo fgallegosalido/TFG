@@ -1,0 +1,123 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+
+\chapter{Otros Algoritmos}\label{otros_algoritmos}
+
+En este apéndice vamos a detallar cómo se comportan algunas de las funciones de librerías externas para que quede más claro qué fundamentos matemáticos se utilizan.
+
+\section{Potencias Perfectas}
+
+En esta sección vamos a ver cómo funciona la implementación de \textbf{GMP} de la función \textit{mpz\_perfect\_power\_p}, la cual devuelve un entero distinto de $0$ si su entrada es una potencia perfecta.\\
+
+La idea está en usar el \textit{Método de Newton} para encontrar raíces con la siguiente secuencia de iteraciones.
+
+\begin{equation}
+a_{i+1} = \frac{1}{n}\left(\frac{A}{a_i^{n-1}} + (n-1)a_i\right)
+\end{equation}
+
+En esta fórmula recursiva, $A$ es el número cuya raíz $n$-ésima queremos calcular. La primera aproximación, $a_1$, se calcula de modo que la raíz real se quede justo por debajo de la primera aproximación, asegurando así obtener la raíz real \cite{gmp_man_2020}.\\
+
+Esta secuencia de iteraciones se sabe que converge de manera cuadrática.\\
+
+Finalmente, usando esta idea del \textit{Método de Newton}, lo que se hace es calcular sucesivas raíces donde $n$ es primo, y luego elevar para comprobar si coinciden los resultados. Esto nos proporciona una complejidad de $O(\log^3(n))$ \cite{bach_sorenson_1989}.
+
+\section{Transformada Rápida de Fourier}
+
+Existen algoritmos elementales para multiplicar tanto enteros como polinomios. Estos algoritmos, aunque sencillos y fáciles de enseñar, tienen una complejidad algorítmica elevada. En el caso de la multiplicación de enteros, dicho método elemental tiene complejidad $O(M(n)) = O(n^2)$, donde $n$ es la cantidad de bits que ocupa el número en cuestión. Del mismo modo, la multiplicación polinómica elemental tiene complejidad $O(P(n, m)) = O(n^2M(m))$, donde $n$ es el grado del polinomio y $m$ es el número de bits de sus coeficientes.\\
+
+Estas operaciones pueden ser aceleradas haciendo uso de algoritmos más sofisticados. Uno de los más usados en este ámbito es el algoritmo de la \textit{Transformada Rápida de Fourier} (\textit{FFT} por las siglas del término en inglés, \textit{Fast Fourier Transform}).\\
+
+Para explicar la \textit{Transformada Rápida de Fourier}, primero tenemos que entender qué es una \textit{Transformada Discreta de Fourier} (\textit{DFT} por las siglas del término en inglés, \textit{Discrete Fourier Transform}). Damos entonces la siguiente definición.
+
+\begin{definicion}
+	Sean $x_0,\dotso,x_{N-1} \in \C$. Se define la \textit{Transformada Discreta de Fourier} de la siguiente forma:
+	
+	\begin{equation}
+	X_k = \sum_{n=0}^{N-1}x_ne^{-i2\pi kn / N},\;\;\;\;\forall k \in \{0,\dotso,N-1\}
+	\end{equation}
+\end{definicion}
+
+De la definición podemos ver la importancia de las raíces de la unidad. En este caso, $e^{i2\pi/N}$ es la $N$-ésima raíz primitiva de la unidad.\\
+
+Si observamos, usando la definición tal cual está presentada, calcular una \textit{Transformada Discreta de Fourier} requiere de realizar un total de $O(\log^2(N))$ operaciones. Esto supone que es necesario acelerar dicho proceso para poder mejorar dicha eficiencia. Es aquí donde entran varias optimizaciones, las cuales logran reducir la complejidad de $O(\log^2(N))$ a $O^\sim(\log(N))$. Dichas optimizaciones son las que se usan en los algoritmos de multiplicación tanto de enteros como polinómica, y son las que conocemos como \textit{Transformadas Rápidas de Fourier}.\\
+
+La versión más conocida es el algoritmo de \textit{Cooley-Tukey} \cite{cooley_tukey_1969}. Se trata de un algoritmo \textit{Divide y Vencerás} que recursivamente va calculando sucesivas \textit{Transformadas Discretas de Fourier} de tamaño menor.
+
+\section{Generador Mersenne Twister}
+
+A la hora de diseñar tests probabilísticos, estos necesitan de una manera de generar números aleatorios. Puesto que la generación de números aleatorios puros es difícil por el determinismo de las máquinas, necesitamos una manera de generar números que al menos parezcan aleatorios. Es lo que se conoce como los números \textit{pseudo-aleatorios}.\\
+
+La manera de generar estos números no solo nos proporciona números que aparentemente son aleatorios, sino que además nos permite repetir experimentos de manera que los números generados aleatoriamente sean los mismo.\\
+
+Normalmente, los generadores requieren de una posición inicial, conseguida mediante lo que se conoce como una semilla. Usar la misma semilla en distintas ejecuciones implica generar exactamente los mismos números en el mismo orden.\\
+
+Existen mucho generadores de números \textit{pseudo-aleatorios}, cada uno con sus ventajas y sus inconvenientes. Uno de los más usados, y el que hemos usado en este trabajo es el \textit{Mersenne Twister} \cite{matsumoto_nishimura_1998}.\\
+
+La implementación más extendida suele ser la basada en el número primo $2^{19937}-1$, también conocida como \textit{MT19937}, que usa semillas de longitud $32$ bits. Entre algunas de sus ventajas, podemos destacar que tiene un periodo suficientemente largo. En específico, los valores se repiten tras $2^{19937}-1$ iteraciones, lo cual lo hace muy conveniente. Además, la distribución de los números pasa algunos test de aleatoriedad. Además es considerablemente rápido.\\
+
+Entre sus desventajas se encuentran que el estado del generador ocupa más memoria que otros generadores.
+
+\section{Otros Tests de Primalidad}
+
+En esta sección vamos a explicar brevemente algunos tests de primalidad utilizados en la actualidad, pero que no han sido usados en este trabajo.
+
+\subsection{Test de Lucas}
+
+El test probabilístico de \textit{Lucas} es distinto respecto a los otros tests probabilísticos estudiados en el trabajo: \textit{Miller-Rabin} y \textit{Solovay-Strassen}. Mientras que estos últimos determinan si un número es probablemente primo, el test de \textit{Lucas} funciona al revés, es decir, determina si un número es probablemente compuesto.\\
+
+Si el test de \textit{Lucas} determina que la entrada es un primo, entonces el número es definitivamente primo junto con su correspondiente certificado de primalidad. Sin embargo solo puede detectar que la entrada es definitivamente compuesta en determinados casos, mientras que en los demás solo determinará que es probablemente compuesto.\\
+
+La idea del test está en que si existe un $a \in \{2,\dotso, n-1\}$ donde $n$ es el número cuya primalidad queremos comprobar, de modo que se cumple
+
+\begin{equation}
+a^{n-1} \equiv 1 \mod(n),
+\end{equation}
+
+y para cada factor primo $q$ de $n-1$ se tiene
+
+\begin{equation}
+a^{(n-1)/q} \not\equiv 1 \mod(n),
+\end{equation}
+
+entonces $n$ es primo. Si tal $a$ no existe, entonces $n$ es $1$, $2$ ó es compuesto. Como podemos comprobar, este test requiere conocer los factores primos de $n-1$, lo cual es otro problema distinto a tratar. Veamos un ejemplo.
+
+\begin{ejemplo}
+	Sea $n = 71$, luego $n-1 = 70$ y cojamos aleatoriamente $a = 17$. Teniendo en cuenta que los factores primos de $70$ son $2$, $5$ y $7$. tenemos lo siguiente:
+	
+	\begin{align}
+	17^{70} &\equiv 1 \mod(71)\\
+	17^{35} &\equiv 70 \mod(71) \not\equiv 1 \mod(71)\\
+	17^{14} &\equiv 25 \mod(71) \not\equiv 1 \mod(71)\\
+	17^{10} &\equiv 1 \mod(71)
+	\end{align}
+	
+	Como $17^10 \equiv 1 \mod(71)$, no podemos decir nada sobre la primalidad de $71$. Sea ahora $a = 11$. Entonces nos queda:
+	
+	\begin{align}
+	11^{70} &\equiv 1 \mod(71)\\
+	11^{35} &\equiv 70 \mod(71) \not\equiv 1 \mod(71)\\
+	11^{14} &\equiv 54 \mod(71) \not\equiv 1 \mod(71)\\
+	11^{10} &\equiv 32 \mod(71) \not\equiv 1 \mod(71)
+	\end{align}
+	
+	Tenemos entonces que $71$ es primo y su certificado de primalidad es $a = 11$.
+\end{ejemplo}
+
+Una versión probabilística de este test es probar distintos valores de $a$, y si encontramos alguno para el que $n$ no pasa el test anterior, entonces $n$ es primo. si por el contrario pasa el test para todas las rondas, diremos que es probablemente compuesto.\\
+
+Este test es usado en la generación de números primos, junto con otros tests como el de \textit{Miller-Rabin} \cite{digital_signature_standard}.
+
+\subsection{Test de Baillie-PSW}
+
+El test probabilístico de \textit{Billie-PSW} consiste en una combinación del test de \textit{Miller-Rabin} y de los primos probables fuertes de \textit{Lucas}.\\
+
+La principal idea está en que el conjunto de los números compuestos que pasan el test de \textit{Miller-Rabin} para la base $2$ y el conjunto de los primos probables fuertes de \textit{Lucas} no tienen elementos comunes. Hasta el momento no se ha encontrado un número compuesto que pertenezca a ambos conjuntos.\\
+
+Esto significa que un número que pase ambos test será con alta probabilidad primo.\\
+
+Este test es el que se implementa en la librería \textbf{GMP}.
+
+\endinput
+%------------------------------------------------------------------------------------
+% FIN DEL APÉNDICE. 
+%------------------------------------------------------------------------------------

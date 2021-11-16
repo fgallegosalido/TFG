@@ -32,7 +32,7 @@ Existen otras propiedades para los números primos que nos pueden indicar tests 
 
 Este test es mucho más rápido que el anterior. De hecho es polinómico. Sin embargo no es determinista. De hecho el test falla siempre en un conjunto de números compuestos denominados de \textit{Charmichael}, los cuales siempre cumplen el \textit{Pequeño Teorema de Fermat}.\\
 
-Dicho test, a pesar de no ser correcto, es base de muchos otros tests, como por ejemplo el test de \textit{Miller-Rabin}, el test de \textit{Lucas} o el test \textit{AKS}.
+Dicho test, a pesar de no ser correcto, es base de muchos otros tests, como por ejemplo el test de \textit{Miller-Rabin}, el test de \textit{Lucas} (\autoref{otros_algoritmos}) o el test \textit{AKS}.
 
 \section{Tipos de Tests de Primalidad}
 
@@ -191,7 +191,7 @@ La elección se hace de manera aleatoria porque no se sabe con certeza la distri
 
 En \cite{digital_signature_standard} Anexo C.3, podemos encontrar la cantidad de bases mínimas a probar para obtener una fiabilidad suficiente de la primalidad. Para números de $1024$ bits se recomienda probar $40$ bases, $56$ para números de $2048$ bits y $64$ para números de $3072$ bits. Estos números son algo menores si también aplicamos el test de \textit{Lucas}.\\
 
-En el anexo <complejidad miller rabin> detallaremos que la complejidad de este test es $O(k\log^3(n))$ con multiplicación tradicional, ó $O^\sim(k\log^2(n))$ con versiones que hacen uso de la \textit{Transformada Inversa de Fourier} ($k$ es la cantidad de bases a probar).
+En \autoref{complejidad_tests_probabilisticos} detallaremos que la complejidad de este test es $O(k\log^3(n))$ con multiplicación tradicional, ó $O^\sim(k\log^2(n))$ con versiones que hacen uso de la \textit{Transformada Inversa de Fourier} ($k$ es la cantidad de bases a probar).
 
 \subsubsection{Versión Determinista Condicionada}
 
@@ -201,7 +201,7 @@ Existe una versión que fue descubierta por \textit{Miller} la cual hace uso de 
 
 Asumiendo la veracidad de La \textit{Hipótesis de Riemann Generalizada} \autoref{hipotesis_generalizada_de_riemann}, se puede demostrar que las bases a probar son menores que $k = O(c\ln^2(n))$. La constante $c$ se puede demostrar que es $2$, y por lo tanto la versión determinista solo debe comprobar las congruencias \eqref{congruencias_miller_rabin} para $2 \leq a \leq \min\{n-2, \lfloor 2\ln^2(n) \rfloor\}$.\\
 
-Esta versión, puesto que $k = O(\ln^2(n))$, tiene complejidad $O^\sim(\log^4(n))$. Para una descripción más exacta, ir al anexo <anexo miller determinista>.
+Esta versión, puesto que $k = O(\ln^2(n))$, tiene complejidad $O^\sim(\log^4(n))$. Para una descripción más exacta, ir a \autoref{complejidad_tests_probabilisticos}.
 
 \subsection{Test de Solovay-Strassen}
 
@@ -270,12 +270,14 @@ Dicha versión funciona de la misma manera que el test de \textit{Miller-Rabin}.
 
 Como vimos antes, al menos la mitad de las bases son \textit{testigos de Euler}, luego en cada iteración tenemos una probabilidad de $2^{-1}$ de que $a$ sea un \textit{mentiroso de Euler}, luego la probabilidad después de $k$ rondas es $2^{-k}$, mucho mayor en contraste con la de \textit{Miller-Rabin}, $4^{-k}$.\\
 
-La complejidad de este test es, usando buenos algoritmos, $O(k\log^3(n))$, como veremos en el anexo <anexo solovay strassen probabilistico>.
+La complejidad de este test es, usando multiplicación de enteros usando la \textit{Transformada Rápida de Fourier} y \textit{Exponenciación Rápida}, $O^\sim(k\log^2(n))$ como veremos en \autoref{complejidad_tests_probabilisticos}. Usando multiplicación tradicional tendríamos una complejidad de $O(k\log^3(n))$.
 
 \subsubsection{Versión Determinista Condicionada}
 
 Usando la misma idea que en el test de \textit{Miller-Rabin}, en caso de que la \textit{Hipótesis Generalizada de Riemann} sea cierta, podemos asegurar que existe un \textit{testigo de Euler} menor o igual que $2\log^2(n)$ \cite{bach_1990}.\\
 
-Podemos entonces modificar el algoritmo probabilístico para que pruebe todas las bases hasta $2\log^2(n)$. Si $n$ es compuesto, al menos una de esas bases será un \textit{testigo de Euler}, por lo que se determinará correctamente la primalidad de $n$.
+Podemos entonces modificar el algoritmo probabilístico para que pruebe todas las bases hasta $2\log^2(n)$. Si $n$ es compuesto, al menos una de esas bases será un \textit{testigo de Euler}, por lo que se determinará correctamente la primalidad de $n$.\\
+
+En \autoref{complejidad_tests_probabilisticos} se comprueba que la complejidad de este test es $O^\sim(\log^4(n))$
 
 \endinput

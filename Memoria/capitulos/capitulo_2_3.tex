@@ -122,13 +122,13 @@ Todas estas mediciones se realizarán en una máquina cuya CPU tiene una frecuen
 
 Los números primos que usaremos serán los mayores para una cantidad determinada de bits. Por ejemplo: $3$ es el mayor primo que ocupa $2$ bits, $7$ para $3$ bits, $31$ para $5$ bits, $65521$ que ocupa $16$ bits, etc.\\
 
-La generación de dichos primos se encuentra en el Anexo <anexo generación de primos>.\\
+La generación de dichos primos se encuentra en \autoref{codigo_fuente}.\\
 
-Las gráficas se presentan con ambos ejes en escala logarítmica en base $2$, para poder apreciar mejor los resultados.\\
+Las gráficas se presentan con ambos ejes en escala logarítmica en base $2$, para poder apreciar mejor los resultados. Además, las gráficas están generadas con \textit{Gnuplot}. Más información en \autoref{codigo_fuente}.\\
 
 Como ya explicamos anteriormente, la cantidad de rondas a ejecutar en los tests probabilísticos será $40$ según \cite{digital_signature_standard}. Esto solo aplica al test de \textit{Miller-Rabin}. Para el test de \textit{Solovay-Strassen}, puesto que queremos que ambas implementaciones tengan aproximadamente las mismas probabilidades de fallar, ejecutaremos el doble de rondas (ya que este test tiene el doble de posibilidades de fallar, como explicamos anteriormente).\\
 
-Los tests probabilísticos aceptan, además del número cuya primalidad queremos probar y la cantidad de rondas, un generador de números aleatorios. Esto nos va a permitir que, al realizar las mediciones, obtengamos los mismos resultados siempre y cuando utilicemos el mismo generador en el mismo estado en cada ejecución. Es por ello que utilizaremos la misma semilla para inicializar el generador de números aleatorios en todas las ejecuciones. Dicho generador es el conocido \textit{Mersenne-Twister}.
+Los tests probabilísticos aceptan, además del número cuya primalidad queremos probar y la cantidad de rondas, un generador de números aleatorios. Esto nos va a permitir que, al realizar las mediciones, obtengamos los mismos resultados siempre y cuando utilicemos el mismo generador en el mismo estado en cada ejecución. Es por ello que utilizaremos la misma semilla para inicializar el generador de números aleatorios en todas las ejecuciones. Dicho generador es el conocido \textit{Mersenne-Twister}. Se puede encontrar más información de dicho generador en \autoref{otros_algoritmos}.
 
 \subsection{Números Primos}
 
@@ -193,12 +193,12 @@ Esto nos ayudará a comprobar cómo se comportan los tres tests en los casos má
 Usaremos distintos conjuntos de prueba:
 
 \begin{itemize}
-	\item Compuestos con factores primos grandes de magnitud similar. Por ejemplo, números compuestos que sean producto de un número de $256$ bits y $260$ bits.
+	\item Compuestos con factores primos grandes de magnitud similar. En particular, números compuestos que sean producto de un número de $32$ bits y otro que tenga entre $33$ bits y $42$ bits.
 	
-	\item Compuestos con factores primos de magnitudes distintas. Por ejemplo, números compuestos con factores de $128$ bits y $256$ bits.
+	\item Compuestos con factores primos de magnitudes distintas. En particular, números compuestos con factores de $16$ bits y otro que tenga entre $33$ bits y $42$ bits.
 \end{itemize}
 
-Vayamos con la gráfica del primer conjunto de prueba.
+La decisión de no elegir factores más grandes se debe a que el algoritmo \textbf{AKS} empezaba a tardar mucho tiempo con números más grandes, y se ha considerado que estos conjuntos de prueba son suficientes para reafirmar la idea de que el test \textbf{AKS} es muy lento comparado con los probabilísticos. Vayamos ahora con la gráfica del primer conjunto de prueba.
 
 \begin{figure}[H]
 	\centering

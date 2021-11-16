@@ -1,0 +1,85 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+
+\chapter{Complejidad Tests Probabilístios}\label{complejidad_tests_probabilisticos}
+
+En este apéndice vamos a describir algorítmicamente los test de \textit{Miller-Rabin} y \textit{Solovay-Strassen}.\\
+
+Además comprobaremos también la complejidad de dichos algoritmos, tanto sus versiones probabilísticas como las deterministas asumiendo la veracidad de la \textit{Hipótesis de Riemann Generalizada}.
+
+\section{Test de Miller-Rabin}
+
+Vamos a presentar primero la versión probabilística del algoritmo.
+
+\begin{algorithm}[H]
+	\caption{Algoritmo de \textit{Miller-Rabin}}\label{algoritmo_de_miller_rabin}
+	\begin{algorithmic}[1]
+		\Procedure{isProbablyPrimeMillerRabin}{$n$, $k$}\Comment{Comprueba si $n$ es probablemente primo aplicando $k$ tests de \textit{Miller-Rabin}}
+			\State Sea $n = d2^s + 1$ con $d \geq 1$ impar y $s \geq 1$.
+			\For{$i = 1$ hasta $k$}
+				\State Sea $a$ un entero aleatorio en $[2, n-2]$
+				\State $x = a^d \% n$
+				\If{$x = 1$ ó $x = n-1$}
+					\State Continuamos siguiente ronda
+				\EndIf
+				\For{$j = 1$ hasta $s-1$}
+					\State $y = x^2 \% n$
+					\If{$y = 1$}
+						\State \Return{COMPUESTO}
+					\EndIf
+					\State $x = y$
+					\If{$x = n-1$}
+						\State Continuamos siguiente ronda
+					\EndIf
+				\EndFor
+				\State \Return{COMPUESTO}
+			\EndFor
+			\State \Return{PROBABLEMENTE\_PRIMO}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+Lo primero que vemos es que el test se ejecuta $k$ veces, por lo que vamos a centrarnos en la complejidad de cada iteración.\\
+
+El bucle interior realiza $s-1$ iteraciones, que por la manera en que hemos definido $s$ sabemos que es $O(\log(n))$, por lo tanto el bucle interior realiza $O(\log(n))$ iteraciones. En cada iteración de dicho bucle tenemos que realizar una multiplicación módulo $n$, cuya complejidad es $O(M(\log(n))) = O^\sim(\log(n))$. Juntando todas las piezas, tenemos que la complejidad del algoritmo \autoref{algoritmo_de_miller_rabin} es $O^\sim(k\log^2(n))$. Si usamos multiplicación elemental, es decir, que $O(M(\log(n))) = O(\log^2(n))$, la complejidad sería $O(k\log^3(n))$.\\
+
+Para la versión determinista no vamos a presentar el algoritmo de nuevo entero, pues lo único que cambia es que comprobamos el test para todos los $a \in [2, \min\{n-2, \lfloor 2\ln^2(n)\rfloor\}]$. Puesto que en este caso hay que realizar $O(\ln^2(n))$ operaciones en vez de $k$, la complejidad del algoritmo \autoref{algoritmo_de_miller_rabin} en su versión determinista es $O^\sim(\ln^2(n)\log^2(n)) = O^\sim(\log^4(n))$.
+
+\section{Test de Solovay-Strassen}
+
+Vamos a presentar la versión probabilística del algoritmo.
+
+\begin{algorithm}[H]
+	\caption{Algoritmo de \textit{Solovay-Strassen}}\label{algoritmo_de_solovay_strassen}
+	\begin{algorithmic}[1]
+		\Procedure{isProbablyPrimeSolovayStrassen}{$n$, $k$}\Comment{Comprueba si $n$ es probablemente primo aplicando $k$ tests de \textit{Solovay-Strassen}}
+			\For{$i = 1$ hasta $k$}
+				\State Sea $a$ un entero aleatorio en $[2, n-1]$
+				\State $x = \left(\frac{a}{n}\right)$
+				\If{$x = 0$ ó $a^{(n-1)/2} \not\equiv x \mod(n)$}
+					\State \Return{COMPUESTO}
+				\EndIf
+			\EndFor
+			\State \Return{PROBABLEMENTE\_PRIMO}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+La complejidad depende de $k$, luego nos vamos a centrar en la complejidad de cada iteración del test.\\
+
+Hay dos aspectos importantes a destacar en cada iteración:
+
+\begin{itemize}
+	\item Calcular el \textit{Símbolo de Jacobi} de $a$ y $n$.
+	
+	\item Hacer una exponenciación.
+\end{itemize}
+
+El \textit{Símbolo de Jacobi} se puede calcular en $O(\log(a)\log(n)) = O(\log^2(n))$ \cite{cohen_1993}. La exponenciación modular requiere de $O(\log(n))$ multiplicaciones, y cada multiplicación tiene complejidad $O(M(\log(n))) = O^\sim(\log(n))$ usando la \textit{Transformada Rápida de Fourier}. Esto nos proporciona una complejidad total de cada iteración de $O^\sim(\log^2(n))$ ($O(\log^3(n))$ usando multiplicación elemental de enteros). Puesto que esta complejidad es mayor que la de calcular el \textit{Símbolo de Jacobi}, será la que elijamos para calcular la complejidad final. Esto nos resulta en un test con complejidad $O^\sim(k\log^2(n))$ usando multiplicación rápida de enteros, ó $O(k\log^3(n))$ con multiplicación elemental.\\
+
+Para la versión determinista, el test es exactamente el mismo, solo que en vez de elegir $a$ de manera aleatoria $k$ veces, comprobamos el test para varios valores hasta un límite. Dicho límite, como ya vimos anteriormente, es $2\log^2(n)$, de modo que el bucle principal se ejecuta $O(\log^2(n))$ veces, luego la complejidad del algoritmo en su versión determinista es $O^\sim(\log^4(n))$ usando multiplicación rápida de enteros, y $O(\log^5(n))$ usando multiplicación elemental.
+
+\endinput
+%------------------------------------------------------------------------------------
+% FIN DEL APÉNDICE. 
+%------------------------------------------------------------------------------------

@@ -1,0 +1,70 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+
+\chapter{Código Fuente}\label{codigo_fuente}
+
+En este apéndice se van a explicar algunas cosas del código fuente que quedan fuera del trabajo principal. El código fuente se puede encontrar en \cite{fgallego_tfg_github}.
+
+\section{Generación de Números Primos}
+
+En la última sección del trabajo nos dedicamos a comparar el test \textbf{AKS} con los test probabilísticos de \textit{Miller-Rabin} y de \textit{Solovau-Strassen}.\\
+
+Para dichas comparaciones era necesario generar distintos números primos que nos ayudaran a presentar resultados con distintos conjuntos y combinaciones. Para generar los números primos, se ha considerado que la mejor manera de hacerlo es usando la función que proporciona \textbf{GMP} llamada \textit{mpz\_probab\_prime\_p}. Esta función devuelve $2$ si el número es definitivamente primo, $1$ si es probablemente primo y $0$ si es definitivamente compuesto.\\
+
+El conjunto de números primos generado son los mayores primos que ocupan $k$ bits. Por ejemplo, $13$ es el mayor primo que ocupa $4$ bits. Se han generado primos hasta los $512$ bits. El código para generarlos es el siguiente:
+
+\begin{lstlisting}
+auto biggestNBitsPrime(std::size_t bits) -> mpz_class {
+	assert(bits >= 2);
+
+	auto n = 2_mpz;
+	mpz_pow_ui(n.get_mpz_t(), n.get_mpz_t(), bits);
+	--n;
+
+	while (true) {
+		if (mpz_probab_prime_p(n.get_mpz_t(), 50) > 0) {
+			return n;
+		}
+		n -= 2;
+	}
+}
+
+auto generateTestPrimes(std::size_t n) -> std::vector<mpz_class> {
+	auto primes = std::vector<mpz_class>(n);
+
+	std::ranges::generate(primes, [bits = std::size_t(1)]() mutable {
+		return biggestNBitsPrime(++bits);
+	});
+
+	return primes;
+}
+\end{lstlisting}
+
+La función \textit{biggestNBitsPrime} recibe la cantidad de bits y devuelve el mayor primo que ocupa esa cantidad de bits.\\
+
+La función \textit{generateTestPrimes} recibe hasta cuántos bits tiene que generar primos, y va generando el mayor primo para cada cantidad de bits hasta llegar a la indicada.\\
+
+En el \textit{main} se llama tal que así:
+
+\begin{lstlisting}
+const auto primes = generateTestPrimes(512);
+\end{lstlisting}
+
+Tenemos así un vector con los primos descritos hasta $512$ bits. Luego se combinan convenientemente según la comparación que se esté haciendo.
+
+\section{Generación de Gráficas}
+
+Las gráficas generadas en este trabajo son la combinación de dos herramientas.\\
+
+Por un lado generar los datos, lo cual se hace en C++ y se encuentra en el archivo \textbf{examples/src/Benchmarks.cpp}. Dicho archivo fuente usa la librería desarrollada para generar los tiempos.\\
+
+Una vez generados los tiempos de ejecución, los datos se almacenan en distintos archivos \textbf{.txt}. Estos archivos luego se usan en un script de \textit{Gnuplot}, el cual se encarga de generar las imágenes que contienen las gráficas, y que han sido incluidas en este trabajo.\\
+
+El comando más importante es el que nos permite pintar las gráficas. Dicho comando es \textit{plot}, al cual le podemos pasar distintos archivos de datos o funciones juntos con distintos parámetros (como el estilo de las gráficas y el título), y las guarda en un archivo \textbf{.png}.\\
+
+Para adaptar las eficiencias teóricas a los datos que hemos generado se ha usado el comando \textit{fit}, el cual se encarga de adaptar los coeficientes para que sean más fieles a los datos.
+
+\endinput
+%------------------------------------------------------------------------------------
+% FIN DEL APÉNDICE. 
+%------------------------------------------------------------------------------------
