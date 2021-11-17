@@ -10,8 +10,82 @@
 
 \chapter{Introducción}
 
-De acuerdo con la comisión de grado, el TFG debe incluir una introducción en la que se describan claramente los objetivos previstos inicialmente en la propuesta de TFG, indicando si han sido o no alcanzados, los antecedentes importantes para el desarrollo, los resultados obtenidos, en su caso y las principales fuentes consultadas.
+En este trabajo vamos a estudiar un test de primalidad general, polinómico, determinista e incondicional llamado \textbf{AKS} en honor a sus autores.
 
-Ver archivo \texttt{preliminares/introduccion.tex}
+\section{Antecedentes}
+
+Durante la historia, la búsqueda de métodos eficientes para comprobar la primalidad de un número ha sido intensa.\\
+
+Empezando por tests como el basado en el \textit{Pequeño Teorema de Fermat} y pasando por generalizaciones del mismo, como el test de \textit{Miller-Rabin}, se ha intentando buscar tests polinómicos y deterministas que no dependan de resultados no probados.\\
+
+Existen otros intentos de tests deterministas que, a pesar de ser muy rápidos y eficientes, fallan en que no son polinómicos para todas las entradas, como pueden ser los tests basado en curvas elípticas.\\
+
+Gracias a una generalización del \textit{Pequeño Teorema de Fermat}, un grupo de matemáticos fue capaz de encontrar una manera de adaptar dicha generalización, de modo que el test resultante tuviera complejidad polinómica y fuera determinista.\\
+
+Se trata del test \textbf{AKS}, el cual ha sido el primero con todas las características deseables en un test de primalidad: general, determinista, polinómico e incondicional.\\
+
+El test no solo cumple con todos los requisitos para ser un test ideal, sino que además no requiere de herramientas avanzadas de matemáticas para probar su validez, ya que la prueba se basa casi exclusivamente en propiedades de los polinomios ciclotómicos y de los cuerpos.\\
+
+Este test sienta las bases para la búsqueda de tests más eficientes que puedan ejecutarse en un tiempo polinómico.
+
+\section{Objetivos}
+
+Los objetivos de este trabajo son varios.\\
+
+Primero realizaremos una análisis matemático del algoritmo, cuyos objetivos propuestos son los siguiente:
+
+\begin{itemize}
+	\item Presentar las herramientas matemáticas necesarias para poder estudiar el algoritmo.
+	
+	\item Presentar los antecedentes que han llevado al desarrollo de dicho algoritmo.
+	
+	\item Dar una descripción clara y concisa del algoritmo, describiendo cada uno de sus pasos.
+	
+	\item Probar la validez del algoritmo. Esto es, comprobar que el algoritmo determina que su entrada es un número primo si, y solo si, dicha entrada representa un número que es primo.
+	
+	\item Comprobar que el algoritmo tiene una complejidad algorítmica polinómica en la cantidad de cifras de la entrada.
+\end{itemize}
+
+Una vez sentadas las bases del algoritmo \textbf{AKS}, pasaremos a analizar el algoritmo de manera empírica. Nuestros objetivos serán:
+
+\begin{itemize}
+	\item Presentar las herramientas informáticas para desarrollar dicho algoritmo.
+	
+	\item Realizar una implementación lo más eficiente posible de dicho algoritmo.
+	
+	\item Realizar comparaciones de dicho algoritmo con otros tests de primalidad usados en la actualidad y comprobar cómo se comporta respecto a ellos.
+\end{itemize}
+
+\section{Técnicas utilizadas}
+
+Para el desarrollo de este trabajo serán necesarias herramientas básicas de matemáticas, entre las que se incluyen:
+
+\begin{itemize}
+	\item Espacios matemáticos como anillos, grupos, cuerpos, etc.
+	
+	\item Resultados básicos de álgebra como el máximo común divisor, combinatoria o aritmética modular.
+	
+	\item Propiedades básicas de los polinomios ciclotómicos.
+	
+	\item Definición del comportamiento asintótico de funciones.
+\end{itemize}
+
+Añadidas a estas herramientas, necesitaremos también herramientas para poder desarrollar una implementación, de manera que podamos analizar el algoritmo empíricamente. Entre estas se incluyen:
+
+\begin{itemize}
+	\item Conocimiento de programación. En específico, usaremos el lenguaje de programación C++.
+	
+	\item Sistemas de compilación el código fuente. En nuestro caso usaremos CMake, ya que hace la portabilidad más fácil.
+	
+	\item Dependencias externas. En específico, usaremos el manejador de paquetes Conan, el cual nos servirá para poder integrar fácilmente librerías que usaremos, como GMP, MPFR o NTL. Estas librerías serán la base del algoritmo \textbf{AKS}
+	
+	\item Necesitaremos también software para generar gráficas, las cuales ayudan a visualizar mejor lso resultados obtenidos. Usaremos \textit{Gnuplot}, aunque existen otros como la librería \textit{Matplotlib} de \textit{Python}.
+\end{itemize}
+
+\section{Fuentes Principales}
+
+Este trabajo está basado en el trabajo de los matemáticos \textit{Manindra Agrawal}, \textit{Neeraj Kayal} y \textit{Nitin Saxina}: ``PRIMES is in P'' \cite{primes_is_in_p}.\\
+
+En este paper se muestra todo lo relacionado con el algoritmo \textbf{AKS} (en honor a las iniciales de los tres autores), desde la prueba de su validez y su complejidad polinómica, terminando en mejoras que podrían mejorar aún más el algoritmo propuesto.
 
 \endinput

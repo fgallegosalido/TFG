@@ -39,9 +39,7 @@ Para explicar la \textit{Transformada Rápida de Fourier}, primero tenemos que e
 
 De la definición podemos ver la importancia de las raíces de la unidad. En este caso, $e^{i2\pi/N}$ es la $N$-ésima raíz primitiva de la unidad.\\
 
-Si observamos, usando la definición tal cual está presentada, calcular una \textit{Transformada Discreta de Fourier} requiere de realizar un total de $O(\log^2(N))$ operaciones. Esto supone que es necesario acelerar dicho proceso para poder mejorar dicha eficiencia. Es aquí donde entran varias optimizaciones, las cuales logran reducir la complejidad de $O(\log^2(N))$ a $O^\sim(\log(N))$. Dichas optimizaciones son las que se usan en los algoritmos de multiplicación tanto de enteros como polinómica, y son las que conocemos como \textit{Transformadas Rápidas de Fourier}.\\
-
-La versión más conocida es el algoritmo de \textit{Cooley-Tukey} \cite{cooley_tukey_1969}. Se trata de un algoritmo \textit{Divide y Vencerás} que recursivamente va calculando sucesivas \textit{Transformadas Discretas de Fourier} de tamaño menor.
+Si observamos, usando la definición tal cual está presentada, calcular una \textit{Transformada Discreta de Fourier} requiere de realizar un total de $O(\log^2(N))$ operaciones. Esto supone que es necesario acelerar dicho proceso para poder mejorar dicha eficiencia. Dichas optimizaciones son más conocidas como \textit{Transformadas Rápidas de Fourier}, y la implementación más usada es el algoritmo de \textit{Cooley-Tukey} \cite{cooley_tukey_1969}. La complejidad de este algoritmo es $O^\sim(\log(N))$, y es la técnica usada para implementar multiplicación de números y polinomios de manera eficiente.
 
 \section{Generador Mersenne Twister}
 
@@ -91,7 +89,7 @@ entonces $n$ es primo. Si tal $a$ no existe, entonces $n$ es $1$, $2$ ó es comp
 	17^{10} &\equiv 1 \mod(71)
 	\end{align}
 	
-	Como $17^10 \equiv 1 \mod(71)$, no podemos decir nada sobre la primalidad de $71$. Sea ahora $a = 11$. Entonces nos queda:
+	Como $17^{10} \equiv 1 \mod(71)$, no podemos decir nada sobre la primalidad de $71$. Sea ahora $a = 11$. Entonces nos queda:
 	
 	\begin{align}
 	11^{70} &\equiv 1 \mod(71)\\
@@ -113,7 +111,7 @@ El test probabilístico de \textit{Billie-PSW} consiste en una combinación del 
 
 La principal idea está en que el conjunto de los números compuestos que pasan el test de \textit{Miller-Rabin} para la base $2$ y el conjunto de los primos probables fuertes de \textit{Lucas} no tienen elementos comunes. Hasta el momento no se ha encontrado un número compuesto que pertenezca a ambos conjuntos.\\
 
-Esto significa que un número que pase ambos test será con alta probabilidad primo.\\
+Esto significa que un número que pase ambos tests será primo con una alta probabilidad.\\
 
 Este test es el que se implementa en la librería \textbf{GMP}.
 

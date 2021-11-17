@@ -90,7 +90,7 @@ En esta sección vamos a presentar el algoritmo \textbf{AKS}.
 Con el algoritmo ya presentado, vamos a enunciar el siguiente teorema.
 
 \begin{teorema}\label{validez_algoritmo_aks}
-	El algoritmo \autoref{aks_algorithm} devuelve PRIMO si, y solo si, $n$ es primo.
+	El algoritmo \ref{aks_algorithm} devuelve PRIMO si, y solo si, $n$ es primo.
 \end{teorema}
 
 En la siguiente sección nos dedicaremos a probar dicho teorema, lo cual probaría que el algoritmo determina correctamente y de manera determinista si un número es primo.
@@ -416,7 +416,7 @@ Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual s
 Con estos dos último lemas hemos conseguido acotar el tamaño de $\mathcal{G}$ cuando $n$ no es una potencia de $p$. Teniendo esto en cuenta, enunciamos ya el resultado final.
 
 \begin{lema}\label{n_primo_si_devuelve_PRIMO}
-	Si el algoritmo \autoref{aks_algorithm} devuelve PRIMO, entonces $n$ es primo. 
+	Si el algoritmo \ref{aks_algorithm} devuelve PRIMO, entonces $n$ es primo. 
 \end{lema}
 
 \begin{proof}
@@ -434,74 +434,6 @@ Con estos dos último lemas hemos conseguido acotar el tamaño de $\mathcal{G}$ 
 	Por \autoref{cota_superior_G} y dado que $|\mathcal{G}| > n^{\sqrt{t}}$, tiene que darse que $n$ sea una potencia de $p$. Es decir, $n = p^k$ con $k > 0$. Puesto que en el primer paso eliminamos todas las potencias donde $k > 1$, no queda más remedio que ser $n = p$, luego $n$ es primo.
 \end{proof}
 
-Finalmente, \autoref{validez_algoritmo_aks} se deduce por \autoref{devuelve_PRIMO_si_n_primo} y por \autoref{n_primo_si_devuelve_PRIMO}, lo cual concluye la prueba de la validez del algoritmo \autoref{aks_algorithm}.
-
-\section{Mejoras del Algoritmo AKS}
-
-Una vez probada la validez de nuestro algoritmo, es en la siguiente parte donde comprobaremos que dicho algoritmo tiene complejidad polinómica. En específico, veremos que usando buenos algoritmos de multiplicación y división de números enteros y polinomios, la complejidad es $O^\sim(\log{21/2}(n))$.\\
-
-Esta eficiencia se deduce de que $r = O(\log^5(n))$ por \autoref{cota_superior_r_log5} y que la cantidad de iteraciones a realizar en el paso $5$ es $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$.\\
-
-Mejorando la cota para $r$ o reduciendo la cantidad de iteraciones del paso $5$, podremos asegurar una mejor complejidad. Vamos a discutir ambos casos.
-
-\subsection{Cota de $r$}
-
-Como ya demostramos en \autoref{cota_superior_r_log5}, podemos encontrar $r = O(\log^5(n))$. En el mejor de los casos, y dado que $ord_r(n) > \log^2(n)$, podremos encontrar un $r = O(\log^2(n))$, lo cual reduce significativamente la complejidad del algoritmo. Existen dos conjeturas de las cuales se puede deducir dicha afirmación.
-
-\begin{conjetura}{(\textbf{Conjetura de Artin}).}\label{conjetura_de_artin}
-	Sea $n \in \N$ de manera que no es una potencia perfecta. Entonces, la cantidad de primos $q$ tales $q \leq m$ para algún $m > 0$ y tales que $ord_q(n) = q-1$ es asintóticamente $A(n)\frac{m}{\ln(n)}$, donde $A(n) > 0.35$ es la constante de Artin.
-\end{conjetura}
-
-Esta conjetura, en caso de que se cumpliera para un cierto $m = O(\log^2(n))$, implicaría la existencia de un $r = O(\log^2(n))$ cumpliendo las condiciones necesarias. Esta conjetura también es cierta en caso de que la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann} sea cierta.\\
-
-Para asegurar dicho $m$, enunciamos esta segunda conjetura.
-
-\begin{conjetura}{(\textbf{Conjetura de la Densidad de Sophie-Germain}).}\label{conjetura_de_sophie_germain}
-	La cantidad de primos $q$ con $q \leq m$ para algún $m > 0$ tales que $2q + 1$ también es primo es asintóticamente $\frac{2C_2m}{\ln^2(m)}$. $C_2 \simeq 0.66$ es la constante de los números primos gemelos.\\
-	
-	Los números primos con esta propiedad se les suele conocer como \textit{Primos de Sophie-Germain}.
-\end{conjetura}
-
-Si esta segunda conjetura fuera cierta, entonces podemos asegurar que existe un $m = O(\log^2(n))$ que cumple la conjetura de Artin, luego concluiríamos que existe un $r = O^\sim(\log^2(n))$ tal que $ord_r(n) > \log^2(n)$, como queríamos.\\
-
-A pesar de que se sigue realizando trabajo en demostrar estas dos conjeturas, una versión más débil fue demostrada por el matemático \textit{Fouvry} en \cite{fouvry_1985}.
-
-\begin{lema}
-	Existen $c, n_0$ con $c > 0$ tales que, para todo $x \geq n_0$, se tiene
-	
-	\begin{equation}
-	|\left\{ q \mid p\text{ es primo},q \leq x\text{ y } P(q-1) > q^{2/3} \right\}| \geq c\frac{x}{\ln(x)}
-	\end{equation}
-\end{lema}
-
-Usando este lema, se puede mejorar la cota de $r$.
-
-\begin{teorema}
-	Existe $r = O(\log^3(n))$ tal que $ord_r(n) > \log^2(n)$.
-\end{teorema}
-
-\subsection{Iteraciones del Paso $5$}
-
-Otra manera de optimizar aún más el algoritmo es reduciendo la cantidad de iteraciones que hay que realizar en el paso $5$, donde la implementación actual realiza $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$ iteraciones.\\
-
-La razón de estas iteraciones se basa en que necesitamos asegurar que el tamaño del grupo $\mathcal{G}$ sea suficientemente grande. Si podemos encontrar alguna manera de demostrar que un $\mathcal{G}$ puede estar generado por menos polinomios del estilo $X + a$, la cantidad de iteraciones también se reduciría, lo cual mejoraría la eficiencia del algoritmo.
-
-\subsection{Otras mejoras}
-
-Se puede mejorar aún más la complejidad del algoritmo hasta $O^\sim(\log^3(n))$ si la siguiente conjetura es cierta.
-
-\begin{conjetura}
-	Sea $r$ un número primo que no divide a $n$ tal que se cumple
-	
-	\begin{equation}
-	(X - 1)^n \equiv X^n - 1 \mod(n, X^r - 1)
-	\end{equation}
-	
-	Entonce $n$ es primo o $n^2 \equiv 1 \mod(r)$.
-\end{conjetura}
-
-Esta congruencia se puede determinar en tiempo $O^\sim(r\log^2(n))$, y como dicho $r$ podemos encontrarlo en el intervalo $[2, 4\log(n)]$, concluimos con el análisis.\\
-
-Existen argumentos heurísticos que afirman que dicha conjetura probablemente no sea cierta. Sin embargo, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
+Finalmente, \autoref{validez_algoritmo_aks} se deduce por \autoref{devuelve_PRIMO_si_n_primo} y por \autoref{n_primo_si_devuelve_PRIMO}, lo cual concluye la prueba de la validez del algoritmo \ref{aks_algorithm}.
 
 \endinput

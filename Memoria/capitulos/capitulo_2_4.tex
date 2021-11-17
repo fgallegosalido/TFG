@@ -1,0 +1,45 @@
+% !TeX root = ../libro.tex
+% !TeX encoding = utf8
+\chapter{Conclusiones y Vías Futuras}
+
+Una vez realizado el análisis teórico y empírico del algoritmo \textbf{AKS}, y hechas las comparaciones con los tests de \textit{Miller-Rabin} y \textit{Solovay-Strassen}, vamos a realizar algunas conclusiones y mejoras a realizar.
+
+\section{Conclusiones}
+
+Uno de los objetivos prioritarios del trabajo era comprobar que el algoritmo \textbf{AKS} tiene complejidad polinómica en el número de cifras de la entrada.\\
+
+Conseguido eso, lo siguiente ha sido realizar una implementación del algoritmo que funcionase. Dicha implementación fue realizada en un primer lugar usando algoritmos elementales de multiplicación de polinomios, lo cual dio como resultado un test extremedamante lento.\\
+
+La manera de solucionar dicho problema fue realizar otra implementación, pero usando la librería \textbf{NTL}, la cual ya proporciona buenos algoritmos de multiplicación polinómica. Esta nueva implementación, aún no siendo muy eficiente, era ya superior que la primera.\\
+
+Realizada la implementación, procedimos a compararla con los algoritmos probabilísticos de \textit{Miller-Rabin} y \textit{Solovay-Strassen}. Entre nuestros objetivos no se encontraban comprobar que el test \textbf{AKS} es más rápido, sino más bien todo lo contrario.\\
+
+De hecho, la conclusión a la que hemos podido llegar es que el test \textbf{AKS} tiene un gran interés teórico por ser el primer test general, determinista, polinómico e incondicional. Sin embargo, las constantes ocultas de dicho test son muy elevadas, lo que provoca que quede por detrás respecto de otros tests como los ya mencionados.
+
+\section{Ampliaciones futuras}
+
+A pesar de que los resultados en este trabajo son referentes al algoritmo \textbf{AKS} y sus comparaciones con otros algoritmos probabilísticos, podemos extender este análisis por varias ramas.
+
+\subsection{Algoritmo AKS Mejorado}
+
+Una ampliación que podemos realizar es implementar un test basado en \autoref{conjetura_aks}. Este test implica una ligera modificación al test original, donde $r$ lo buscamos de manera que no divida a $n^2 - 1$.\\
+
+Este test tiene un tiempo de ejecución esperado de $O^\sim(r\log^2(n))$ \cite{primes_is_in_p}. Puesto que dicho $r$ lo podemos encontrar en el rango $[2, 4\log(n)]$, podemos entonces asegurar que la eficiencia de dicho test sería $O^\sim(\log^3(n))$.\\
+
+Esta implementación nos serviría para comprobar cómo se comporta una posible versión mejorada del algoritmo \textbf{AKS} y condicionada por \autoref{conjetura_aks}, cuyo tiempo de ejecución podría incluso ser comparable al de los tests probabilísticos estudiados.
+
+\subsection{Comparación con Tests Deterministas}
+
+En este trabajo hemos comparado el algoritmo \textbf{AKS} con tests probabilísticos. Sería interesante comprobar cómo se comporta dicho el algoritmo con otros test deterministas.\\
+
+Podemos escoger dos test:
+
+\begin{itemize}
+	\item \textit{Test básico}. Se trata de comparar el algoritmo \textbf{AKS} con un test de primalidad básico y determinista que deriva directamente de la definición de primalidad. Simplemente se comprueba si algún número menor que $\sqrt{n}$ divide a $n$.
+	
+	\item \textit{ECPP}. Test basado en curvas elípticas. Se trata de un test determinista que no es polinómico, el cual se ha llegado a utilizar con números con una cantidad considerable de cifras.
+\end{itemize}
+
+Añadir estas dos comparaciones puede aportar una mejor imagen del comportamiento del algoritmo \textbf{AKS} y, en su caso, de su posible versión mejorada.
+
+\endinput

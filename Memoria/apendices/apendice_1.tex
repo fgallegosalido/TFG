@@ -41,9 +41,9 @@ Vamos a presentar primero la versión probabilística del algoritmo.
 
 Lo primero que vemos es que el test se ejecuta $k$ veces, por lo que vamos a centrarnos en la complejidad de cada iteración.\\
 
-El bucle interior realiza $s-1$ iteraciones, que por la manera en que hemos definido $s$ sabemos que es $O(\log(n))$, por lo tanto el bucle interior realiza $O(\log(n))$ iteraciones. En cada iteración de dicho bucle tenemos que realizar una multiplicación módulo $n$, cuya complejidad es $O(M(\log(n))) = O^\sim(\log(n))$. Juntando todas las piezas, tenemos que la complejidad del algoritmo \autoref{algoritmo_de_miller_rabin} es $O^\sim(k\log^2(n))$. Si usamos multiplicación elemental, es decir, que $O(M(\log(n))) = O(\log^2(n))$, la complejidad sería $O(k\log^3(n))$.\\
+El bucle interior realiza $s-1$ iteraciones, que por la manera en que hemos definido $s$ sabemos que es $O(\log(n))$, por lo tanto el bucle interior realiza $O(\log(n))$ iteraciones. En cada iteración de dicho bucle tenemos que realizar una multiplicación módulo $n$, cuya complejidad es $O(M(\log(n))) = O^\sim(\log(n))$. Juntando todas las piezas, tenemos que la complejidad del algoritmo \ref{algoritmo_de_miller_rabin} es $O^\sim(k\log^2(n))$. Si usamos multiplicación elemental, es decir, que $O(M(\log(n))) = O(\log^2(n))$, la complejidad sería $O(k\log^3(n))$.\\
 
-Para la versión determinista no vamos a presentar el algoritmo de nuevo entero, pues lo único que cambia es que comprobamos el test para todos los $a \in [2, \min\{n-2, \lfloor 2\ln^2(n)\rfloor\}]$. Puesto que en este caso hay que realizar $O(\ln^2(n))$ operaciones en vez de $k$, la complejidad del algoritmo \autoref{algoritmo_de_miller_rabin} en su versión determinista es $O^\sim(\ln^2(n)\log^2(n)) = O^\sim(\log^4(n))$.
+Para la versión determinista no vamos a presentar el algoritmo de nuevo entero, pues lo único que cambia es que comprobamos el test para todos los $a \in [2, \min\{n-2, \lfloor 2\ln^2(n)\rfloor\}]$. Puesto que en este caso hay que realizar $O(\ln^2(n))$ operaciones en vez de $k$, la complejidad del algoritmo \ref{algoritmo_de_miller_rabin} en su versión determinista es $O^\sim(\ln^2(n)\log^2(n)) = O^\sim(\log^4(n))$.
 
 \section{Test de Solovay-Strassen}
 
