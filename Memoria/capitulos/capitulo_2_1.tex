@@ -93,7 +93,7 @@ Este paso es importante en el sentido de que la complejidad total del algoritmo 
 
 Primero tenemos que calcular una eficiencia para el algoritmo de Euclides. Para ello vamos primero a calcular la cantidad de pasos que toma el algoritmos de Euclides.\\
 
-Primero vamos a hacer un par de comprobaciones. Supongamos que queremos calcular $(a, b)$ con $a > b$. Sabemos que $(a, b) = (b, c)$ con $a = k_1b + c$ para algún $k_1 \in \N$ o, dicho en términos más claros, $c$ es el resto de dividir $a$ entre $b$ ($c = a \% b$). Por otro lado, $(b, c) = (c, d)$ con $b = k_2c + d$ para algún $k_2 \in \N$.\\
+Primero vamos a hacer un par de comprobaciones. Supongamos que queremos calcular $(a, b)$ con $a > b$. Sabemos que $(a, b) = (b, c)$ con $a = k_1b + c$ para algún $k_1 \in \N$ o, dicho en términos más claros, $c$ es el resto de dividir $a$ entre $b$ ($c = res(a; b)$). Por otro lado, $(b, c) = (c, d)$ con $b = k_2c + d$ para algún $k_2 \in \N$.\\
 
 Puesto que $b > c$, es claro entonces que $k_2 \geq 1$, luego $b = k_2c + d \geq c + d$, y en consecuencia, $a > c + d$. Sumamos estas dos últimas expresiones y obtenemos $a + b > 2(c + d)$.\\
 

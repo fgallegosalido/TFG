@@ -10,7 +10,7 @@ Al final hemos conseguido uno de los objetivos principales del trabajo: demostra
 
 Una de las cosas más destacables de la demostración de la validez del algoritmo \textbf{AKS} es el uso de herramientas elementales de matemáticas.\\
 
-En las primeras versiones del trabajo sobre el algoritmo \textbf{AKS} \cite{primes_is_in_p}, los autores hacían uso de herramientas más avanzadas de \textit{Teoría de Números} para poder realizar las acotaciones de \eqref{grupo_polinomios_introspectivos}.\\
+En las primeras versiones del trabajo sobre el algoritmo \textbf{AKS} \cite{AKS2004}, los autores hacían uso de herramientas más avanzadas de \textit{Teoría de Números} para poder realizar las acotaciones de \eqref{grupo_polinomios_introspectivos}.\\
 
 Gracias a la introducción de \eqref{grupo_introspectivos} y usando propiedades de las raíces de los polinomios ciclotómicos en un cuerpo, se puede evitar el uso de herramientas no elementales para la demostración del algoritmo.\\
 
@@ -18,7 +18,7 @@ Esto resulta en una demostración elegante y al alcance de la mayoría de los ma
 
 \section{Mejoras del Algoritmo AKS}
 
-Una vez probada la validez de nuestro algoritmo, es en la siguiente parte donde comprobaremos que dicho algoritmo tiene complejidad polinómica. En específico, veremos que usando buenos algoritmos de multiplicación y división de números enteros y polinomios, la complejidad es $O^\sim(\log{21/2}(n))$.\\
+Una vez probada la validez de nuestro algoritmo, es en la siguiente parte donde comprobaremos que dicho algoritmo tiene complejidad polinómica. En específico, veremos que usando buenos algoritmos de multiplicación y división de números enteros y polinomios, la complejidad es $O^\sim(\log^{21/2}(n))$.\\
 
 Esta eficiencia se deduce de que $r = O(\log^5(n))$ por \autoref{cota_superior_r_log5} y que la cantidad de iteraciones a realizar en el paso $5$ es $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$.\\
 
@@ -82,6 +82,6 @@ Se puede mejorar aún más la complejidad del algoritmo hasta $O^\sim(\log^3(n))
 
 Esta congruencia se puede determinar en tiempo $O^\sim(r\log^2(n))$, y como dicho $r$ podemos encontrarlo en el intervalo $[2, 4\log(n)]$, concluimos con el análisis.\\
 
-Existen argumentos heurísticos que afirman que dicha conjetura probablemente no sea cierta. Sin embargo, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
+Existen argumentos heurísticos \cite{50a} que afirman que dicha conjetura probablemente no sea cierta. Sin embargo, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
 
 \endinput
