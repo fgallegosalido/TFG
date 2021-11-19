@@ -633,7 +633,7 @@ Dicho de otro modo, $\Phi_n$ es el polinomio mónico de grado $\phi(n)$ donde la
 \begin{proposicion}
 	Los $n$-ésimos polinomios ciclotómicos cumplen las siguientes propiedades:
 	
-	\begin{itemize}
+	\begin{enumerate}
 		\item $\Phi_n \in \Z[x]$
 		
 		\item $\Phi$ es irreducible en $\Q[x]$
@@ -641,8 +641,16 @@ Dicho de otro modo, $\Phi_n$ es el polinomio mónico de grado $\phi(n)$ donde la
 		\item $x^n - 1 = \prod_{d|n}\Phi_d(x)$. En particular, $\Phi_n$ es el polinomio irreducible en $\Z[x]$ de mayor grado que divide a $x^n - 1$ y no divide a $x^k - 1$ con $1 \leq k < n$.
 		
 		\item Si restringimos los coeficientes de $\Phi_n$ a $\Z_p$ con $p$ primo y tal que $(p, n) = 1$, tenemos que $\Phi_n$ se puede factorizar en $\frac{\phi(n)}{d}$ polinomios irreducibles de grado $d$, donde $d = ord_n(p)$.
-	\end{itemize}
+	\end{enumerate}
 \end{proposicion}
+
+Únicamente probaremos la cuarta propiedad por ser de mayor interés en el desarrollo del trabajo.
+
+\begin{proof}
+	Sea $\zeta$ una raíz de $\Phi_n$, y por tanto raíz $n$-ésima de la unidad. Como $(p^k, n) = 1$ para todo $k \geq 1$, entonces $\zeta{p^k}$ es una raíz $n$-ésima de la unidad. Puesto que todos los automorfismos en un cuerpo finito son del tipo $\sigma(x) = x^{p^k}$ para algún $k$ \cite{mullen_panario_2013}, tenemos que son válidos pues llevan raíces de la unidad en raíces de la unidad.\\
+	
+	Como $p^d \equiv 1 \mod(n)$, entonces el automorfismo $\sigma(x) = x^{p^d}$ es la identidad, y por tanto solo existen $d$ automorfismos distintos. Esto significa que para todas las raíces de $\Phi_n$, sus polinomios irreducibles tienen grado $d$. Dichos polinomios deben dividir además a $\Phi_n$ por estar compuestos por raíces de $\Phi_n$. Como el grado de $\Phi_n$ es $\phi(n)$ y cada polinomio irreducible tiene grado $d$, nos queda que $\Phi_n$ se puede factorizar en $\frac{\phi(n)}{d}$ polinomios de grado $d$.
+\end{proof}
 
 \section{Hipótesis Generalizada de Riemann}
 
