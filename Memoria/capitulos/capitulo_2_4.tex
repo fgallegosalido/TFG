@@ -28,18 +28,34 @@ Este test tiene un tiempo de ejecución esperado de $O^\sim(r\log^2(n))$ \cite{p
 
 Esta implementación nos serviría para comprobar cómo se comporta una posible versión mejorada del algoritmo \textbf{AKS} y condicionada por \autoref{conjetura_aks}, cuyo tiempo de ejecución podría incluso ser comparable al de los tests probabilísticos estudiados.
 
+\subsection{Paralelización del Algoritmo AKS}
+
+Una ampliación que podemos realizar al test \textbf{AKS} es paralelizar en algunos puntos.
+
+\begin{itemize}
+	\item Hacer una búsqueda paralela de $r$ en el paso $2$, usando distintas hebras para comprobar distintos valores de $r$.
+	
+	\item Hacer las comprobaciones del paso $3$ en paralelo.
+	
+	\item Paralelizar el bucle del paso $5$, de manera que podamos comprobar múltiples congruencias en paralelo.
+\end{itemize}
+
+Estas mejoras pueden suponer una aceleración significativa de la implementación, y puede ser interesante comprobar hasta qué punto es recomendable paralelizar cada paso.
+
 \subsection{Comparación con Tests Deterministas}
 
-En este trabajo hemos comparado el algoritmo \textbf{AKS} con tests probabilísticos. Sería interesante comprobar cómo se comporta dicho el algoritmo con otros test deterministas.\\
+En este trabajo hemos comparado el algoritmo \textbf{AKS} con tests probabilísticos. Sería interesante comprobar cómo se comporta el algoritmo con otros test deterministas.\\
 
-Podemos escoger dos test:
+Podemos escoger tres tests:
 
 \begin{itemize}
 	\item \textit{Test básico}. Se trata de comparar el algoritmo \textbf{AKS} con un test de primalidad básico y determinista que deriva directamente de la definición de primalidad. Simplemente se comprueba si algún número menor que $\sqrt{n}$ divide a $n$.
 	
 	\item \textit{ECPP}. Test basado en curvas elípticas. Se trata de un test determinista que no es polinómico, el cual se ha llegado a utilizar con números con una cantidad considerable de cifras.
+	
+	\item Versiones deterministas de los tests probabilísticos presentados. Podemos asumir la veracidad de la \textit{Hipótesis de Riemann Generalizada} y probar a implementar las versiones deterministas de los tests de \textit{Miller-Rabin} y \textit{Solovay-Strassen}.
 \end{itemize}
 
-Añadir estas dos comparaciones puede aportar una mejor imagen del comportamiento del algoritmo \textbf{AKS} y, en su caso, de su posible versión mejorada.
+Añadir estas tres comparaciones puede aportar una mejor imagen del comportamiento del algoritmo \textbf{AKS} y, en su caso, de su posible versión mejorada.
 
 \endinput

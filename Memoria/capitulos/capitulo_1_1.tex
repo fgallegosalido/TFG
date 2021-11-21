@@ -65,12 +65,12 @@ Dichas aplicaciones las llamaremos suma y producto respectivamente.
 Vamos ahora a definir las unidades de un anillo.
 
 \begin{definicion}
-	Sea $A$ un anillo conmutativo. Diremos que $a \in A$ es una unidad si tiene inverso respecto del producto. Esto es que existe $b \in A$ tal que $ab = ba = 1$ (dicho elemento se conoce como el inverso de $a$, y se suele representar con $a^{-1}$).\\
+	Sea $A$ un anillo conmutativo. Diremos que $a \in A$ es una unidad si tiene inverso respecto del producto. Esto es que existe $b \in A$ tal que $ab = ba = 1$. Dicho elemento se conoce como el inverso de $a$, y se suele representar con $a^{-1}$.\\
 	
 	Al conjunto de las unidades de un anillo se le denota por $\mathcal{U}(A)$. Se dice que $a \in A$ es un divisor de cero si existe $b \in A \setminus \{0\}$ tal que $ab = 0$.
 \end{definicion}
 
-A la operación de sumar el opuesto podemos llamarla \textit{resta}, y se representa con el símbolo $-$ (es decir, $a + (-b) = a - b$). A la operación de multiplicar por el inverso podemos llamarla \textit{dividir}, y se representa con el símbolo $/$ (es decir, $ab^{-1} = a/b$).
+A la operación de sumar el opuesto se le suele llamar \textit{resta}, y se representa con el símbolo $-$ (es decir, $a + (-b) = a - b$). A la operación de multiplicar por el inverso se le suele llamar \textit{dividir}, y se representa con el símbolo $/$ (es decir, $ab^{-1} = a/b$).
 
 Ahora vamos a dar algunas propiedades de los anillos.
 
@@ -117,7 +117,7 @@ Ahora vamos a presentar algunos ejemplos de anillos.
 \end{ejemplo}
 
 \begin{ejemplo}
-	Sea $\Z/n\Z$ una clase de equivalencia tal que dos elementos de $\Z$ son iguales si, y solo si, son múltiplos de $n$. A este conjunto se le suele denotar con $\Z_n$ y también es un anillo con las siguientes operaciones.
+	Sea $\Z/n\Z$ una clase de equivalencia tal que dos elementos de $\Z$ son iguales si, y solo si, son múltiplos de $n$. A este conjunto se le suele denotar con $\Z_n$, y también es un anillo con las siguientes operaciones.
 	
 	\begin{alignat}{2}
 	(+): \Z_n \times \Z_n & \to & \Z_n \\
@@ -134,13 +134,13 @@ Ahora vamos a presentar algunos ejemplos de anillos.
 \end{ejemplo}
 
 \begin{ejemplo}
-	Sea $A$ un anillo y $f \in A[x]$ un polinomio con coeficientes en $A$. Entonces la clase de equivalencia $A[x]/f(x)$ donde dos polinomios con coeficientes en $A$ son equivalentes si tienen el mismo resto al dividirlos por $f(x)$, es un anillo. En particular, si $A$ es un cuerpo y $f$ es irreducible en $A$, entonces $A[x]/f(x)$ es un cuerpo.\\
-	
-	Por ejemplo, $\Z_p/(x+1)$ con $p$ primo es un cuerpo.
+	Sea $A$ un anillo conmutativo, entonces el conjunto de los polinomios con coeficientes en $A$, $A[x]$, es también un anillo conmutativo.
 \end{ejemplo}
 
 \begin{ejemplo}
-	Sea $A$ un anillo conmutativo, entonces el conjunto de los polinomios con coeficientes en $A$, $A[x]$, es también un anillo conmutativo.
+	Sea $A$ un anillo y $f \in A[x]$ un polinomio con coeficientes en $A$. Entonces la clase de equivalencia $A[x]/f(x)$ donde dos polinomios con coeficientes en $A$ son equivalentes si tienen el mismo resto al dividirlos por $f(x)$, es un anillo. En particular, si $A$ es un cuerpo y $f$ es irreducible en $A$, entonces $A[x]/f(x)$ es un cuerpo.\\
+	
+	Por ejemplo, $\Z_p/(x+1)$ con $p$ primo es un cuerpo.
 \end{ejemplo}
 
 \begin{ejemplo}
@@ -202,7 +202,7 @@ a la cual llamaremos producto. Damos entonces la siguiente definición.
 	\begin{itemize}
 		\item \textbf{Asociatividad}. Para todo $x, y, z \in G$, se tiene que $(xy)z = x(yz)$.
 		
-		\item \textbf{Elemento neutro}. Existe $e \in G$ tal que $ex = xe = x, \forall x \in G$. Dicho elemento se suele representar con el número uno, $1$.
+		\item \textbf{Elemento neutro}. Existe $e \in G$ tal que $ex = xe = x$ para todo $x \in G$. Dicho elemento se suele representar con el número uno, $1$.
 		
 		\item \textbf{Inverso}. Para todo $x \in G$ existe $y \in G$ tal que $xy = yx = 1$. Dicho elemento se suele conocer como el inverso de $x$, y se representa con el símbolo $x^{-1}$.
 	\end{itemize}
@@ -214,9 +214,9 @@ a la cual llamaremos producto. Damos entonces la siguiente definición.
 	\end{itemize}
 \end{definicion}
 
-Al cardinal del conjunto $G$ lo denominaremos \textit{orden del grupo $G$}, y lo representamos por $|G|$. En palabras más simples, se trata de la cantidad de elementos distintos que contiene el grupo. Si $|G| < \infty$, entonces decimos que se trata de un \textit{grupo finito}.\\
+Al cardinal del conjunto $G$ lo denominaremos \textit{orden del grupo $G$}, y lo representamos por $|G|$. En palabras más simples, se trata de la cantidad de elementos distintos que contiene el grupo $G$. Si $|G| < \infty$, entonces decimos que se trata de un \textit{grupo finito}.\\
 
-Denominaremos \textit{orden} de un elemento al menor $k \geq 1$ tal que dicho elemento multiplicado $k$ veces es igual a $1$. Se denota por $\mathop{or}(a)$ con $a \in G$ un grupo cualquiera.\\
+Denominaremos \textit{orden} de un elemento al menor $k \geq 1$ tal que dicho elemento multiplicado $k$ veces es igual a $1$. Se denota por $\mathop{or}(a)$ con $a \in G$, donde $G$ es un grupo cualquiera.\\
 
 Algunas propiedades inmediatas y fáciles de comprobar son las siguientes.
 
@@ -252,19 +252,13 @@ Existen muchos ejemplos de grupos, como por ejemplo $\Z$, $\Q$, $\R$ y $\C$ bajo
 
 Además de los anteriores, existen muchas categorías de grupos, entre los que podemos encontrar los grupos de permutaciones, los grupos diédricos, los cuaternios, etc. No vamos a centrarnos en ellos más, pues no los necesitaremos más adelante.\\
 
-Sin embargo, y como ya dijimos anteriormente, dado un anillo conmutativo $A$, el conjunto de la unidades de dicho anillo, $\mathcal{U}(A)$, es un grupo. En especial, nos vamos a centrar en los anillos $\Z_n$ con $n > 1$ y sus correspondiente grupos de unidades, $\mathcal{U}(\Z_n) = \Z_n^*$, también conocido como grupo multiplicativo de $\Z_n$.\\
-
-Es importante destacar lo siguiente:
-
-\begin{proposicion}
-	Sea $n \in \N$ con $n > 1$. Entonces $|\Z_n^*| = \phi(n)$, donde $\phi$ es la función de Euler.
-\end{proposicion}
+Sin embargo, y como ya dijimos anteriormente, dado un anillo conmutativo $A$, el conjunto de la unidades de dicho anillo, $\mathcal{U}(A)$, es un grupo. En especial, nos vamos a centrar en los anillos $\Z_n$ con $n > 1$ y sus correspondiente grupos de unidades, $\mathcal{U}(\Z_n) = \Z_n^*$, también conocido como grupo multiplicativo de $\Z_n$.
 
 \section{Combinatoria}
 
 En esta sección vamos a presentar algunos resultados en el campo de la combinatoria, los cuales serán útiles más adelante.\\
 
-Empecemos por definir la operación del binomio, la cual aparece en la fórmula de los coeficientes del binomio de Newton.
+Empecemos por definir la operación del binomio, la cual aparece en la fórmula de los coeficientes del \textit{Binomio de Newton}.
 
 \begin{definicion}
 	Sean $n, k \in \Z$ con $n \geq k \geq 0$. Entonces definimos el binomio de la forma
@@ -368,7 +362,7 @@ La conexión entre ambos conceptos viene dada por el siguiente teorema.
 	\end{equation}
 \end{teorema}
 
-Del mismo modo que pasa con el \textit{Máximo Común Divisor}, el $0$ se comporta mal con esta definición, luego por convención se denota $[a, 0] = [0, a] = [0, ] = 0$ para todo $a \in \Z$.\\
+Del mismo modo que pasa con el \textit{Máximo Común Divisor}, el $0$ se comporta mal con esta definición, luego por convención se denota $[a, 0] = [0, a] = [0, 0] = 0$ para todo $a \in \Z$.\\
 
 En esencia es el menor entero de manera que es múltiplo tanto de ambos números.\\
 
@@ -432,7 +426,7 @@ Este algoritmo junto con la definición de \textit{Máximo Común Divisor} será
 
 \section{Aritmética Modular}
 
-En este apartado nos vamos a centrar en la aritmética modular tanto con enteros como con polinomios. La mayoría de propiedades son las mismas, y solo distinguiremos entre ambos cuando sea necesario. En general, nos referiremos a aritmética de enteros, pero era necesario aclarar que dichas propiedades serán equivalente para polinomios (por tratarse ambos de anillos conmutativos).\\
+En este apartado nos vamos a centrar en la aritmética modular tanto con enteros como con polinomios. La mayoría de propiedades son las mismas, y solo distinguiremos entre ambos cuando sea necesario. En general, nos referiremos a aritmética de enteros, pero era necesario aclarar que dichas propiedades serán equivalentes para polinomios (por tratarse ambos de anillos conmutativos).\\
 
 Empecemos por definir lo que es una congruencia.
 
@@ -460,7 +454,7 @@ De la definición podemos deducir varias propiedades inmediatas.
 	\begin{enumerate}
 		\item Si $a \equiv b \mod(n)$, entonces $a + k \equiv b + k \mod(n)$ para todo $k$.
 		
-		\item Si $a \equiv b \mod(n)$, entonces $ka \equiv kb \mod(n)$ para todo $k$
+		\item Si $a \equiv b \mod(n)$, entonces $ka \equiv kb \mod(n)$ para todo $k$.
 		
 		\item Si $a \equiv b \mod(n)$ y $c \equiv d \mod(n)$, entonces $a + c \equiv b + d \mod(n)$.
 		
@@ -468,11 +462,11 @@ De la definición podemos deducir varias propiedades inmediatas.
 		
 		\item Si $a \equiv b \mod(n)$ y $c \equiv d \mod(n)$, entonces $ac \equiv bd \mod(n)$.
 		
-		\item Si $a \equiv b \mod(n)$, entonces $a^k \equiv b^k \mod(n)$ para todo $k$
+		\item Si $a \equiv b \mod(n)$, entonces $a^k \equiv b^k \mod(n)$ para todo $k$.
 		
 		\item Si $a \equiv b \mod(n)$ y $p \in \Z[x]$, entonces $p(a) \equiv p(b) \mod(n)$.
 		
-		\item Si $a \equiv b \mod(\phi(n))$ y un $k$ tal que $(k, n) = 1$, entonces $k^a \equiv k^b \mod(n)$.
+		\item Si $a \equiv b \mod(\phi(n))$ y sea $k$ tal que $(k, n) = 1$, entonces $k^a \equiv k^b \mod(n)$.
 				
 		\item Si $a + k \equiv b + k \mod(n)$ para algún $k$, entonces $a \equiv b \mod(n)$.
 		
@@ -498,7 +492,7 @@ De la definición podemos deducir varias propiedades inmediatas.
 		
 		Llamando $q' = \sum_{i=0}^{k-1}\binom{k}{i}q^{i+1}n^ib^{k-i-1}$, tenemos que $a^k = q'n + b^k$, luego $a^k \equiv b^k \mod(n)$.
 		
-		\item[7] Se deduce de $2$ y de $6$.
+		\item[7] Se deduce de las propiedades $1$, $2$ y $6$.
 		
 		\item[8] Si $a \equiv b \mod(\phi(n))$, entonces $a = q\phi(n) + b$ para algún $q \in \Z$, luego nos queda
 		
@@ -506,14 +500,14 @@ De la definición podemos deducir varias propiedades inmediatas.
 		k^a = k^{q\phi(n) + b} = \left(k^{\phi(n)}\right)^qk^b \equiv k^b \mod(n)
 		\end{equation} 
 		
-		En la última equivalencia hemos usado la propiedad 2 y \autoref{teorema_de_euler}, ya que $(k, n) = 1$.
+		En la última equivalencia hemos usado la propiedad $2$ y \autoref{teorema_de_euler}, ya que $(k, n) = 1$.
 		
 		\item[12] Vamos a probar ambas implicaciones.
 		
 		\begin{itemize}
-			\item[$\Rightarrow$] Si $aa^{-1} \equiv 1 \mod(n)$, entonces $aa^{-1} + n(-q) = 1$ para algún $q \in \Z$. Puesto que $ax+ny = (a, n)$ para algunos $x, y \in \Z$ por la \textit{Identidad de Bézout} \autoref{propiedades_maximo_comun_divisor}, entonces podemos asegurar que $(a, n) = 1$.
+			\item[$\Rightarrow$] Si $aa^{-1} \equiv 1 \mod(n)$, entonces $aa^{-1} + n(-q) = 1$ para algún $q \in \Z$. Puesto que $ax+ny = (a, n)$ para algunos $x, y \in \Z$ por la \textit{Identidad de Bézout} \ref{propiedades_maximo_comun_divisor}, entonces podemos asegurar que $(a, n) = 1$.
 			
-			\item[$\Leftarrow$] Como $(a, n) = 1$, por la \textit{Identidad de Bézout} \autoref{propiedades_maximo_comun_divisor} tenemos que $\exists x,y \in \Z$ tales que $ax + ny = 1 \Rightarrow ax \equiv 1 \mod(n)$, luego hemos probado la existencia.\\
+			\item[$\Leftarrow$] Como $(a, n) = 1$, por la \textit{Identidad de Bézout} \ref{propiedades_maximo_comun_divisor} tenemos que $\exists x,y \in \Z$ tales que $ax + ny = 1 \Rightarrow ax \equiv 1 \mod(n)$, luego hemos probado la existencia.\\
 			
 			Supongamos ahora que existe un $b \not\equiv a^{-1} \mod(n)$ tal que $ab \equiv 1 \mod(n)$. Se tiene entonces
 			
@@ -572,13 +566,13 @@ Presentaremos ahora una propiedad interesante de las congruencias.
 	Es justo lo que queríamos probar.
 \end{proof}
 
-Del teorema que acabamos de demostrar, es evidente comprobar que, dado $n \in \Z$, entonces $n^{p-1} \equiv 1 \mod(p)$ para todo $p$ primo. Este hecho nos da una pista de una generalización del pequeño teorema de Fermat, la cual fue descubierta por Euler.
+Del teorema que acabamos de demostrar, es evidente comprobar que, dado $n \in \Z$, entonces $n^{p-1} \equiv 1 \mod(p)$ para todo $p$ primo. Este hecho nos da una pista de una generalización del \textit{Pequeño Teorema de Fermat}, la cual fue descubierta por \textit{Euler}.
 
 \begin{teorema}{(Teorema de Euler)}\label{teorema_de_euler}
 	Sean $n, p > 1$ con $n$ y $p$ coprimos, es decir, $(n, p) = 1$. Entonces se cumple que $n^{\phi(p)} \equiv 1 \mod(p)$, siendo $\phi$ la función de Euler.
 \end{teorema}
 
-Aquí podemos ver que el Pequeño Teorema de Fermat es un caso particular de este teorema, pues $\phi(p) = p-1$ si, y solo si, $p$ es primo.\\
+Aquí podemos ver que el \textit{Pequeño Teorema de Fermat} es un caso particular de este teorema, pues $\phi(p) = p-1$ si, y solo si, $p$ es primo.\\
 
 Vamos a dar ahora una definición que está íntimamente relacionada con estos resultados y que será de vital importancia más adelante.
 
@@ -647,14 +641,14 @@ Dicho de otro modo, $\Phi_n$ es el polinomio mónico de grado $\phi(n)$ donde la
 Únicamente probaremos la cuarta propiedad por ser de mayor interés en el desarrollo del trabajo.
 
 \begin{proof}
-	Sea $\zeta$ una raíz de $\Phi_n$, y por tanto raíz $n$-ésima de la unidad. Como $(p^k, n) = 1$ para todo $k \geq 1$, entonces $\zeta{p^k}$ es una raíz $n$-ésima de la unidad. Puesto que todos los automorfismos en un cuerpo finito son del tipo $\sigma(x) = x^{p^k}$ para algún $k$ \cite{mullen_panario_2013}, tenemos que son válidos pues llevan raíces de la unidad en raíces de la unidad.\\
+	Sea $\zeta$ una raíz de $\Phi_n$, y por tanto raíz $n$-ésima de la unidad. Como $(p^k, n) = 1$ para todo $k \geq 1$, entonces $\zeta^{p^k}$ es una raíz $n$-ésima de la unidad. Puesto que todos los automorfismos en un cuerpo finito son del tipo $\sigma(x) = x^{p^k}$ para algún $k$ \cite{mullen_panario_2013}, tenemos que son válidos, pues llevan raíces de la unidad en raíces de la unidad.\\
 	
 	Como $p^d \equiv 1 \mod(n)$, entonces el automorfismo $\sigma(x) = x^{p^d}$ es la identidad, y por tanto solo existen $d$ automorfismos distintos. Esto significa que para todas las raíces de $\Phi_n$, sus polinomios irreducibles tienen grado $d$. Dichos polinomios deben dividir además a $\Phi_n$ por estar compuestos por raíces de $\Phi_n$. Como el grado de $\Phi_n$ es $\phi(n)$ y cada polinomio irreducible tiene grado $d$, nos queda que $\Phi_n$ se puede factorizar en $\frac{\phi(n)}{d}$ polinomios de grado $d$.
 \end{proof}
 
 \section{Hipótesis Generalizada de Riemann}
 
-En la rama del Análisis Matemático y, en específico, la rama del Análisis en Variable Compleja, existe una conjetura muy importante propuesta por \textit{Bernhard Riemann} en $1859$, cuya popularidad es debida a su inclusión entre uno de los Problemas del Milenio por el \textit{Clay Mathematics Institute}. Para enunciar dicha conjetura, definamos primero la \textit{Función Zeta de Riemann}, $\zeta(s)$, con $s \in \C$:
+En la rama del \textit{Análisis Matemático} y, en específico, la rama del \textit{Análisis en Variable Compleja}, existe una conjetura muy importante propuesta por \textit{Bernhard Riemann} en $1859$, cuya popularidad es debida a su inclusión entre uno de los Problemas del Milenio por el \textit{Clay Mathematics Institute}. Para enunciar dicha conjetura, definamos primero la \textit{Función Zeta de Riemann}, $\zeta(s)$, con $s \in \C$:
 
 \begin{equation}\label{funcion_zeta_de_riemann}
 \zeta(s) = \sum_{n=1}^{\infty}\frac{1}{n^s}
@@ -666,7 +660,7 @@ Esta función se sabe que converge cuando la parte real de $s$ es mayor que $1$.
 \zeta(s) = 2^s\pi^{s-1}\sin\left(\frac{\pi s}{2}\right)\Gamma(1-s)\zeta(1-s)
 \end{equation}
 
-Esta función está definida en todo $\C \setminus \{1\}$ (en $s = 1$ hay lo que se conoce como un \textit{polo}). La función $\Gamma$ extiende el concepto de factorial al plano complejo. Se define de la siguiente manera para $s$ con parte real positiva:
+Esta función está definida en todo $\C \setminus \{1\}$ (en $s = 1$ hay lo que se conoce como un \textit{polo} o \textit{singularidad}). La función $\Gamma$ extiende el concepto de factorial al plano complejo. Se define de la siguiente manera para $s$ con parte real positiva:
 
 \begin{equation}
 \Gamma(s) = \int_{0}^{\infty}t^{s-1}e^{-t}\mathop{dt}
@@ -683,7 +677,7 @@ Armados con este conocimiento, pasamos a enunciar la conjetura, también conocid
 Esta conjetura, de ser cierta, implicaría profundos resultados en el ámbito de los números primos. En específico, existe una generalización de dicha conjetura, también denominada \textit{Hipótesis Generalizada de Riemann}, la cual se enuncia para un conjunto específico de funciones llamado \textit{Funciones-L de Dirichlet} y los \textit{Caracteres de Dirichlet}, los cuales no vamos a definir en este trabajo. El enunciado de la conjetura es el siguiente.
 
 \begin{conjetura}\label{hipotesis_generalizada_de_riemann}
-	Sea $\chi$ un \textit{Carácter de Dirichlet}. Se define $L$ como una función-L de Dirichlet para todo $s \in \C \setminus \{1\}$ de la siguiente forma:
+	Sea $\chi$ un \textit{Carácter de Dirichlet}. Se define $L$ como una función L de Dirichlet para todo $s \in \C \setminus \{1\}$ de la siguiente forma:
 	
 	\begin{equation}
 	L(\chi, s) = \sum_{n=1}^{\infty}\frac{\chi(n)}{n^s}
@@ -704,7 +698,11 @@ Estas tres notaciones nos sirven para dar forma al concepto de crecimiento asint
 
 Además, estas notaciones nos van a servir también para dar forma a la idea intuitiva de que el único término necesario en el comportamiento asintótico es aquel que crece más rápido.
 
-\subsection{Notación $O$}
+\subsection{Notaciones de Complejidad Asintótica}
+
+Para poder hablar de complejidad asintótica, usaremos distintas notaciones según el tipo de acotación asintótica que se está realizando.
+
+\subsubsection{Notación $O$}
 
 Empezaremos con el concepto intuitivo de que una función domina asintóticamente a otra según la entrada crece. Para ello damos la siguiente definición.
 
@@ -727,7 +725,7 @@ Esta definición nos dice que una función domina a otra dada si la primera mult
 	\end{itemize}
 \end{ejemplo}
 
-\subsection{Notación $\Omega$}
+\subsubsection{Notación $\Omega$}
 
 Intuitivamente, el concepto de la notación $\Omega$ es el opuesto al concepto de la notación $O$. Lo vemos más rápido en la definición.
 
@@ -747,9 +745,9 @@ Viendo la definición, es inmediato ver que, dadas dos funciones $f,g:\N \to \R^
 	$n^3 + 2n + 3 \neq \Omega(n^4)$
 \end{ejemplo}
 
-Realmente este concepto es exactamente igual que el anterior, solo que la acotación la hacemos por debajo en vez de por arriba.
+Realmente, este concepto es exactamente igual que el anterior, solo que la acotación la hacemos por debajo en vez de por arriba.
 
-\subsection{Notación $\Theta$}
+\subsubsection{Notación $\Theta$}
 
 Este concepto no es más que una manera de indicar que dos funciones se acotan asintóticamente, o lo que es lo mismo, que crecen con la misma rapidez. También se le conoce como el ``orden exacto''. Para ser más exactos, esta es la definición.
 
@@ -759,7 +757,7 @@ Este concepto no es más que una manera de indicar que dos funciones se acotan a
 	$$f(n) = O(g(n))\;\wedge\;f(n) = \Omega(g(n))$$
 \end{definicion}
 
-\subsection{Notación $O^\sim$}
+\subsubsection{Notación $O^\sim$}
 
 Algunas veces es complicado calcular la complejidad exacta, y puede que nos baste simplemente probar que nuestro algoritmo pertenece a una clase que sigue siendo polinómica. Por ello hacemos la siguiente definición:
 
@@ -770,5 +768,23 @@ Algunas veces es complicado calcular la complejidad exacta, y puede que nos bast
 Con esta definición, tenemos que $O^\sim(\log^k(n)) = O(\log^k(n) \cdot poly(\log(\log^k(n))) = O(\log^{k+\epsilon}(n))$.\\
 
 Consideramos de ahora en adelante $\log(n)$ como el logaritmo en base $2$ de $n$, y $\ln(n)$ como el logaritmo natural (o en base $e$) de $n$.
+
+\subsection{Propiedades}
+
+Las propiedades que vamos a presentar ahora son comunes a todas las notaciones que hemos explicado anteriormente, por lo que usaremos $O(f(n))$ para referirnos a todas ellas.
+
+\begin{proposicion}
+	Sean $f, g$ dos funciones. Entonces se cumplen:
+	
+	\begin{enumerate}
+		\item $O(f(n) + g(n)) = O(\max\{f(n), g(n)\})$, donde $\max\{f(n), g(n)\}$ es la función que crece asintóticamente más rápido.
+		
+		\item $O(f(n)g(n)) = O((f\cdot g)(n))$, donde $(f\cdot g)$ es la función producto.
+		
+		\item Sea $c > 0$ constante, entonces $O(cf(n)) = O(f(n))$.
+		
+		\item $O(\log_a(n)) = O(\log_b(n))$ para todos $a, b$ mayores que $1$.
+	\end{enumerate}
+\end{proposicion}
 
 \endinput

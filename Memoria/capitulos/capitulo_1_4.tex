@@ -10,9 +10,9 @@ Al final hemos conseguido uno de los objetivos principales del trabajo: demostra
 
 Una de las cosas más destacables de la demostración de la validez del algoritmo \textbf{AKS} es el uso de herramientas elementales de matemáticas.\\
 
-En las primeras versiones del trabajo sobre el algoritmo \textbf{AKS} \cite{AKS2004}, los autores hacían uso de herramientas más avanzadas de \textit{Teoría de Números} para poder realizar las acotaciones de \eqref{grupo_polinomios_introspectivos}.\\
+En las primeras versiones del trabajo sobre el algoritmo \textbf{AKS} \cite{AKS2004}, los autores hacían uso de herramientas más avanzadas de \textit{Teoría de Números} para poder realizar las acotaciones del grupo $\mathcal{G}$ \eqref{grupo_polinomios_introspectivos}.\\
 
-Gracias a la introducción de \eqref{grupo_introspectivos} y usando propiedades de las raíces de los polinomios ciclotómicos en un cuerpo, se puede evitar el uso de herramientas no elementales para la demostración del algoritmo.\\
+Gracias a la introducción del grupo $G$ \eqref{grupo_introspectivos} y usando propiedades de las raíces de los polinomios ciclotómicos en un cuerpo, se puede evitar el uso de herramientas no elementales para la demostración del algoritmo.\\
 
 Esto resulta en una demostración elegante y al alcance de la mayoría de los matemáticos.
 
@@ -29,7 +29,7 @@ Mejorando la cota para $r$ o reduciendo la cantidad de iteraciones del paso $5$,
 Como ya demostramos en \autoref{cota_superior_r_log5}, podemos encontrar $r = O(\log^5(n))$. En el mejor de los casos, y dado que $ord_r(n) > \log^2(n)$, podremos encontrar un $r = O(\log^2(n))$, lo cual reduce significativamente la complejidad del algoritmo. Existen dos conjeturas de las cuales se puede deducir dicha afirmación.
 
 \begin{conjetura}{(\textbf{Conjetura de Artin}).}\label{conjetura_de_artin}
-	Sea $n \in \N$ de manera que no es una potencia perfecta. Entonces, la cantidad de primos $q$ tales $q \leq m$ para algún $m > 0$ y tales que $ord_q(n) = q-1$ es asintóticamente $A(n)\frac{m}{\ln(n)}$, donde $A(n) > 0.35$ es la constante de Artin.
+	Sea $n \in \N$ de manera que no es una potencia perfecta. Entonces, la cantidad de primos $q$ tales $q \leq m$ para algún $m > 0$ y tales que $ord_q(n) = q-1$, es asintóticamente $A(n)\frac{m}{\ln(n)}$, donde $A(n) > 0.35$ es la constante de Artin.
 \end{conjetura}
 
 Esta conjetura, en caso de que se cumpliera para un cierto $m = O(\log^2(n))$, implicaría la existencia de un $r = O(\log^2(n))$ cumpliendo las condiciones necesarias. Esta conjetura también es cierta en caso de que la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann} sea cierta.\\
@@ -80,8 +80,8 @@ Se puede mejorar aún más la complejidad del algoritmo hasta $O^\sim(\log^3(n))
 	Entonce $n$ es primo o $n^2 \equiv 1 \mod(r)$.
 \end{conjetura}
 
-Esta congruencia se puede determinar en tiempo $O^\sim(r\log^2(n))$, y como dicho $r$ podemos encontrarlo en el intervalo $[2, 4\log(n)]$, concluimos con el análisis.\\
+Esta congruencia se puede determinar en tiempo $O^\sim(r\log^2(n))$, y como dicho $r$ podemos encontrarlo en el intervalo $[2, 4\log(n)]$ \cite{primes_is_in_p}, concluimos con el análisis.\\
 
-Existen argumentos heurísticos \cite{50a} que afirman que dicha conjetura probablemente no sea cierta. Sin embargo, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
+Existen argumentos heurísticos \cite{50a} que afirman que dicha conjetura no puede ser cierta. Sin embargo, algunas modificaciones de la conjetura, como exigir que $r > \log(n)$, pueden seguir siendo ciertas.
 
 \endinput

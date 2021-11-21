@@ -18,7 +18,7 @@ Durante la historia, la búsqueda de métodos eficientes para comprobar la prima
 
 Empezando por tests como el basado en el \textit{Pequeño Teorema de Fermat} y pasando por generalizaciones del mismo, como el test de \textit{Miller-Rabin}, se ha intentando buscar tests polinómicos y deterministas que no dependan de resultados no probados.\\
 
-Existen otros intentos de tests deterministas que, a pesar de ser muy rápidos y eficientes, fallan en que no son polinómicos para todas las entradas, como pueden ser los tests basado en curvas elípticas.\\
+Existen otros intentos de tests deterministas que, a pesar de ser muy rápidos y eficientes, fallan en que no son polinómicos para todas las entradas, como pueden ser los tests basados en curvas elípticas.\\
 
 Gracias a una generalización del \textit{Pequeño Teorema de Fermat}, un grupo de matemáticos fue capaz de encontrar una manera de adaptar dicha generalización, de modo que el test resultante tuviera complejidad polinómica y fuera determinista.\\
 
@@ -26,13 +26,13 @@ Se trata del test \textbf{AKS}, el cual ha sido el primero con todas las caracte
 
 El test no solo cumple con todos los requisitos para ser un test ideal, sino que además no requiere de herramientas avanzadas de matemáticas para probar su validez, ya que la prueba se basa casi exclusivamente en propiedades de los polinomios ciclotómicos y de los cuerpos.\\
 
-Este test sienta las bases para la búsqueda de tests más eficientes que puedan ejecutarse en un tiempo polinómico.
+Este test sienta las bases para la búsqueda de tests más eficientes cuya complejidad es polinómica.
 
 \section{Objetivos}
 
 Los objetivos de este trabajo son varios.\\
 
-Primero realizaremos una análisis matemático del algoritmo, cuyos objetivos propuestos son los siguiente:
+Primero realizaremos un análisis matemático del algoritmo, cuyos objetivos propuestos son los siguiente:
 
 \begin{itemize}
 	\item Presentar las herramientas matemáticas necesarias para poder estudiar el algoritmo.
@@ -75,11 +75,11 @@ Añadidas a estas herramientas, necesitaremos también herramientas para poder d
 \begin{itemize}
 	\item Conocimiento de programación. En específico, usaremos el lenguaje de programación C++.
 	
-	\item Sistemas de compilación el código fuente. En nuestro caso usaremos CMake, ya que hace la portabilidad más fácil.
+	\item Sistemas de compilación del código fuente. En nuestro caso usaremos CMake, ya que hace la portabilidad más fácil.
 	
 	\item Dependencias externas. En específico, usaremos el manejador de paquetes Conan, el cual nos servirá para poder integrar fácilmente librerías que usaremos, como GMP, MPFR o NTL. Estas librerías serán la base del algoritmo \textbf{AKS}
 	
-	\item Necesitaremos también software para generar gráficas, las cuales ayudan a visualizar mejor lso resultados obtenidos. Usaremos \textit{Gnuplot}, aunque existen otros como la librería \textit{Matplotlib} de \textit{Python}.
+	\item Necesitaremos también software para generar gráficas, las cuales ayudan a visualizar mejor los resultados obtenidos. Usaremos \textit{Gnuplot}, aunque existen otras herramientas como la librería \textit{Matplotlib} de \textit{Python}.
 \end{itemize}
 
 \section{Fuentes Principales}

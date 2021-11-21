@@ -58,19 +58,19 @@ La manera en que se aplica este algoritmo a la multiplicación de polinomios es 
 	\item Al vector que ha resultado de realizar las multiplicaciones elemento a elemento le aplicamos la \textit{Transformada Inversa de Fourier}. El resultado son los coeficientes correspondientes del polinomio resultado de multiplicar $f$ y $g$.
 \end{enumerate}
 
-La misma idea se puede aplicar a la multiplicación de enteros. Usando esta técnica, podemos obtener $O^\sim(n)$ para la multiplicación de enteros de $n$ bits y $O^\sim(dn)$ para la multiplicación de polinomios de grado $d$ con coeficientes de $n$ bits.
+La misma idea se puede aplicar a la multiplicación de enteros. Usando esta técnica, podemos obtener $O^\sim(n)$ para la multiplicación de enteros de $n$ bits y $O^\sim(nm)$ para la multiplicación de polinomios de grado $n$ con coeficientes de $m$ bits.
 
 \section{Generador Mersenne Twister}
 
 A la hora de diseñar tests probabilísticos, estos necesitan de una manera de generar números aleatorios. Puesto que la generación de números aleatorios puros es difícil por el determinismo de las máquinas, necesitamos una manera de generar números que al menos parezcan aleatorios. Es lo que se conoce como los números \textit{pseudo-aleatorios}.\\
 
-La manera de generar estos números no solo nos proporciona números que aparentemente son aleatorios, sino que además nos permite repetir experimentos de manera que los números generados aleatoriamente sean los mismo.\\
+La manera de generar estos números no solo nos proporciona números que aparentemente son aleatorios, sino que además nos permite repetir experimentos de manera que los números generados aleatoriamente sean los mismos.\\
 
 Normalmente, los generadores requieren de una posición inicial, conseguida mediante lo que se conoce como una semilla. Usar la misma semilla en distintas ejecuciones implica generar exactamente los mismos números en el mismo orden.\\
 
 Existen mucho generadores de números \textit{pseudo-aleatorios}, cada uno con sus ventajas y sus inconvenientes. Uno de los más usados, y el que hemos usado en este trabajo es el \textit{Mersenne Twister} \cite{matsumoto_nishimura_1998}.\\
 
-La implementación más extendida suele ser la basada en el número primo $2^{19937}-1$, también conocida como \textit{MT19937}, que usa semillas de longitud $32$ bits. Entre algunas de sus ventajas, podemos destacar que tiene un periodo suficientemente largo. En específico, los valores se repiten tras $2^{19937}-1$ iteraciones, lo cual lo hace muy conveniente. Además, la distribución de los números pasa algunos test de aleatoriedad. Además es considerablemente rápido.\\
+La implementación más extendida suele ser la basada en el número primo $2^{19937}-1$, también conocida como \textit{MT$19937$}, que usa semillas de longitud $32$ bits. Entre algunas de sus ventajas, podemos destacar que tiene un periodo suficientemente largo. En específico, los valores se repiten tras $2^{19937}-1$ iteraciones, lo cual lo hace muy conveniente. Además, la distribución de los números pasa algunos test de aleatoriedad. Además es considerablemente rápido.\\
 
 Entre sus desventajas se encuentran que el estado del generador ocupa más memoria que otros generadores.
 
@@ -120,9 +120,9 @@ entonces $n$ es primo. Si tal $a$ no existe, entonces $n$ es $1$, $2$ ó es comp
 	Tenemos entonces que $71$ es primo y su certificado de primalidad es $a = 11$.
 \end{ejemplo}
 
-Una versión probabilística de este test es probar distintos valores de $a$, y si encontramos alguno para el que $n$ no pasa el test anterior, entonces $n$ es primo. si por el contrario pasa el test para todas las rondas, diremos que es probablemente compuesto.\\
+Una versión probabilística de este test es probar distintos valores de $a$, y si encontramos alguno para el que $n$ no pasa el test anterior, entonces $n$ es primo. Si por el contrario pasa el test para todas las rondas, diremos que es probablemente compuesto.\\
 
-Este test es usado en la generación de números primos, junto con otros tests como el de \textit{Miller-Rabin} \cite{digital_signature_standard}.
+Este test es usado en la generación de números primos junto con otros tests como el de \textit{Miller-Rabin} \cite{digital_signature_standard}.
 
 \subsection{Test de Baillie-PSW}
 

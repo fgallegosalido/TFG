@@ -8,13 +8,13 @@ Primero daremos una descripción general de los tests de primalidad, incluyendo 
 
 Después haremos un repaso por la historia de los tests de primalidad, y presentaremos distintos tipos de tests de primalidad, entre los que incluiremos tanto los tests deterministas como los tests probabilísticos.\\
 
-Por último nos pararemos a detallar un poco los tests de \textit{Miller-Rabin} y \textit{Solovay-Strassen}, el cual usaremos en nuestra comparación con el test \textbf{AKS}.
+Por último nos pararemos a detallar un poco los tests de \textit{Miller-Rabin} y \textit{Solovay-Strassen}, los cuales usaremos en nuestra comparación con el test \textbf{AKS}.
 
 \section{Introducción a los Tests de Primalidad}
 
 Un número decimos que es primo cuando sus únicos divisores son una unidad y el mismo número. En caso contrario diremos que es compuesto. Esto excluye a $1$ y $-1$, pues estos son considerados unidades del conjunto de los números enteros, y no son ni primos ni compuestos. El número $0$ también queda obviamente excluido. Además, considerar $1$ ó $-1$ primos implica que hay infinitas factorizaciones de cualquier número, lo cual supone incumplir el \textit{Teorema Fundamental de la Aritmética}. Dicho teorema afirma que todo número se puede escribir de manera única (salvo el orden) como producto de números primos.\\
 
-Los números primos son de vital importancia en las matemáticas y, especialmente en el área de la Teoría de Números. De vital importancia son sobre todo las propiedades que nos permiten determinar cuándo un número es primo. Dichas propiedades son explotadas en el campo de la criptografía, rama en la que se apoya la seguridad en Internet.\\
+Los números primos son de vital importancia en las matemáticas y, especialmente, en el área de la \textit{Teoría de Números}. De vital importancia son sobre todo las propiedades que nos permiten determinar cuándo un número es primo. Dichas propiedades son explotadas en el campo de la criptografía, rama en la que se apoya la seguridad en Internet.\\
 
 Distintos tipos de tests se han ido descubriendo a lo largo de la historia. De hecho, la propia definición de un número primo nos da una manera de comprobar que un número es primo. Sea ese número $n$.
 
@@ -54,11 +54,11 @@ Sin embargo, el test basado en el \textit{Pequeño Teorema de Fermat} es general
 
 El famoso test de \textit{Miller-Rabin} aleatorizado es general, incondicional y polinómico. Falla en que es probabilístico; pero con suficientes rondas de aplicar el test, se puede asegurar una probabilidad bastante baja de que el test falle. Además, \textit{Miller} dio una variante determinista, cuya validez depende de la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann}, lo cual lo hace condicionado. Explicaremos más adelante todo lo relacionado con este test.\\
 
-Un test similar desarrollado por \textit{Solovay} y \textit{Strassen} basado en una propiedad de los números primos y el símbolo de Jacobi, $(-)$, proporciona un test probabilístico, general, incondicional y polinómico. Este test también se puede hacer determinista si se cumple la \textit{Hipótesis Generalizada de Riemann}. Explicaremos también este test más adelante.\\
+Un test similar desarrollado por \textit{Solovay} y \textit{Strassen} basado en una propiedad de los números primos y el \textit{Símbolo de Jacobi}, $(-)$, proporciona un test probabilístico, general, incondicional y polinómico. Este test también se puede hacer determinista si se cumple la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann}. Explicaremos también este test más adelante.\\
 
 Existen otros tipos de tests, como por ejemplo los basados en curvas elípticas. Dichos tests suelen ser generales, incondicionales y deterministas. También son polinómicos para la mayoría de los casos, pero no en general. Además, dichos tests proporcionan lo que se conocen como certificados de primalidad (lo normal era proporcionar certificados de composición). Explicaremos en otra sección más adelante en qué consisten los certificados.\\
 
-Finalmente, llegamos al algoritmo AKS, el cual cumple las cuatro propiedades que deseamos en un test de primalidad. Es general, incondicional, determinista y polinómico, lo cual resuelve un problema que lleva muchos años abierto. Dicho algoritmo veremos más adelante que su utilidad práctica no es tanta, pues el test suele tardar demasiado comparado con otros tests presentados anteriormente. Sin embargo, su utilidad teórica es vital, pues implica que la búsqueda de tales tests es útil.
+Finalmente, llegamos al algoritmo \textbf{AKS}, el cual cumple las cuatro propiedades que deseamos en un test de primalidad. Es general, incondicional, determinista y polinómico, lo cual resuelve un problema que lleva muchos años abierto. Dicho algoritmo veremos más adelante que su utilidad práctica no es tanta, pues el test suele tardar demasiado comparado con otros tests presentados anteriormente. Sin embargo, su utilidad teórica es vital, pues implica que la búsqueda de tales tests es útil.
 
 \section{Certificados}
 
@@ -70,7 +70,7 @@ A dichos testigos se les suele conocer como certificados de que un número es co
 
 Los certificados para comprobar que un número es compuesto nos permiten determinar rápidamente cuándo un número es compuesto.\\
 
-Un ejemplo claro de certificado de que un número es compuesto es uno de sus factores no triviales. Dado un número y un factor suyo, podemos comprobar rápidamente que dicho número es, de hecho, compuesto simplemente dividiéndolo por dicho factor y comprobar que el resto es cero.\\
+Un ejemplo claro de certificado de que un número es compuesto es uno de sus factores no triviales. Dado un número y un factor suyo, podemos comprobar rápidamente que dicho número es de hecho compuesto simplemente dividiéndolo por dicho factor y comprobando que el resto es cero.\\
 
 Estos certificados no tienen que ser únicamente factores primos no triviales. Un certificado de composición para $n$ puede ser por ejemplo un $a \in \Z$ para el que no se cumple el \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}, es decir, para el que $a^n \not\equiv a \mod(n)$. El test de \textit{Miller-Rabin} proporciona un certificado similar.\\
 
@@ -102,7 +102,7 @@ Ambos se basan en congruencias, y los vamos a describir a continuación, aunque 
 
 El test de \textit{Miller-Rabin} es uno de los más usados actualmente tanto por su velocidad como por su fiabilidad en el campo de la criptografía y seguridad en Internet \cite{digital_signature_standard}.\\
 
-Dicho test se basa en una serie de relaciones de congruencias, las cuales se cumplen siempre cuando se trata de un número primo impar. Demos pues la siguiente definición.\\
+Dicho test se basa en una serie de relaciones de congruencias, las cuales se cumplen siempre y cuando se trate de un número primo impar. Demos pues la siguiente definición.\\
 
 \begin{definicion}
 	Sea $n > 2$ y sean $s, d > 0$ con $d$ impar tales que $n = 2^s d + 1$. Sea $a$ un entero con $0 < a < n$ al que llamaremos \textit{base}. Diremos entonces que $n$ es un primo probable fuerte en base $a$ si se cumple alguna de las siguientes congruencias:
@@ -195,11 +195,11 @@ En \autoref{complejidad_tests_probabilisticos} detallaremos que la complejidad d
 
 \subsubsection{Versión Determinista Condicionada}
 
-Una manera de hacer el test de \textit{Miller-Rabin} determinista consiste en simplemente probar todas las bases entre $0$ y $n$. Dicho test es muy ineficiente, por lo que lo ideal sería probar una cantidad de bases igual a $O(\log^{O(1)}(n)$ para poder asegurar una complejidad polinómica en el logaritmo de $n$.\\
+Una manera de hacer el test de \textit{Miller-Rabin} determinista consiste en simplemente probar todas las bases entre $0$ y $n$. Dicho test es muy ineficiente, por lo que lo ideal sería probar una cantidad de bases igual a $O(\log^{O(1)}(n))$ para poder asegurar una complejidad polinómica en el logaritmo de $n$.\\
 
 Existe una versión que fue descubierta por \textit{Miller} la cual hace uso de la \textit{Hipótesis Generalizada de Riemann} \ref{hipotesis_generalizada_de_riemann}. Dicha idea se basa en que, si $n$ es compuesto, entonces el conjunto de los mentirosos fuertes $a$ tales que $(a, n) = 1$ es un subgrupo del grupo multiplicativo de $\Z_n$, $\Z_n^*$. De este modo, si probamos todos los $a$ de un conjunto que genere $\Z_n^*$, uno de ellos debe quedarse fuera del subgrupo mencionado anteriormente, luego sería un testigo de la composibilidad de $n$.\\
 
-Asumiendo la veracidad de La \textit{Hipótesis de Riemann Generalizada} \autoref{hipotesis_generalizada_de_riemann}, se puede demostrar que las bases a probar son menores que $k = O(c\ln^2(n))$. La constante $c$ se puede demostrar que es $2$, y por lo tanto la versión determinista solo debe comprobar las congruencias \eqref{congruencias_miller_rabin} para $2 \leq a \leq \min\{n-2, \lfloor 2\ln^2(n) \rfloor\}$.\\
+Asumiendo la veracidad de La \textit{Hipótesis de Riemann Generalizada} \ref{hipotesis_generalizada_de_riemann}, se puede demostrar que las bases a probar son menores que $k = O(c\ln^2(n))$. La constante $c$ se puede demostrar que es $2$, y por lo tanto la versión determinista solo debe comprobar las congruencias \eqref{congruencias_miller_rabin} para $2 \leq a \leq \min\{n-2, \lfloor 2\ln^2(n) \rfloor\}$.\\
 
 Esta versión, puesto que $k = O(\ln^2(n))$, tiene complejidad $O^\sim(\log^4(n))$. Para una descripción más exacta, ir a \autoref{complejidad_tests_probabilisticos}.
 

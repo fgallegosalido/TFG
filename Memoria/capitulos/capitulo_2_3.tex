@@ -34,7 +34,7 @@ Ahora vamos a presentar una implementación del test de \textit{Miller-Rabin}. D
 
 \begin{lstlisting}
 auto isProbablyPrime(mpz_class n, mpz_class k, gmp_randclass &prng) -> bool {
-	if (n == 2_mpz || n == 3_mpz)
+	if (n == 2 || n == 3)
 		return true;
 	
 	if (n < 2 || n % 2 == 0)
@@ -188,7 +188,7 @@ Puesto que el test \textbf{AKS} maneja las potencias perfectas en el primer paso
 
 Habiendo hecho comparaciones con números primos y potencias de primos, es natural comparar usando números compuestos que no sean potencias de primos. Para ello usaremos números que son producto de dos o más factores primos grandes.\\
 
-Esto nos ayudará a comprobar cómo se comportan los tres tests en los casos más sensibles, es decir, aquellos donde los factores primos son grandes. Determinar correctamente la composición de dichos números es de vital importancia en los protocolos de seguridad como RSA, pues de lo contrario, la seguridad de dicho sistemas se podría ver comprometida.\\
+Esto nos ayudará a comprobar cómo se comportan los tres tests en los casos más sensibles, es decir, aquellos donde los factores primos son grandes. Determinar correctamente la composición de dichos números es de vital importancia en los protocolos de seguridad como RSA, pues de lo contrario, la seguridad de dichos sistemas se podría ver comprometida.\\
 
 Usaremos distintos conjuntos de prueba:
 
@@ -217,12 +217,6 @@ Ahora veamos la gráfica del segundo.
 Aparentemente, podemos comprobar que las gráficas son idénticas y que el tamaño de los factores no afecta en cómo se comportan el test \textbf{AKS} respecto de los otros.\\
 
 Volvemos a comprobar, al igual que ya pasó con el caso en que la entrada eran primos, que el algoritmo \textbf{AKS} es bastante peor que sus contrapartes probabilísticas.
-
-\section{Conclusión}
-
-Como conclusión final de este apartado, y vistas las observaciones realizadas en esta comparación con los algoritmos probabilísticos, es que el algoritmo \textbf{AKS}, aún siendo general, polinómico, determinista e incondicional, es excesivamente lento para entradas no muy grandes, lo cual hace inviable su uso en otras aplicaciones de la criptografía.\\
-
-Los algoritmos probabilísticos, aunque su respuesta no sea determinista, son suficientemente fiables en la mayoría de los casos, y su tiempo de ejecución los hace extremadamente convenientes cuando se trata de números con una gran cantidad de cifras.
 
 \endinput
 %------------------------------------------------------------------------------------

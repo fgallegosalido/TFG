@@ -1,7 +1,7 @@
 % !TeX root = ../libro.tex
 % !TeX encoding = utf8
 
-\chapter{Complejidad Tests Probabilístios}\label{complejidad_tests_probabilisticos}
+\chapter{Complejidad Tests Probabilísticos}\label{complejidad_tests_probabilisticos}
 
 En este apéndice vamos a describir algorítmicamente los test de \textit{Miller-Rabin} y \textit{Solovay-Strassen}.\\
 
@@ -18,7 +18,7 @@ Vamos a presentar primero la versión probabilística del algoritmo.
 			\State Sea $n = d2^s + 1$ con $d \geq 1$ impar y $s \geq 1$.
 			\For{$i = 1$ hasta $k$}
 				\State Sea $a$ un entero aleatorio en $[2, n-2]$
-				\State $x = a^d \% n$
+				\State $x = res(a^d; n)$
 				\If{$x = 1$ ó $x = n-1$}
 					\State Continuamos siguiente ronda
 				\EndIf

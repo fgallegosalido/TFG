@@ -32,9 +32,9 @@ Para poder intentar conseguir un test que sea determinista, será necesario enco
 	\begin{itemize}
 		\item $\Rightarrow)$ Supongamos que $n$ es primo. Sabemos que $(X + a)^n \equiv X^n + a^n \mod(n)$ por \autoref{lema_abp_apbp}, y como $n$ es primo,  tenemos que $(X + a)^n \equiv X^n + a \mod(n)$ por el \textit{Pequeño Teorema de Fermat} \ref{pequenio_teorema_de_fermat}.
 		
-		\item $\Leftarrow)$ Supongamos que $(X + a)^n \equiv X^n + a \mod(n)$ y que $n$ es compuesto. Dado que $n$ es compuesto, sea $q$ un factor primo de $n$ y sea $k$ tal que $q^k | n$ y $q^{k+1} \nmid n$. Entonces tenemos que $q^k \nmid \binom{n}{q}$ dado que $q \nmid m$ con $n - q < m < n$, lo que implica que en el numerador de $\binom{n}{q}$, solo $n$ contiene factores $q$ (en específico $k$ de ellos). Como en el denominador hay al menos un factor $q$, tenemos que el resultado de dicho binomio es divisible, como mucho, por $q^{k-1}$.\\
+		\item $\Leftarrow)$ Supongamos que $(X + a)^n \equiv X^n + a \mod(n)$ y que $n$ es compuesto. Dado que $n$ es compuesto, sea $q$ un factor primo de $n$ y sea $k$ tal que $q^k \mid n$ y $q^{k+1} \nmid n$. Entonces tenemos que $q^k \nmid \binom{n}{q}$ dado que $q \nmid m$ con $n - q < m < n$, lo que implica que en el numerador de $\binom{n}{q}$, solo $n$ contiene factores $q$ (en específico $k$ de ellos). Como en el denominador hay al menos un factor $q$, tenemos que el resultado de dicho binomio es divisible, como mucho, por $q^{k-1}$.\\
 		
-		Además tenemos que $(a^{n-q}, q^k) = 1$ por hipótesis, luego nos queda que $n \nmid a^{n-q}$ ni $n \nmid \binom{n}{q}$, luego el coeficiente de $X^q$ no puede ser divisible por $n$, luego no es nulo en $\Z_n$. Esto contradice que $(X + a)^n - (X^n + a)$ sea nulo.
+		Además tenemos que $(a^{n-q}, q^k) = 1$ por hipótesis, luego nos queda que $n \nmid a^{n-q}$ y que $n \nmid \binom{n}{q}$, luego el coeficiente de $X^q$ no puede ser divisible por $n$, luego no es nulo en $\Z_n$. Esto contradice que $(X + a)^n - (X^n + a)$ sea nulo.
 	\end{itemize}
 \end{proof}
 
@@ -52,7 +52,7 @@ Es evidente por \autoref{lema_identidad_de_congruencias} que si $n$ es primo, en
 
 Para resolver este problema, probaremos que eligiendo un $r$ de manera conveniente y tal que si \eqref{identidad_con_polinomio} se satisface para varios valores de $a$, tenemos entonces que $n$ es una potencia de un número primo.\\
 
-Además probaremos que tanto $r$ como $a$ tienen un tamaño polinómico en el $\log(n)$, lo cual nos permitirá probar en la segunda parte del trabajo que el algoritmo es, de hecho, polinómico.
+Además probaremos que tanto $r$ como $a$ tienen un tamaño polinómico en $\log(n)$, lo cual nos permitirá probar en la segunda parte del trabajo que el algoritmo es, de hecho, polinómico.
 
 \section{El Algoritmo}
 
@@ -62,7 +62,7 @@ En esta sección vamos a presentar el algoritmo \textbf{AKS}.
 	\caption{Algoritmo \textbf{AKS}}\label{aks_algorithm}
 	\begin{algorithmic}[1]
 		\Procedure{IsPrimeAKS}{$n$}\Comment{Comprobar si $n > 1$ es un número primo}
-			\If{$n = a^b$ para algún $a \in \N$ y $b > 1$}\Comment{Paso 1}
+			\If{$n = a^b$ para algún $a > 1$ y $b > 1$}\Comment{Paso 1}
 				\State \Return{COMPUESTO}
 			\EndIf
 			\State
@@ -104,7 +104,7 @@ Vamos a empezar probando una de las implicaciones del teorema.
 \end{lema}
 
 \begin{proof}
-	Puesto que $n$ es primo, el primer paso es imposible que devuelva COMPUESTO, pues implicaría que $n = a^b$ con $a \in \Z$ y $b > 1$.\\
+	Puesto que $n$ es primo, el primer paso es imposible que devuelva COMPUESTO, pues implicaría que $n = a^b$ con $a > 1$ y $b > 1$.\\
 	
 	Del mismo modo, como $n$ es primo, el tercer paso es imposible que devuelva COMPUESTO porque implicaría que existe un $a \in \Z$ tal que $1 < (a, n) < n$, lo cual es imposible.\\
 	
@@ -120,7 +120,7 @@ Es por ello que en el resto de esta sección nos centraremos en el segundo y el 
 Lo primero que vamos a hacer ahora es dar una cota para $r$. Para ello necesitamos los siguientes dos lemas previos.
 
 \begin{lema}\label{desigualdad_LCM}
-	Sea $m \geq 1$ y definimos $LCM(m)$ como el mínimo común múltiplo de $1,...,m$. Entonces se cumple para todo $m \geq 7$
+	Sea $m \geq 1$ y definimos $LCM(m)$ como el mínimo común múltiplo de los $m$ primeros números. Entonces se cumple para todo $m \geq 7$
 	
 	\begin{equation}
 		LCM(m) \geq 2^m
@@ -231,7 +231,7 @@ Teniendo estos dos lemas, podemos pasar a enunciar el lema que nos dará una cot
 	
 	\[ n^{\lfloor \log(B) \rfloor}\prod_{i=1}^{\lfloor \log^2(n) \rfloor}(n^i - 1) < n^{\lfloor \log(B) \rfloor + \frac{1}{2}(\log^4(n) - \log^2(n))} \leq n^{\log^4(n)} = 2^{\log^5(n)} \leq 2^B \leq LCM(B) \]
 	
-	En la tercera desigualdad hemos usado \autoref{desigualdad_log4_log2}, y en la ultima hemos usado \autoref{desigualdad_LCM}. Puesto que \eqref{valor_para_acotar_r} es menor que $LCM(B)$, debe haber algún valor $d \leq B$ de modo que no divida a \eqref{valor_para_acotar_r}. Si no fuera así, es decir, que \eqref{valor_para_acotar_r} es divisible por todo $d \leq B$, tendríamos que \eqref{valor_para_acotar_r} es un múltiplo común de todos esos números, luego tenemos que \eqref{valor_para_acotar_r} es mayor o igual que $LCM(B)$, lo cual contradice la cadena anterior. Por haber elegido $r$ como el menor número de manera que no divida a \eqref{valor_para_acotar_r}, podemos entonces asegurar que $r \leq B$.\\
+	En la segunda desigualdad hemos usado \autoref{desigualdad_log4_log2}, y en la ultima hemos usado \autoref{desigualdad_LCM}. Puesto que \eqref{valor_para_acotar_r} es menor que $LCM(B)$, debe haber algún valor $d \leq B$ de modo que no divida a \eqref{valor_para_acotar_r}. Si no fuera así, es decir, que \eqref{valor_para_acotar_r} es divisible por todo $d \leq B$, tendríamos que \eqref{valor_para_acotar_r} es un múltiplo común de todos esos números, luego tenemos que \eqref{valor_para_acotar_r} es mayor o igual que $LCM(B)$, lo cual contradice la cadena anterior. Por haber elegido $r$ como el menor número de manera que no divida a \eqref{valor_para_acotar_r}, podemos entonces asegurar que $r \leq B$.\\
 	
 	Teniendo esto, hagamos ahora una pequeña observación. Si $m^k \leq B$ con $m \geq 2$ y $k \geq 0$, tenemos que el mayor valor posible de $k$ sería $\lfloor \log(B) \rfloor$ (el caso en el que $m = 2$).\\
 	
@@ -251,7 +251,7 @@ Además, tenemos que destacar dos propiedades:
 \begin{itemize}
 	\item $p > r$, pues de lo contrario, el paso $3$ o el paso $4$ determinarían la primalidad de $n$.
 	
-	\item $(n, r) = 1$, pues de lo contrario, el paso $3$ o el paso $4$ determinarían la primalidad de $n$. Esto implica que $n, p \in \Z_r^\times$.
+	\item $(p, r) = 1$, pues de lo contrario, el paso $3$ o el paso $4$ determinarían la primalidad de $n$. Esto implica que $n, p \in \Z_r^\times$.
 \end{itemize}
 
 De ahora en adelante, consideramos $p$ y $r$ fijos. Ahora vamos a hablar de una propiedad que nos será de utilidad para la prueba, llamada \textit{introspección}.\\
@@ -368,15 +368,15 @@ Este grupo consiste en los restos de dividir los elementos de $P$ entre $h(X)$ y
 Nuestra tarea ahora va a ser dar cotas para el grupo $\mathcal{G}$ recién definido. Para ello, enunciamos el siguiente lema, el cual nos da una cota inferior.
 
 \begin{lema}\label{cota_inferior_G}
-	\[ |\mathcal{G}| \geq \binom{t+l}{t-1} \]
+	\[ |\mathcal{G}| \geq \binom{t+\ell}{t-1} \]
 \end{lema}
 
 \begin{proof}
-	Para empezar vamos a comprobar que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathbb{F}$. Para ello, supongamos $g, f \in P$ \eqref{grupo_polinomios_introspectivos} distintos de grados menor que $t$ tales que $f(X) \equiv g(X)$ en $\mathbb{F}$. Tomemos $m \in I$. Sabemos que $f(X)^m \equiv g(X)^m$ en $\mathbb{F}$, y como $m$ es introspectivo para $f$ y $g$, entonces tenemos
+	Para empezar vamos a comprobar que todos los polinomios en $P$ \eqref{p_polinomios_introspectivos} de grado menor que $t$ son distintos en $\mathbb{F}$. Para ello, supongamos $g, f \in P$ distintos de grados menores que $t$ tales que $f(X) \equiv g(X)$ en $\mathbb{F}$. Tomemos $m \in I$. Sabemos que $f(X)^m \equiv g(X)^m$ en $\mathbb{F}$, y como $m$ es introspectivo para $f$ y $g$, entonces tenemos
 	
 	\[ f(X^m) \equiv g(X^m) \]
 	
-	Esta equivalencia se cumple para $\Z_p[X]/(X^r - 1)$, por lo que naturalmente se cumple para $\mathbb{F}$ al darse que $h(X) \mid X^r - 1$. Esto implica que $X^m$ es una raíz del polinomio $f(Y) - g(Y)$ para todo $m \in G$. Puesto que $G$ es un subgrupo de $\Z_p^\times$, es obvio que $(m, r) = 1$ y, por lo tanto, $X^m$ es una raíz $r$-ésima primitiva de la unidad (todas ellas distintas por ser todos los $m$ distintos). Por lo tanto, el polinomio $f(Y) - g(Y)$ tendrá al menos $t$ raíces distintas en $\mathbb{F}$. Esto es una contradicción, pues el grado de $f(Y) - g(Y)$ es menor que $t$ por la elección de ambos, luego llegamos a una contradicción, luego $f \not\equiv g$ en $\mathbb{F}$.\\
+	Esta equivalencia se cumple para $\Z_p[X]/(X^r - 1)$, por lo que naturalmente se cumple para $\mathbb{F}$ al darse que $h(X) \mid X^r - 1$. Esto implica que $X^m$ es una raíz del polinomio $f(Y) - g(Y)$ para todo $m \in G$. Puesto que $G$ \eqref{grupo_introspectivos} es un subgrupo de $\Z_p^\times$, es obvio que $(m, r) = 1$ y, por lo tanto, $X^m$ es una raíz $r$-ésima primitiva de la unidad (todas ellas distintas por ser todos los $m$ distintos). Por lo tanto, el polinomio $f(Y) - g(Y)$ tendrá al menos $t$ raíces distintas en $\mathbb{F}$. Esto es una contradicción, pues el grado de $f(Y) - g(Y)$ es menor que $t$ por la elección de ambos, luego llegamos a una contradicción, luego $f \not\equiv g$ en $\mathbb{F}$.\\
 	
 	Por otro lado sabemos que $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor < \sqrt{r}\log(n) < r < p$ (la penúltima desigualdad viene de que $r > \log^2(n)$). Por lo tanto, los polinomios $X + a$ con $0 \leq a \leq \ell$ son todos distintos en $\mathbb{F}$. Como además el grado de $h$ es mayor que $1$, tenemos que $X + a \not\equiv 0$ en $\mathbb{F}$ con $0 \leq a \leq \ell$. Por lo tanto tenemos que existen $\ell + 1$ polinomios de grado $1$. Teniendo en cuenta que todos los polinomios en $P$ de grado menor que $t$ son distintos en $\mathcal{G}$, solo tenemos que calcular todas estas combinaciones usando combinatoria.\\
 	
@@ -384,7 +384,7 @@ Nuestra tarea ahora va a ser dar cotas para el grupo $\mathcal{G}$ recién defin
 	
 	\[ \sum_{k=0}^{t-1}\binom{\ell+k}{\ell} = \sum_{k=\ell}^{\ell+t-1}\binom{k}{\ell} = \binom{\ell + t}{\ell + 1} = \binom{t + \ell}{t - 1} \]
 	
-	Donde en la segunda desigualdad hemos usado la \textit{Identidad del Palo de Hockey} \ref{propiedades_binomio}. Por lo tanto tenemos que $|\mathcal{G}| \geq \binom{t + \ell}{t - 1}$, como queríamos.
+	Donde en la segunda igualdad hemos usado la \textit{Identidad del Palo de Hockey} \ref{propiedades_binomio}. Por lo tanto tenemos que $|\mathcal{G}| \geq \binom{t + \ell}{t - 1}$, como queríamos.
 \end{proof}
 
 Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual solo es cierta cuando $n$ no es una potencia de $p$.
@@ -400,7 +400,7 @@ Teniendo esta cota inferior, ahora vamos a calcular una cota superior, la cual s
 	\hat{I} = \left\{\left(\frac{n}{p}\right)^ip^j \mid 0 \leq i,j \leq \lfloor \sqrt{t} \rfloor \right\}
 	\end{equation}
 	
-	Es evidente que si $n$ no es una potencia de $p$, la cantidad de elementos distintos en $\hat{I}$ es equivalente a $(\lfloor \sqrt{t} \rfloor + 1)^2 > t$. Dado que sabemos que $|G| = t$, por el principio del palomar, existen al menos dos elementos en $\hat{I}$ de manera que su resto módulo $r$ es el mismo. Dicho de otro modo, sean $m_1, m_2 \in \hat{I}$ con $m_1 > m_2$ (esto sin perder generalidad), de manera que $X^{m_1} \equiv X^{m_2} \mod(X^r - 1)$. Sea entonces $f \in P$, y se tiene lo siguiente por ser $m_1, m_2$ introspectivos para $f$:
+	Es evidente que si $n$ no es una potencia de $p$, la cantidad de elementos distintos en $\hat{I}$ es equivalente a $(\lfloor \sqrt{t} \rfloor + 1)^2 > t$. Dado que sabemos que $|G| = t$, por el \textit{Principio del Palomar}, existen al menos dos elementos en $\hat{I}$ de manera que su resto módulo $r$ es el mismo. Dicho de otro modo, sean $m_1, m_2 \in \hat{I}$ con $m_1 > m_2$ (esto sin perder generalidad), de manera que $X^{m_1} \equiv X^{m_2} \mod(p, X^r - 1)$. Sea entonces $f \in P$, y se tiene lo siguiente por ser $m_1, m_2$ introspectivos para $f$:
 	
 	\begin{align}
 	f(X)^{m_1} &\equiv f(X^{m_1}) \mod(p, X^r-1)\\
@@ -429,7 +429,7 @@ Con estos dos último lemas hemos conseguido acotar el tamaño de $\mathcal{G}$ 
 	&> 2^{\lfloor \sqrt{t}\log(n) \rfloor + 1} \geq 2^{\sqrt{t}\log(n)} \geq n^{\sqrt{t}}
 	\end{align}
 	
-	La primera igualdad se tiene por \autoref{cota_inferior_G}. La segunda porque $t > \log^2(n) \Leftrightarrow \sqrt{t} > \log(n) \Leftrightarrow t > \sqrt{t}\log(n)$. La tercera porque $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor \geq \lfloor \sqrt{t}\log(n) \rfloor$. La cuarta se tiene por \autoref{binomio_cota_inferior_2n}.\\
+	La primera desigualdad se tiene por \autoref{cota_inferior_G}. La segunda porque $t > \log^2(n) \Leftrightarrow \sqrt{t} > \log(n) \Leftrightarrow t > \sqrt{t}\log(n)$. La tercera porque $\ell = \lfloor \sqrt{\phi(r)}\log(n) \rfloor \geq \lfloor \sqrt{t}\log(n) \rfloor$. La cuarta se tiene por \autoref{binomio_cota_inferior_2n}.\\
 	
 	Por \autoref{cota_superior_G} y dado que $|\mathcal{G}| > n^{\sqrt{t}}$, tiene que darse que $n$ sea una potencia de $p$. Es decir, $n = p^k$ con $k > 0$. Puesto que en el primer paso eliminamos todas las potencias donde $k > 1$, no queda más remedio que ser $n = p$, luego $n$ es primo.
 \end{proof}

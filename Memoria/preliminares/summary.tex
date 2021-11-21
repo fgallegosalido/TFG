@@ -8,7 +8,7 @@
 \selectlanguage{english}
 \chapter{Summary}
 
-Prime numbers are of special importance when it comes to Mathematics in general and, in specific, the branch of Number Theory. Their applications go from purely theoretic results to practical uses like criptography, which is the base of the security on the Internet.\\
+Prime numbers are of special importance when it comes to Mathematics in general and, in specific, the branch of Number Theory. Their applications go from purely theoretic results to practical uses like cryptography, which is the base of the security on the Internet.\\
 
 Primality testing has been extensively studied throughout history, and specially during the second half of the $20^{th}$ and $21^{st}$ centuries with the formalitation of complexity theory by \textit{Alan Turing}.\\
 
@@ -32,9 +32,9 @@ We can speed up the process if we reduce the amount of coefficients to evaluate 
 (X + a)^n \equiv X^n + a \mod(n, X^r - 1)
 \end{equation}
 
-This congruence still holds if $n$ is prime for every $a \in \Z$ and every $r$. However, it also holds for some values of $a$ and $r$ when $n$ is composite. This property can be restored if we appropriately choose $r$ and test it for some values of $a$. We are going to prove that $r$ and $a$ are $O(\log^c(n))$ for some constant $c$, which leads us to a deterministic polynomial algorithm.\\
+This congruence still holds if $n$ is prime for every $a \in \Z$ and every $r$. However, it also holds for some values of $a$ and $r$ when $n$ is composite. This property can be almost completely restored if we appropriately choose $r$ and test it for some values of $a$. We are going to prove that $r$ and $a$ are $O(\log^c(n))$ for some constant $c$, which leads us to a deterministic polynomial algorithm.\\
 
-The algorithm is of great interest when it comes to the theory, as it is the first polynomial, deterministic, general and uncondicional primality test. This opens the door to the development of better algorithms that also run in polynomial time.\\
+The algorithm is of great interest when it comes to the theory, as it is the first polynomial, deterministic, general and unconditional primality test. This opens the door to the development of better algorithms that also run in polynomial time.\\
 
 However, this algorithm falls behind some other tests that are currently used. For example, the \textit{Miller-Rabin} test is of probabilistic nature, but its runtime is superior, which makes it more eligible when it comes to test for primality in branches like cryptography, where we need to test really big numbers (normally bigger than $1024$ bits) really fast.\\
 

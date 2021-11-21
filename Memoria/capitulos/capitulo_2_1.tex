@@ -2,9 +2,9 @@
 % !TeX encoding = utf8
 \chapter{Complejidad Algorítmica del test AKS}
 
-En este capítulo nos encargaremos de analizar la complejidad algorítmica de cada uno de los pasos del test AKS, la cual queremos ver que es polinómica en la cantidad de dígitos de la entrada o, lo que es lo mismo, que es logarítmica.\\
+En este capítulo nos encargaremos de analizar la complejidad algorítmica de cada uno de los pasos del test \textbf{AKS}, la cual queremos ver que es polinómica en la cantidad de dígitos de la entrada o, lo que es lo mismo, que es logarítmica.\\
 
-Al final de esta sección, tomaremos el paso cuya complejidad sea mayor, y comprobaremos que, efectivamente, el algoritmo AKS está dentro de la clase de complejidad polinomial para algoritmos deterministas.
+Al final de esta sección, tomaremos el paso cuya complejidad sea mayor, y comprobaremos que, efectivamente, el algoritmo \textbf{AKS} está dentro de la clase de complejidad polinomial para algoritmos deterministas.
 
 \section{Operaciones básicas}
 
@@ -18,15 +18,15 @@ Sean entonces pues las siguientes funciones:\\
 	\item $P(n, m)$ la cantidad de pasos a realizar para multiplicar dos polinomios de grado $n$ con coeficientes de tamaño $m$ bits.
 \end{itemize}
 
-Es bien sabido ya que $O(M(n)) = O(n^2)$ y que $O(P(n, m)) = O(n^2m^2)$ usando los métodos elementales. Para demostrar que el test \textbf{AKS} tiene complejidad polinómica, estas complejidades serán suficientes para la prueba.\\
+Existen métodos elementales bien conocidos para estas operaciones, cuyas complejidades son $O(M(n)) = O(n^2)$ y $O(P(n, m)) = O(n^2m^2)$ respectivamente. Para demostrar que el test \textbf{AKS} tiene complejidad polinómica, estas complejidades serán suficientes para la prueba.\\
 
-No obstante, la complejidad se puede reducir aún más usando algoritmos más sofisticados. Sabemos que $O(M(n)) = O^\sim(n)$ y que $O(P(n, m)) = O^\sim(nm)$ usando algoritmos basados en la \textit{Transformada Rápida de Fourier} \cite{modern_computer_algebra}. Estas últimas complejidades serán las que consideraremos al calcular eficiencias, aunque las obtenidas por métodos elementales funcionan perfectamente para probar que el algoritmo AKS es polinomial.
+No obstante, la complejidad se puede reducir aún más usando algoritmos más sofisticados. Sabemos que $O(M(n)) = O^\sim(n)$ y que $O(P(n, m)) = O^\sim(nm)$ usando algoritmos basados en la \textit{Transformada Rápida de Fourier} \cite{modern_computer_algebra}. Estas últimas complejidades serán las que consideraremos al calcular eficiencias, aunque las obtenidas por métodos elementales funcionan perfectamente para probar que el algoritmo \textbf{AKS} es polinomial.
 
 \section{Pasos del algoritmo AKS}
 
 En esta sección nos vamos a dedicar a estudiar cada paso del algoritmo y calcular las complejidades de cada uno.\\
 
-Es importante destacar que no es necesario calcular las mejores complejidades posibles. En algunos pasos podemos permitirnos perder un poco de eficiencia (siempre manteniendo la polinomialidad de la misma) sin que esto afecte al hecho de que el algoritmo se ejecuta en tiempo polinómico.
+Es importante destacar que no es necesario calcular las mejores complejidades posibles. En algunos pasos podemos permitirnos perder un poco de eficiencia (siempre manteniendo la polinomialidad de la misma) sin que esto afecte al hecho de que el algoritmo tiene complejidad polinómica.
 
 \subsection{Paso 1: Potencias Perfectas}
 
@@ -69,11 +69,9 @@ Como ya dijimos anteriormente, no vamos a intentar buscar un algoritmo mucho má
 
 \subsection{Paso 2: Encontrar el menor $r$ tal que $ord_r(n) > \log^2(n)$}
 
-Para este paso no necesitamos realmente calcular el orden exacto para cada $r$. Nos bastaría simplemente con probar que $n^k \neq 1 \mod(r)$ para todo $k \leq \log^2(n)$, pues si se cumplen todas esas igualdades, podemos asegurar que $ord_r(n) > \log^2(n)$ para ese $r$ en específico.\\
+Para este paso no necesitamos realmente calcular el orden exacto para cada $r$. Nos bastaría simplemente con probar que $n^k \not\equiv 1 \mod(r)$ para todo $k \leq \log^2(n)$, pues si se cumplen todas esas congruencias, podemos asegurar que $ord_r(n) > \log^2(n)$ para ese $r$ en específico.\\
 
-Lo anterior junto con el hecho de que $r \leq \max\{3, \lceil \log^5(n) \rceil\}$,
-
-Teniendo esto en mente, podemos enunciar el teorema.
+Lo anterior junto con el hecho de que $r \leq \max\{3, \lceil \log^5(n) \rceil\}$ \ref{cota_superior_r_log5}, nos permite enunciar el siguiente teorema.
 
 \begin{teorema}
 	El paso 2 del algoritmo AKS tiene complejidad $O^\sim(\log^7(n))$.
@@ -82,7 +80,7 @@ Teniendo esto en mente, podemos enunciar el teorema.
 \begin{proof}
 	Por \autoref{cota_superior_r_log5}, tenemos que $r \leq max\{3, \lceil \log^5(n) \rceil \}$, es decir, solo hay que comprobar $O(\log^5(n))$ valores de $r$ como mucho.\\
 	
-	Por otro lado, fijado ya $r$, comprobar $ord_r(n) > \log^2(n)$ es equivalente a comprobar que se cumple $n^k \neq 1 \mod(r)$ para todo $k \leq \log^2(n)$. Esto equivale a hacer $O(\log^2(n))$ comprobaciones para cada $r$, ya que para cada igualdad solo realizamos una multiplicación, que al ser módulo $r$, nos queda que la comprobación tenga complejidad $O(\log^2(n)\log(r)) = O^\sim(\log^2(n))$.\\
+	Por otro lado, fijado ya $r$, comprobar $ord_r(n) > \log^2(n)$ es equivalente a comprobar que se cumple $n^k \not\equiv 1 \mod(r)$ para todo $k \leq \log^2(n)$. Esto equivale a hacer $O(\log^2(n))$ comprobaciones para cada $r$. Luego, que para cada igualdad solo realizamos una multiplicación, que al ser módulo $r$, nos queda que la comprobación tenga complejidad $O(\log^2(n)\log(r)) = O^\sim(\log^2(n))$.\\
 	
 	Por lo tanto, tenemos que hay que comprobar $O(\log^5(n))$ valores de $r$, y comprobar para cada $r$ cuesta $O^\sim(\log^2(n))$, luego la complejidad del paso 2 es $O^\sim(\log^7(n))$.
 \end{proof}
@@ -91,13 +89,13 @@ Este paso es importante en el sentido de que la complejidad total del algoritmo 
 
 \subsection{Paso 3: Comprobar si $1 < (a, n) < n$ para algún $a \leq r$}
 
-Primero tenemos que calcular una eficiencia para el algoritmo de Euclides. Para ello vamos primero a calcular la cantidad de pasos que toma el algoritmos de Euclides.\\
+Primero tenemos que calcular una eficiencia para el algoritmo de Euclides. Para ello vamos primero a calcular la cantidad de pasos que toma el \textit{Algoritmo de Euclides} \ref{algoritmo_de_euclides}.\\
 
 Primero vamos a hacer un par de comprobaciones. Supongamos que queremos calcular $(a, b)$ con $a > b$. Sabemos que $(a, b) = (b, c)$ con $a = k_1b + c$ para algún $k_1 \in \N$ o, dicho en términos más claros, $c$ es el resto de dividir $a$ entre $b$ ($c = res(a; b)$). Por otro lado, $(b, c) = (c, d)$ con $b = k_2c + d$ para algún $k_2 \in \N$.\\
 
 Puesto que $b > c$, es claro entonces que $k_2 \geq 1$, luego $b = k_2c + d \geq c + d$, y en consecuencia, $a > c + d$. Sumamos estas dos últimas expresiones y obtenemos $a + b > 2(c + d)$.\\
 
-Estas dos observaciones nos dan a entender que, cada dos pasos, el tamaño del problema se reduce a algo menos de la mitad. Con eso en las manos y asumiendo que $a, b$ tienen como mucho $k$ bits, podemos asegurar que el algoritmo da $O(k)$ pasos.\\
+Estas dos observaciones nos dan a entender que, cada dos pasos, el tamaño del problema se reduce a algo menos de la mitad. Con eso en las manos y asumiendo que $a$ y $b$ tienen como mucho $k$ bits, podemos asegurar que el algoritmo da $O(k)$ pasos.\\
 
 Sabiendo esto y que en cada paso debemos realizar una división, llegamos a que la eficiencia del algoritmo para dos números de tamaño $k$ bits es $O(kM(k)) = O^\sim(k^2)$, es decir, $O^\sim(\log^2(n))$ para el número completo.\\
 
@@ -125,7 +123,7 @@ Con todas estas piezas, tenemos que la complejidad del paso 5 es $O^\sim(\log^{7
 
 \section{Resultado final}
 
-Habiendo comprobado las eficiencias de todos los pasos, y sabiendo que el paso 6 no afecta en absoluto, tenemos que las eficiencias de cada paso son:
+Habiendo comprobado las eficiencias de todos los pasos, y sabiendo que el paso 6 no afecta en absoluto al resultado, tenemos que las eficiencias de cada paso son:
 
 \begin{enumerate}
 	\item $O(\log^4(n))$
@@ -143,7 +141,7 @@ Cabe destacar que, si hubiésemos considerado que $O(M(n)) = O(n^2)$ y que $O(P(
 
 En el análisis recién realizado, cabe destacar que la eficiencia del quinto paso (y la del algoritmo en general) depende del valor $r$ encontrado en el segundo paso. Dicho valor sabemos que está acotado superiormente por $\max\{\lceil 3, \log^5(n) \rceil\}$, y es lo que nos ha proporcionado la complejidad $O^\sim(\log^{21/2}(n))$.\\
 
-Como sabemos que dicho valor tiene que ser mayor que $\log^2(n) + 1$ por lo explicado anteriormente, podemos entonces asegurar que $r \in [\log^2(n) + 2, \lceil\log^5(n)\rceil]$. De esta manera podemos acotar la complejidad exacta del algoritmo, teniendo así que $O^\sim(\log^{21/2}(n))$ y $\Omega^\sim(\log^6(n))$, y concluyendo que $\Theta(\log^x(n))$ con $x \in [6, 21/2]$.
+Como sabemos que dicho valor tiene que ser mayor que $\log^2(n) + 1$ por lo explicado anteriormente, podemos entonces asegurar que $r \in [\log^2(n) + 2, \lceil\log^5(n)\rceil]$. De esta manera podemos acotar la complejidad exacta del algoritmo, teniendo así que $O^\sim(\log^{21/2}(n))$ y $\Omega^\sim(\log^6(n))$, y concluyendo que tiene una complejidad exacta de  $\Theta(\log^x(n))$ con $x \in [6, 21/2]$.
 
 \endinput
 %------------------------------------------------------------------------------------

@@ -2,23 +2,23 @@
 % !TeX encoding = utf8
 \chapter{Implementación del test AKS}
 
-En este capítulo nos vamos a dedicar a implementar el algoritmo AKS usando un lenguaje de programación.\\
+En este capítulo nos vamos a dedicar a implementar el algoritmo \textbf{AKS} usando un lenguaje de programación.\\
 
 Por un lado mostraremos las herramientas que nos ayudarán a ello, y por otro iremos paso a paso explicando cada detalle y decisión a la hora de implementarlo.
 
 \section{Herramientas de desarrollo}
 
-En primer lugar vamos a mostrar las herramientas elegidas tanto para poder implementar el algoritmo AKS, como para poder crear el programa y poder ejecutarlo de manera sencilla.\\
+En primer lugar vamos a mostrar las herramientas elegidas tanto para poder implementar el algoritmo \textbf{AKS}, como para poder crear el programa y poder ejecutarlo de manera sencilla.\\
 
 \subsection{Lenguaje de programación: C++}
 
-El lenguaje elegido para la implementación es C++ y, en específico, la revisión del año 2020: C++20.\\
+El lenguaje elegido para la implementación es C++ y, en específico, la revisión del año $2020$: C++$20$.\\
 
-C++ es un lenguaje de programación multiparadigma diseñado por el profesor Bjarne Stroustrup \cite{bjarne_stroustrup} basado en el ya conocido C. De hecho, C++ fue pensado en un principio para ser 100\% compatible con C, aunque la divergencia en los últimos años es cada vez más notable.\\
+C++ es un lenguaje de programación multiparadigma diseñado por el profesor \textit{Bjarne Stroustrup} \cite{bjarne_stroustrup} basado en el ya conocido C. De hecho, C++ fue pensado en un principio para ser $100\%$ compatible con C, aunque la divergencia en los últimos años es cada vez más notable.\\
 
-Las principales razones por la que C++ es el lenguaje elegido son su velocidad y su capacidad de poder abstraer conceptos fácilmente. La versión utilizada es la del año 2020 por ser la última y por estar ampliamente soportada entre los principales compiladores: GCC, Clang y MSVC.\\
+Las principales razones por la que C++ es el lenguaje elegido son su velocidad y su capacidad de poder abstraer conceptos fácilmente. La versión utilizada es la del año $2020$ por ser la última y por estar ampliamente soportada entre los principales compiladores: GCC, Clang y MSVC.\\
 
-El compilador a usar no está definido, pues al ser una librería, debería haber libertad para poder usar el compilador que uno prefiera. En este proyecto, todos los tests y mediciones que se hagan serán usando GCC o Clang, pero se podría usar cualquier otro que al menos soporte C++20 y tenga buena integración con el build system (el cual ahora veremos).
+El compilador a usar no está definido, pues al ser una librería, debería haber libertad para poder usar el compilador que uno prefiera. En este proyecto, todos los tests y mediciones que se hagan serán usando GCC o Clang, pero se podría usar cualquier otro que al menos soporte C++$20$ y tenga buena integración con el build system (el cual ahora veremos).
 
 \subsection{Build system: CMake}
 
@@ -36,7 +36,7 @@ Es muy versátil y es el sistema más usado para proyectos desarrollados en C o 
 
 A medida que se desarrolla un proyecto, suele ser necesario usar funcionalidad que otras personas ya han hecho con anterioridad y que nos alivia a nosotros de ese trabajo.\\
 
-Es lo que normalmente conocemos como librerías, y en el caso de C++, hay varias estrategias y herramientas entre las que elegir.\\
+Es lo que normalmente conocemos como librerías. En el caso de C++, hay varias estrategias y herramientas entre las que elegir.\\
 
 Para este proyecto se ha decidido utilizar el manejador de dependencias Conan \cite{conan}.\\
 
@@ -48,7 +48,7 @@ Otras opciones podrían haber sido Vcpkg de Microsoft o simplemente instalar las
 
 Para el desarrollo será necesario el uso de varias librerías.\\
 
-Para la implementación del test AKS en específico haremos uso de las siguiente:
+Para la implementación del test \textbf{AKS} en específico haremos uso de las siguiente:
 
 \begin{itemize}
 	\item \textbf{GMP}: Implementada en C. Es la librería por defecto para usar cuando queremos trabajar con números de precisión arbitraria.\\
@@ -59,11 +59,11 @@ Para la implementación del test AKS en específico haremos uso de las siguiente
 	
 	\item \textbf{MPFR}: Implementada en C. Esta librería es utilizada para trabajar con números en coma flotante de precisión arbitraria.\\
 	
-	Hay algunos puntos en la implementación del test AKS donde necesitaremos funciones que nos permitan controlar bien la precisión para calcular cotas lo más fieles posibles.\\
+	Hay algunos puntos en la implementación del test \textbf{AKS} donde necesitaremos funciones que nos permitan controlar bien la precisión para calcular cotas lo más fieles posibles.\\
 	
 	Esta librería tiene buena integración con \textbf{GMP}, por lo que es una candidata perfecta para este proyecto.
 	
-	\item \textbf{NTL}: Implementada en C++. Más conocida como \textit{Number Theory Library}, será nuestra opción a la hora de implementar las identidades polinómicas.\\
+	\item \textbf{NTL}: Implementada en C++. Más conocida como \textit{Number Theory Library}, será nuestra opción a la hora de implementar las identidades polinómicas \eqref{identidad_con_polinomio}.\\
 	
 	Tiene una alta cantidad de módulos entre los que elegir, y la interfaz es mucho más clara al estar escrita en C++.\\
 	
@@ -84,11 +84,11 @@ A pesar de que el compilador suele atrapar muchos errores y avisarnos de posible
 
 Es por ello que usaremos dos analizadores estáticos durante el desarrollo para atrapar la mayor cantidad de errores posibles y así agilizar el desarrollo: Cppcheck \cite{cppcheck} y Clang-tidy \cite{clang_tidy}.
 
-\subsection{Generador de Gráficas: gnuplot}
+\subsection{Generador de Gráficas: Gnuplot}
 
 Puesto que en este trabajo queremos analizar los tiempos de ejecución de distintos algoritmos, la mejor manera de representarlos es haciendo uso de gráficas. Dichas gráficas nos ayudarán a analizar de manera visual los tiempos de ejecución de manera más fácil.\\
 
-La herramienta que usaremos para generar dichas gráficas será \textbf{gnuplot}. Esta suele ya venir incluida en la mayoría de distribuciones de Linux.
+La herramienta que usaremos para generar dichas gráficas será \textbf{Gnuplot}. Esta suele ya venir incluida en la mayoría de distribuciones de Linux.
 
 \subsection{IDE: Visual Studio Code}
 
@@ -116,7 +116,7 @@ Antes de explicar la estructura física del proyecto, vamos a mostrar un diagram
 	\caption{Diagrama de relaciones de los componentes del proyecto}
 \end{figure}
 
-Todos los tests que se implementan en el proyecto hacen uso de la librería \textbf{GMP} para manejar números de precisión arbitraria. Además el algoritmo \textbf{AKS} hace uso de las librerías \textbf{NTL} (multiplicación de polinomios) y \textbf{MPFR} (cálculo preciso de cotas). Estas dos últimas además hacen uso de \textbf{GMP}. Finalmente tenemos el paquete \textbf{TFG} que incluye todos los tests de primalidad implementados. Ahora vamos a explicar cómo se ha estructurado físicamente el proyecto.\\
+Todos los tests que se implementan en el proyecto hacen uso de la librería \textbf{GMP} para manejar números de precisión arbitraria. Además, el algoritmo \textbf{AKS} hace uso de las librerías \textbf{NTL} (multiplicación de polinomios) y \textbf{MPFR} (cálculo preciso de cotas). Estas dos últimas además hacen uso de \textbf{GMP}. Finalmente tenemos el paquete \textbf{TFG} que incluye todos los tests de primalidad implementados. Ahora vamos a explicar cómo se ha estructurado físicamente el proyecto.\\
 
 El código fuente está incluido todo en una carpeta a la que hemos llamado \textbf{TFG}. Dentro de esta carpeta tenemos varios archivos:
 
@@ -148,7 +148,7 @@ Luego tenemos varias carpetas:
 
 Todas las funciones de la librería se encuentran en un único namespace, llamado \textbf{tfg}, y en el archivo \textbf{include/TFG.hpp}.\\
 
-Las funciones relativas al test \textbf{AKS} se encuentran en el namespace \textbf{tfg::aks}, y los pasos en el namespace \textbf{tfg::aks::steps}. La API se encuentra en el archivo \textbf{include/AKS.hpp}, y la implementación en \textbf{src/AKS.hpp}.\\
+Las funciones relativas al test \textbf{AKS} se encuentran en el namespace \textbf{tfg::aks}, y los pasos en el namespace \textbf{tfg::aks::steps}. La API se encuentra en el archivo \textbf{include/AKS.hpp}, y la implementación en \textbf{src/AKS.cpp}.\\
 
 Las funciones que actúan como wrapper de las funciones de \textbf{GMP} están en el archivo \textbf{src/GMPWrappers.hpp} (no se exponen como parte de la librería) y las implementaciones en \textbf{src/GMPWrappers.cpp}. Todas estas funciones se encuentran en el namespace \textbf{tfg::gmp}.
 
@@ -156,7 +156,7 @@ Las funciones que actúan como wrapper de las funciones de \textbf{GMP} están e
 
 En este apartado vamos a presentar varias decisiones que se han tomado para implementar este algoritmo.\\
 
-A pesar de que probamos que este algoritmo tiene complejidad $O^\sim(\log^4(n))$ y se presentará una posible implementación, la implementación final hará uso de la función ya implementada por la librería \textbf{GMP}.\\
+A pesar de que probamos que este algoritmo tiene complejidad $O(\log^4(n))$ y se presentará una posible implementación, la implementación final hará uso de la función ya implementada por la librería \textbf{GMP}.\\
 
 Dicho esto, pasaremos a comprobar las distintas implementaciones.
 
@@ -189,7 +189,7 @@ auto isPowerOf(mpz_class n, size_t p) -> bool {
 
 La función puede ser optimizada un poco mejor si la primera cota de la cota superior (upper) es un poco más baja. Por ejemplo $2^{\lfloor \log(n)/p \rfloor + 1}$ sería válida, pero de momento la dejamos más simple.\\
 
-El algoritmo es muy simple. Simplemente calculamos la mitad de ambas cotas, y ese número lo elevamos a $p$. Si el resultado es menor que $n$, actualizamos la cota inferior (lower); si es mayor, actualizamos la superior; y si es igual, devolvemos true. Si el bucle acaba, la búsqueda binaria no ha encontrado el valor, luego devolvemos false.\\
+El algoritmo es en esencia una búsqueda binaria. Simplemente calculamos la mitad de ambas cotas, y ese número lo elevamos a $p$. Si el resultado es menor que $n$, actualizamos la cota inferior (lower); si es mayor, actualizamos la superior; y si es igual, devolvemos true. Si el bucle acaba, la búsqueda binaria no ha encontrado el valor, luego devolvemos false.\\
 
 Ahora presentamos el algoritmo \textit{isPerfectPower}. Esta función toma un valor $n$ y comprueba si existen dos valores $a, p > 1$ tales que $n = a^p$.\\
 
@@ -205,7 +205,7 @@ auto isPerfectPower(mpz_class n) -> bool {
 }
 \end{lstlisting}
 
-La función \textbf{floorLog2} se implementa como el número de bits que ocupa $n$ menos 1 (\textit{mpz\_sizeinbase(n.get\_mpz\_t(), 2) - 1}). Dicha cota sabemos que es la mayor porque $\lfloor\log(b)\rfloor$ es el mayor exponente posible suponiendo que $n$ pueda ser una potencia de $2$. Luego simplemente se comprueba para cada valor de $p$ si $n = a^p$ para algún $a > 1$.\\
+La función \textbf{floorLog2} se implementa como el número de bits que ocupa $n$ menos $1$ (\textit{mpz\_sizeinbase(n.get\_mpz\_t(), 2) - 1}). Dicha cota sabemos que es la mayor porque $\lfloor\log(n)\rfloor$ es el mayor exponente posible suponiendo que $n$ pueda ser una potencia de $2$. Luego simplemente se comprueba para cada valor de $p$ si $n = a^p$ para algún $a > 1$.\\
 
 Esta implementación es relativamente simple. Ahora pasaremos a explicar optimizaciones que podemos hacer a esta implementación para reducir la complejidad a $O^\sim(\log^3(n))$, tal y como se explica en \cite{bach_sorenson_1989}, Theorem 3.1.
 
@@ -245,10 +245,10 @@ Este algoritmo tiene complejidad $O^\sim(\log^3(n))$ \cite{bach_sorenson_1989}.
 
 La versión que finalmente se ha implementado es la que ya proporciona la librería \textbf{GMP}. Dicha función se llama \textit{mpz\_perfect\_power\_p}. Recibe un único argumento $n$ de tipo \textit{mpz\_t} y devuelve un entero distinto de $0$ si $n$ es una potencia perfecta.\\
 
-La función se ha encapsulado en su correspondiente wrapper llamado \textbf{isPerfectPower} en el namespace \textbf{tfg::gmp}. La implementación es la siguiente:\\
+La función se ha encapsulado en su correspondiente wrapper llamado \textit{isPerfectPower} en el namespace \textbf{tfg::gmp}. La implementación es la siguiente:\\
 
 \begin{lstlisting}
-auto isPerfectPower(mpz_class const& n) -> bool {
+auto isPerfectPower(mpz_class n) -> bool {
 	return mpz_perfect_power_p(n.get_mpz_t()) != 0;
 }
 \end{lstlisting}
@@ -276,7 +276,7 @@ auto log2Sqr(mpz_class n) -> size_t {
 
 Primero cabe destacar que la cota no debería sobrepasar los 64 bits de capacidad (pues luego tendremos que reservar memoria acorde a esta cota), luego podemos devolver un entero sin signo cuyo valor máximo nunca será menor que la cantidad de memoria del ordenador.\\
 
-Primero inicializamos una variable de tipo \textit{mpfr\_t} (número en coma flotante con precisión arbitraria) con la función \textit{mpfr\_init\_set\_z}, que toma nuestro entero de \textbf{GMP} y lo redondea hacia $+\infty$.\\
+Primero inicializamos una variable de tipo \textit{mpfr\_t} (número en coma flotante con precisión arbitraria) con la función \textit{mpfr\_init\_set\_z}, que toma nuestro entero de \textbf{GMP} y lo redondea hacia $+\infty$).\\
 
 Después realizamos \textit{mpfr\_log2} y \textit{mpfr\_sqr} sucesivamente, que son las funciones logaritmo en base $2$ y elevar al cuadrado respectivamente (todo esto reutilizando la misma memoria). Seguimos redondeando a $+\infty$.\\
 
@@ -308,7 +308,9 @@ Es importante remarcar que, aunque sabemos que la cota es $\log^2(n)$ y, por lo 
 
 El algoritmo simplemente comprueba si en algún momento $n^k \equiv 1 \mod(r)$ y, en dicho caso, devolver false (pues el orden entonces es menor que la cota que hemos pasado).\\
 
-Si acabamos el bucle, significa que $ord_r(n) > \log^2(n)$, luego devolvemos true.
+Si acabamos el bucle, significa que $ord_r(n) > \log^2(n)$, luego devolvemos true.\\
+
+Cabe destacar que no es necesario comprobar si $(r, n) = 1$, pues esto ya lo comprobamos en el tercer paso. En el caso de que $(r, n) > 1$, lo que pasará es que el algoritmo va a devolver true, pero luego en el siguiente paso determinará que $n$ no es primo.
 
 \subsubsection{Bucle para probar valores de $r$}
 
@@ -326,7 +328,7 @@ auto step2(mpz_class n) -> size_t {
 
 Lo importante a destacar aquí es que el primer $r$ que probamos es $\log^2(n) + 2$, pues este es el primer $r$ para el que es posible que se cumpla que $ord_r(n) > \log^2(n)$.\\
 
-La razón e que, dado que $n^{\phi(r)} \equiv 1 \mod(r)$ para todo $n, r \geq 1$, si $r \leq \log^2(n) + 1 \Rightarrow ord_r(n) \leq \phi(r) \leq r - 1 \leq \log^2(n)$, luego sería imposible que $ord_r(n) > \log^2(n)$.\\
+La razón es que, dado que $n^{\phi(r)} \equiv 1 \mod(r)$ para todo $n, r \geq 1$, si $r \leq \log^2(n) + 1 \Rightarrow ord_r(n) \leq \phi(r) \leq r - 1 \leq \log^2(n)$, luego sería imposible que $ord_r(n) > \log^2(n)$.\\
 
 Más allá de esa aclaración, el código es fácil de entender. Simplemente vamos probando varios valores de $r$ hasta que encontremos uno que cumple la condición, el cual ya sabemos que existe por \autoref{cota_superior_r_log5}.
 
@@ -363,7 +365,7 @@ if (n <= r)
 	return true;
 \end{lstlisting}
 
-Podemos optimizar esto un poco más si tenemos en cuenta que este paso solo es necesario, ya que la condición $n \leq r$ solo se cumple si $n \leq 5.690.034$, pues $\lceil \log^5(r) \rceil < r$ para todo $n > 5.690.034$.\\
+Podemos optimizar esto un poco más si tenemos en cuenta que este paso solo es necesario cuando $n \leq 5.690.034$, ya que la condición $n \leq r$ solo se cumple si $n \leq 5.690.034$, pues $\lceil \log^5(n) \rceil < n$ para todo $n > 5.690.034$.\\
 
 Esta optimización puede ser útil cuando el número de cifras crezca mucho, aunque tampoco va a afectar demasiado, pues volvemos a insistir que la complejidad real está en el paso 5.
 
@@ -371,9 +373,9 @@ Esta optimización puede ser útil cuando el número de cifras crezca mucho, aun
 
 Este apartado será en el que invirtamos más tiempo, pues es en el que realmente tenemos que optimizar donde sea posible para poder tener un tiempo de ejecución razonable.\\
 
-Lo 4 pasos anteriores no suponen ningún problema de eficiencia con números relativamente grandes. El tener que manejar memoria en este paso puede suponer un auténtico problema si no lo hacemos adecuadamente, pues muchas reservas de memoria pueden resultar en un tiempo de ejecución muy lejos de lo que aspiramos conseguir.\\
+Los $4$ pasos anteriores no suponen ningún problema de eficiencia con números relativamente grandes. El tener que manejar memoria en este paso puede suponer un auténtico problema si no lo hacemos adecuadamente, pues muchas reservas de memoria pueden resultar en un tiempo de ejecución muy lejos de lo que aspiramos conseguir.\\
 
-En este apartado discutiremos 2 implementaciones posibles. Cada una tiene sus ventajas e inconvenientes, los cuales detallaremos a continuación:\\
+En este apartado discutiremos dos implementaciones posibles. Cada una tiene sus ventajas e inconvenientes, los cuales detallaremos a continuación:\\
 
 \begin{itemize}
 	\item \textbf{Implementación directa}. Esta implementación es la más directa, sencilla de integrar en el código fuente (ya que no hace uso de librerías externas) y la que nos da más flexibilidad al tomar distintas decisiones.\\
@@ -387,13 +389,13 @@ En este apartado discutiremos 2 implementaciones posibles. Cada una tiene sus ve
 	Sin embargo esta librería no viene incluida con el manejador de paquetes de Conan, por lo que será necesario instalar dicha librería en el sistema o compilarla a mano, lo cual puede resultar engorroso para el usuario final.
 \end{itemize}
 
-Dicho esto, empecemos con el análisis de la implementación del paso 5.
+Dicho esto, empecemos con el análisis de la implementación del paso $5$.
 
 \subsubsection{Cálculo de cota superior para el bucle}
 
 La primera parte del paso es calcular el valor para saber cuántas iteraciones tenemos que realizar. Esta cota es $\lfloor \sqrt{\phi(r)}\log(n) \rfloor$. Para ello, recurriremos de nuevo a la librería \textbf{MPFR} para conseguir una cota lo más fiel y baja posible.\\
 
-Primero necesitamos una implementación para la función $\phi$ de Euler, la cual podemos ver en el siguiente código. Aquí no usamos el tipo de \textbf{GMP}, pues sabemos que $r$ cabe en el tipo \textit{size\_t}:\\
+Primero necesitamos una implementación para la función \textit{$\phi$ de Euler}, la cual podemos ver en el siguiente código. Aquí no usamos el tipo de \textbf{GMP}, pues sabemos que $r$ cabe en el tipo \textit{size\_t}:\\
 
 \begin{lstlisting}
 auto phi(size_t n) -> size_t {
@@ -501,8 +503,7 @@ auto AKSPolynomial::pow(mpz_class exp, AKSPolynomial& result) const -> void {
 	result.setCoefficient(0, 1_mpz);
 	result.m_currentDegree = 0;
 	
-	for (auto const& bit : exp.get_str(2))
-	{
+	for (auto const& bit : exp.get_str(2)) {
 		result *= result;
 		if (bit == '1')
 			result *= *this;
@@ -543,7 +544,7 @@ Antes de explicar la función, destacar que la función \textit{getModuleDegree}
 
 Básicamente, lo que hacemos es aplicar el algoritmo clásico de división de polinomios. Como sabemos que el polinomio siempre es de la forma $X^r - 1$, podemos simplemente actualizar los $n - r$ primeros coeficientes desde el de más grado hasta el de menos. Finalmente reajustamos el grado del polinomio resultante. De este modo, la eficiencia es $O(n - r)$ o $O(r)$ teniendo en cuenta que el polinomio siempre será de grado $O(r)$.\\
 
-Finalmente vamos a presentar la multiplicación. Cabe destacar que aquí usamos el algoritmo elemental. Para conseguir una mejor eficiencia será necesario usar la versión que hace uso de la \textit{Transformada Rápida de Fourier}. Esto no lo haremos aquí ya que puede ser complicado implementarla correctamente y las próximas versiones ya harán ese trabajo por nosotros.\\
+Finalmente vamos a presentar la multiplicación. Cabe destacar que aquí usamos el algoritmo elemental. Para conseguir una mejor eficiencia será necesario usar la versión que hace uso de la \textit{Transformada Rápida de Fourier}. Esto no lo haremos aquí ya que puede ser complicado implementarla correctamente y la próxima versión ya hará ese trabajo por nosotros.\\
 
 \begin{lstlisting}
 auto AKSPolynomial::operator*=(AKSPolynomial const& rhs) -> AKSPolynomial& {
@@ -619,7 +620,7 @@ auto step5Direct(mpz_class n, size_t r) -> bool {
 Antes de explicar cada paso en detalle, es importante aclarar que la identidad que vamos a comprobar la vamos a modificar ligeramente. En vez de comprobar $(X + a)^n \equiv X^n + a \mod(X^r - 1, n)$, vamos a comprobar $(X + a)^n - a \equiv X^n \mod(X^r - 1, n)$. Esto nos permite evitar calcular el polinomio de la parte derecha en cada iteración, ya que no dependerá de la variable de iteración $a$. Ahora explicamos en detalle cada paso:
 
 \begin{enumerate}
-	\item Primero calculamos la cota del bucle con la función \textbf{calculateUpperBound}.
+	\item Primero calculamos la cota del bucle con la función \textit{calculateUpperBound}.
 	
 	\item Indicamos a las clases el módulo $(X^r - 1, n)$ en el que vamos a trabajar.
 	
@@ -640,7 +641,7 @@ En este apartado nos vamos a centrar en implementar el paso 5 haciendo uso de la
 
 Esta implementación hace uso de algoritmos para realizar la multiplicación de polinomios con complejidad $O^\sim(nm)$ en vez de $O^\sim(n^2m)$, como en el apartado anterior.\\
 
-Presentamos entonces una implementación del paso 5 haciendo uso de la librería \textbf{NTL}:\\
+Presentamos entonces una implementación del paso $5$ haciendo uso de la librería \textbf{NTL}:\\
 
 \begin{lstlisting}
 auto step5NTL(mpz_class n, size_t r) -> bool {
@@ -706,9 +707,9 @@ No usamos primos más grandes porque, como veremos en las gráficas, el tiempo q
 
 No usamos números compuestos porque necesitamos comparar la eficiencia del paso $5$, el cual se ejecuta por completo cuando la entrada se trata de un número primo. Es por ello que aquí no tiene mucho sentido usar números compuestos. Por esta razón, en la comparación solo vamos a ejecutar los pasos $2$ y $5$, ya que necesitamos el valor de $r$ calculado en el segundo paso para poder ejecutar el quinto.\\
 
-Además de presentar los tiempos de ejecución de ambas implementaciones, también vamos a representar las gráficas de las eficiencias teóricas ajustadas con la función \textit{fit} de \textit{gnuplot}.\\
+Además de presentar los tiempos de ejecución de ambas implementaciones, también vamos a representar las gráficas de las eficiencias teóricas ajustadas con la función \textit{fit} de \textit{Gnuplot}.\\
 
-Ambos ejes de las gráficas están en escala logarítmica en base $2$, para que se puedan apreciar mejor los resultados.\\
+Ambos ejes de las gráficas están en escala logarítmica en base $2$ para que se puedan apreciar mejor los resultados.\\
 
 Esta gráfica muestra los tiempos de ejecución de la implementación directa junto con sus eficiencias teóricas.
 

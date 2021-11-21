@@ -9,7 +9,7 @@ En este apéndice se van a explicar algunas cosas del código fuente que quedan 
 
 En la última sección del trabajo nos dedicamos a comparar el test \textbf{AKS} con los test probabilísticos de \textit{Miller-Rabin} y de \textit{Solovau-Strassen}.\\
 
-Para dichas comparaciones era necesario generar distintos números primos que nos ayudaran a presentar resultados con distintos conjuntos y combinaciones. Para generar los números primos, se ha considerado que la mejor manera de hacerlo es usando la función que proporciona \textbf{GMP} llamada \textit{mpz\_probab\_prime\_p}. Esta función devuelve $2$ si el número es definitivamente primo, $1$ si es probablemente primo y $0$ si es definitivamente compuesto.\\
+Para dichas comparaciones era necesario generar distintos números primos que nos ayudarían a presentar resultados con distintos conjuntos y combinaciones. Para generar los números primos, se ha considerado que la mejor manera de hacerlo es usando la función que proporciona \textbf{GMP} llamada \textit{mpz\_probab\_prime\_p}. Esta función devuelve $2$ si el número es definitivamente primo, $1$ si es probablemente primo y $0$ si es definitivamente compuesto.\\
 
 El conjunto de números primos generado son los mayores primos que ocupan $k$ bits. Por ejemplo, $13$ es el mayor primo que ocupa $4$ bits. Se han generado primos hasta los $512$ bits. El código para generarlos es el siguiente:
 
