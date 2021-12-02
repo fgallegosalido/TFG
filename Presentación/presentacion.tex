@@ -205,7 +205,7 @@
 
 \subsection{Introducción}
 
-\begin{frame}
+\begin{frame}{Introducción}
 	Se trata del primer test de primalidad que cumple todas las propiedades deseadas:\break
 	
 	\begin{itemize}[<+(1)->]
@@ -220,7 +220,7 @@
 \end{frame}
 
 \begin{frame}{Idea Principal}
-	\onslide<1->El \textit{Pequeño Teorema de Fermat} no proporciona un test válido, pero una versión general suya sí. Sea el siguiente teorema:\break
+	\onslide<1->El \textit{Pequeño Teorema de Fermat} no proporciona un test válido, pero una versión general suya sí.\break
 	
 	\onslide<2->
 	\begin{theorem}
@@ -328,9 +328,9 @@
 \begin{frame}{Valor de $r$}
 	\onslide<1->El valor encontrado en el segundo paso es crucial para que el test sea polinómico.\break
 	
-	\onslide<2->De dicho valor dependen la complejidad del paso $5$.\break
+	\onslide<2->De dicho valor depende la complejidad del resto del algoritmo.\break
 	
-	\onslide<3->Dicho valor se puede probar que está acotado por $\max\{3, \lceil\log^5(n)\rceil\}$.
+	\onslide<3->Dicho valor se puede probar que está acotado superiormente por $\max\{3, \lceil\log^5(n)\rceil\}$.
 \end{frame}
 
 \begin{frame}{Complejidad Paso a Paso}
@@ -374,7 +374,7 @@
 
 \subsection{Test AKS}
 
-\begin{frame}{Detalles del test AKS}
+\begin{frame}{Detalles de la Implementación del Test AKS}
 	\onslide<1->Hay varias consideraciones para el test AKS:
 	
 	\onslide<2->
@@ -385,16 +385,21 @@
 		
 		\item Utilizar enteros de precisión arbitraria.
 	\end{itemize}
-	
-	\onslide<3->Utilizar un lenguaje de programación rápido. como puede ser C++
 \end{frame}
 
 \subsection{Tests Probabilísticos}
 
+\begin{frame}
+	\centering
+	\begin{Large}
+		Tests Probabilísticos
+	\end{Large}
+\end{frame}
+
 \subsubsection{Test de Miller-Rabin}
 
 \begin{frame}{Test de Miller-Rabin}
-	Test probabilístico basado en las siguientes congruencias aplicables a enteros mayores que $2$ impares para varias bases $a$:\break
+	Test probabilístico basado en las siguientes congruencias aplicables a enteros mayores que $2$ impares y para varias bases $a$ elegidas aleatoriamente:\break
 	
 	\onslide<2->
 	\begin{align}
@@ -408,7 +413,7 @@
 \subsubsection{Test de Solovay-Strassen}
 
 \begin{frame}{Test de Solovay-Strassen}
-	Test probabilístico basado en la siguiente congruencia relacionada con el \textit{Símbolo de Jacobi}, la cual se cumple para los primos:\break
+	Test probabilístico basado en la siguiente congruencia relacionada con el \textit{Símbolo de Jacobi}, la cual se comprueba para varias bases $a$ elegidas aleatoriamente:\break
 	
 	\onslide<2->
 	\begin{equation}
@@ -427,6 +432,7 @@
 \subsection{Comparaciones}
 
 \begin{frame}
+	\centering
 	\begin{Large}
 		Comparaciones
 	\end{Large}
@@ -519,7 +525,12 @@
 %------------------------------------------------
 
 \begin{frame}
-\Huge{\centerline{Fin}}
+	\centering
+	\begin{huge}
+		Fin\\
+		\vspace{1cm}
+		Muchas gracias
+	\end{huge}
 \end{frame}
 
 %----------------------------------------------------------------------------------------
