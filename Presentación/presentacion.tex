@@ -159,29 +159,10 @@
 
 \subsection{Introducción}
 
-\begin{frame}
-	\centering
-	\begin{Large}
-		Introducción
-	\end{Large}
-\end{frame}
-
-\begin{frame}{¿Qué son los números primos?}
-	Un número primo es aquel que solo es divisible por $1$ o por sí mismo.\break
-	
-	\begin{example}
-		El número 5 es primo porque solo es divisible por $1$ y $5$.
-	\end{example}
-	
-	\begin{example}
-		El número $12$ no es primo porque es divisible por $2$, $3$, $4$ y $6$, que son distintos de $1$ y $12$.
-	\end{example}
-\end{frame}
-
 \begin{frame}{¿Qué es un test de primalidad?}
 	Un test de primalidad es un algoritmo que nos permite determinar si un número es primo o no.\break
 	
-	El test más básico es el que se deriva de la definición de primalidad, cuya complejidad es $O(\sqrt{(n)})$:
+	El test más básico es el que se deriva de la definición de primalidad, cuya complejidad es $O(\sqrt{n})$:
 	
 	\begin{itemize}[<+(1)->]
 		\item Comprobar todos los números menores que $\lfloor\sqrt{n}\rfloor$ y ver si alguno divide a $n$.
@@ -193,13 +174,6 @@
 \end{frame}
 
 \subsection{Pequeño Teorema de Fermat}
-
-\begin{frame}
-	\centering
-	\begin{Large}
-		Pequeño Teorema de Fermat
-	\end{Large}
-\end{frame}
 
 \begin{frame}{Pequeño Teorema de Fermat}
 	\onslide<1->Un test mucho más eficiente es el que se deriva del \textit{Pequeño Teorema de Fermat}.\break
@@ -217,9 +191,7 @@
 \begin{frame}{Problema}
 	\onslide<1->No es cierto en general que si $a^n \equiv a \mod(n)$ para todo $a \in \mathbb{Z}$, entonces $n$ sea primo.\break
 	
-	\onslide<2->De hecho, existe un conjunto de números que no son primos para los que el \textit{Pequeño Teorema de Fermat} siempre se cumple.\break
-	
-	\onslide<3->A dicho conjunto se le conoce como \textit{Números de Charmichael}, donde $561 = 3\cdot11\cdot17$ es el primer elemento de dicho conjunto.
+	\onslide<2->Los \textit{Números de Charmichael} son contraejemplos de ello, donde $561 = 3\cdot11\cdot17$ es el primer elemento de dicho conjunto.
 \end{frame}
 
 \section{Algoritmo AKS}
@@ -231,29 +203,20 @@
 	\end{Huge}
 \end{frame}
 
-\begin{frame}{Historia}
-	\onslide<1->El algoritmo \textbf{AKS} debe su nombre a los tres matemáticos que lo descubrieron: Manindra Agrawal, Neeraj Kayal y Nitin Saxena.\break
-	
-	\onslide<2->Se trata del primer test de primalidad que cumple todas las propiedades deseadas:\break
-	
-	\begin{itemize}[<+(2)->]
-		\item \textbf{General}. Es válido para cualquier entrada.
-		
-		\item \textbf{Determinista}. Determina con una probabilidad del $100\%$ la primalidad de un número.
-		
-		\item \textbf{Polinómico}. La complejidad asintótica del test es polinómica en el número de cifras.
-		
-		\item \textbf{Incondicional}. La validez del test no depende de resultados no probados.
-	\end{itemize}
-\end{frame}
-
 \subsection{Introducción}
 
 \begin{frame}
-	\centering
-	\begin{Large}
-		Introducción
-	\end{Large}
+	Se trata del primer test de primalidad que cumple todas las propiedades deseadas:\break
+	
+	\begin{itemize}[<+(1)->]
+		\item \textbf{General}. Válido para todos los enteros.
+		
+		\item \textbf{Determinista}. Determina con probabilidad $100\%$ si un número es primo o compuesto.
+		
+		\item \textbf{Polinómico}. La complejidad asintótica es polinómica en la cantidad de dígitos.
+		
+		\item \textbf{Incondicional}. No depende de hipótesis no probadas aún.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Idea Principal}
@@ -268,15 +231,11 @@
 		\end{equation*}
 	\end{theorem}
 	
-	\onslide<3->Un test que se deriva de esta propiedad es simplemente comprobar si la congruencia se cumple para algún $a$.\break
-	
-	\onslide<4->Si se cumple, entonces $n$ es primo. En caso contrario, $n$ es compuesto.
+	\onslide<3->Un test que se deriva de esta propiedad es simplemente comprobar si la congruencia se cumple para algún $a$.
 \end{frame}
 
 \begin{frame}{¿Es este test polinómico?}
-	Un problema que tiene este test es que tiene complejidad $\Omega(n)$, pues hay que evaluar $n$ coeficientes de los polinomios resultantes.\break
-	
-	Este test es muy ineficiente y lejos de ser polinómico en la cantidad de cifras.\break
+	\onslide<1->Este test implica evaluar $n$ coeficientes, luego la complejidad sería $\Omega(n)$.\break
 	
 	\onslide<2->¿Podemos reducir el número de coeficientes a evaluar?
 \end{frame}
@@ -288,12 +247,18 @@
 	\begin{equation*}
 	(X + a)^n \equiv X^n + a \mod(X^r - 1, n)
 	\end{equation*}
+\end{frame}
+
+\begin{frame}{Nuevo Problema}
+	\onslide<1->Esta nueva congruencia sigue siendo cierta cuando $n$ es primo.\break
 	
-	\onslide<3->El problema de esta congruencia es que, aunque se sigue cumpliendo cuando $n$ es primo, algunos compuestos la cumplen también para algunos valores de $a$ y $r$.\break
+	\onslide<2->No obstante, algunos números compuestos también la cumplen para algunos valores de $r$ y $a$.
+\end{frame}
+
+\begin{frame}{Nueva Solución}
+	\onslide<1->Esta propiedad se puede reestablecer casi por completo.\break
 	
-	\onslide<4->Escogiendo apropiadamente $r$ y probando para ciertos valores de $a$, si se cumple entonces la congruencia anterior, podemos asegurar que $n$ es una potencia de un primo.\break
-	
-	\onslide<5->Dichos $r$ y $a$ se pueden elegir de forma que la complejidad del test sea polinómica.
+	\onslide<2->Eligiendo $r$ adecuadamente, si la congruencia se cumple para varios valores de $a$, entonces podemos asegurar que $n$ es una potencia de un primo.
 \end{frame}
 
 \subsection{El Algoritmo}
@@ -360,10 +325,19 @@
 	\end{Large}
 \end{frame}
 
-\begin{frame}{Complejidad Paso a Paso}
-	Cada paso tiene un complejidad determinada:\break
+\begin{frame}{Valor de $r$}
+	\onslide<1->El valor encontrado en el segundo paso es crucial para que el test sea polinómico.\break
 	
-	\begin{itemize}[<+(1)->]
+	\onslide<2->De dicho valor dependen la complejidad del paso $5$.\break
+	
+	\onslide<3->Dicho valor se puede probar que está acotado por $\max\{3, \lceil\log^5(n)\rceil\}$.
+\end{frame}
+
+\begin{frame}{Complejidad Paso a Paso}
+	\onslide<1->Cada paso tiene un complejidad determinada:\break
+	
+	\onslide<2->
+	\begin{itemize}
 		\item $O^\sim(\log^3(n))$.
 		\item $O^\sim(\log^7(n))$.
 		\item $O^\sim(\log^6(n))$.
@@ -371,6 +345,14 @@
 		\item $O^\sim(\log^{21/2}(n))$.
 		\item $O(1)$.
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Complejidad Quinto Paso}
+	\onslide<1->Hay que comprobar $O(r^{1/2}\log(n))$ congruencias polinómicas.\break
+	
+	\onslide<2->Cada congruencia consiste de $O(\log(n))$ multiplicaciones de polinomios de grado $O(r)$ con coeficientes de tamaño $O(\log(n))$.\break
+	
+	\onslide<3->Esto produce una complejidad asintótica de $O^\sim(r^{3/2}\log^3(n))$, que teniendo que $r = O(\log^5(n))$, nos queda finalmente $O^\sim(\log^{21/2}(n))$.
 \end{frame}
 
 \begin{frame}{Complejidad Total}
@@ -386,36 +368,75 @@
 \begin{frame}
 	\centering
 	\begin{Huge}
-		Comparaciones
+		Implementación y Análisis
 	\end{Huge}
 \end{frame}
 
-\begin{frame}{Candidatos}
-	\onslide<1->Vamos a comparar el algoritmo AKS con dos tests probabilísticos:\break
+\subsection{Test AKS}
+
+\begin{frame}{Detalles del test AKS}
+	\onslide<1->Hay varias consideraciones para el test AKS:
 	
-	\begin{itemize}[<+(1)->]
-		\item Test de \textit{Miller-Rabin} con $40$ rondas.
+	\onslide<2->
+	\begin{itemize}
+		\item Es importante usar buena multiplicación de polinomios. De lo contrario el test es inservible en la práctica.
 		
-		\item Test de \textit{Solovay-Strassen} con $80$ rondas.
+		\item Calcular cotas lo más fieles posibles.
+		
+		\item Utilizar enteros de precisión arbitraria.
 	\end{itemize}
+	
+	\onslide<3->Utilizar un lenguaje de programación rápido. como puede ser C++
 \end{frame}
 
-\subsection{Primos}
+\subsection{Tests Probabilísticos}
+
+\subsubsection{Test de Miller-Rabin}
+
+\begin{frame}{Test de Miller-Rabin}
+	Test probabilístico basado en las siguientes congruencias aplicables a enteros mayores que $2$ impares para varias bases $a$:\break
+	
+	\onslide<2->
+	\begin{align}
+	a^d &\equiv 1 \mod(n)\\
+	a^{2^r d} &\equiv -1 \mod(n)\text{ con $0 \leq r < s$,}
+	\end{align}
+	
+	donde $n = 2^rd + 1$ con $d \geq 1$ impar y $r \geq 1$.
+\end{frame}
+
+\subsubsection{Test de Solovay-Strassen}
+
+\begin{frame}{Test de Solovay-Strassen}
+	Test probabilístico basado en la siguiente congruencia relacionada con el \textit{Símbolo de Jacobi}, la cual se cumple para los primos:\break
+	
+	\onslide<2->
+	\begin{equation}
+	a^{\frac{(n-1)}{2}} \equiv \left(\frac{a}{n}\right) \mod(n),
+	\end{equation}
+\end{frame}
+
+\begin{frame}{Estructura}
+	\begin{alertblock}{}
+		\begin{center}
+			\includegraphics[scale=0.40]{../Memoria/img/diagrama-relaciones}
+		\end{center}
+	\end{alertblock}
+\end{frame}
+
+\subsection{Comparaciones}
 
 \begin{frame}
-	\centering
 	\begin{Large}
-		Primos
+		Comparaciones
 	\end{Large}
 \end{frame}
 
-\begin{frame}{Conjunto de Prueba}
-	Los números primos con los que se hacen las pruebas tienen una cantidad incremental de bits.\break
-	
-	Por ejemplo, el $7$ es el mayor primo con $3$ bits, $31$ el mayor primo con $5$ bits, $2147483647$ el mayor primo con $32$ bits, etc.\break
-\end{frame}
-
 \begin{frame}{Comparación Números Primos}
+	\onslide<1->
+	Mayores primos que ocupan $n$ bits. Por ejemplo, el $7$ es el mayor primo con $3$ bits, $31$ el mayor primo con $5$ bits, etc.
+	
+	\onslide<2->
 	\begin{alertblock}{}
 		\begin{center}
 			\includegraphics[scale=0.40]{../Memoria/img/graphs/aks-probs-primes-mean}
@@ -423,72 +444,36 @@
 	\end{alertblock}
 \end{frame}
 
-\subsection{Potencias Perfectas}
-
-\begin{frame}
-	\centering
-	\begin{Large}
-		Potencias Perfectas
-	\end{Large}
-\end{frame}
-
-\begin{frame}{Conjunto de Prueba}
-	Las potencias perfectas que usaremos serán con los primos presentados anteriorimente, y consisten de dos conjuntos:\break
-	
-	\begin{itemize}[<+(1)->]
-		\item Primos de hasta $16$ bits elevados a $100$.
+\begin{frame}{Comparación Potencias Perfectas}
+	\onslide<1->
+	\begin{itemize}
+		\item \textbf{Izquierda}. Primos de hasta $16$ bits elevados a $100$.
 		
-		\item Primos de entre $192$ y $256$ bits elevados a $5$.
+		\item \textbf{Derecha}. Primos de entre $192$ y $256$ bits elevados a $5$.
 	\end{itemize}
-\end{frame}
-
-\begin{frame}{Comparación Potencias Perfectas 1}
-	\begin{alertblock}{}
-		\begin{center}
-			\includegraphics[scale=0.40]{../Memoria/img/graphs/aks-probs-powers-100-mean}
-		\end{center}
-	\end{alertblock}
-\end{frame}
-
-\begin{frame}{Comparación Potencias Perfectas 2}
-	\begin{alertblock}{}
-		\begin{center}
-			\includegraphics[scale=0.40]{../Memoria/img/graphs/aks-probs-powers-5-mean}
-		\end{center}
-	\end{alertblock}
-\end{frame}
-
-\subsection{Compuestos No Potencias Perfectas}
-
-\begin{frame}
-	\centering
-	\begin{Large}
-		Compuestos No Potencias Perfectas
-	\end{Large}
-\end{frame}
-
-\begin{frame}{Conjunto de Prueba}
-	Los números compuestos que usaremos en estas comparaciones serán producto de los primos mencionados anteriormente. Hay dos conjuntos:\break
 	
-	\begin{itemize}[<+(1)->]
-		\item Primos de entre $32$ y $42$ bits multiplicados por un primo de $16$ bits.
-		
-		\item Primos de entre $32$ y $42$ bits multiplicados por un primo de $32$ bits.
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Comparación Compuestos No Potencias Perfectas 1}
+	\onslide<2->
 	\begin{alertblock}{}
 		\begin{center}
-			\includegraphics[scale=0.40]{../Memoria/img/graphs/aks-probs-comps-16-mean}
+			\includegraphics[scale=0.27]{../Memoria/img/graphs/aks-probs-powers-100-mean}
+			\includegraphics[scale=0.27]{../Memoria/img/graphs/aks-probs-powers-5-mean}
 		\end{center}
 	\end{alertblock}
 \end{frame}
 
-\begin{frame}{Comparación Compuestos No Potencias Perfectas 1}
+\begin{frame}{Comparación Compuestos No Potencias Perfectas}
+	\onslide<1->
+	\begin{itemize}
+		\item \textbf{Izquierda}. Primos de entre $32$ y $42$ bits multiplicados por un primo de $16$ bits.
+		
+		\item \textbf{Derecha}. Primos de entre $32$ y $42$ bits multiplicados por un primo de $32$ bits.
+	\end{itemize}
+	
+	\onslide<2->
 	\begin{alertblock}{}
 		\begin{center}
-			\includegraphics[scale=0.40]{../Memoria/img/graphs/aks-probs-comps-32-mean}
+			\includegraphics[scale=0.27]{../Memoria/img/graphs/aks-probs-comps-16-mean}
+			\includegraphics[scale=0.27]{../Memoria/img/graphs/aks-probs-comps-32-mean}
 		\end{center}
 	\end{alertblock}
 \end{frame}
